@@ -199,7 +199,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="bg-[#101a2b] px-5 py-10 md:px-8 md:py-12">
+        <section className="bg-white px-5 py-10 md:px-8 md:py-12">
           <div className="mx-auto grid max-w-[1280px] gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {serviceHighlights.map((item) => (
               <article
