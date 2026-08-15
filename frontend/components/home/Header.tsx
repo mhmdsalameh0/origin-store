@@ -1,11 +1,12 @@
 "use client";
 
 import { useCart } from "@/components/cart/CartProvider";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, ShoppingBag, UserRoundCog, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -31,7 +32,89 @@ function OriginLogo() {
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [currentHash, setCurrentHash] = useState("");
   const { hydrated, openDrawer, totalQuantity } = useCart();
+  const pathname = usePathname();
+  const shouldReduceMotion = useReducedMotion();
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuTriggerRef = useRef<HTMLButtonElement>(null);
+
+  const openMenu = () => setOpen(true);
+
+  const closeMenu = useCallback(() => {
+    setOpen(false);
+    window.setTimeout(() => menuTriggerRef.current?.focus(), shouldReduceMotion ? 0 : 280);
+  }, [shouldReduceMotion]);
+
+  const isActiveLink = (href: string) => {
+    if (href === "/") {
+      return pathname === "/" && currentHash !== "#contact";
+    }
+
+    if (href === "/#contact") {
+      return pathname === "/" && currentHash === "#contact";
+    }
+
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
+  const handleMenuKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== "Tab") {
+      return;
+    }
+
+    const focusableElements = menuRef.current?.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    );
+
+    if (!focusableElements?.length) {
+      return;
+    }
+
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    if (event.shiftKey && document.activeElement === firstElement) {
+      event.preventDefault();
+      lastElement.focus();
+    } else if (!event.shiftKey && document.activeElement === lastElement) {
+      event.preventDefault();
+      firstElement.focus();
+    }
+  };
+
+  useEffect(() => {
+    const syncHash = () => setCurrentHash(window.location.hash);
+
+    syncHash();
+    window.addEventListener("hashchange", syncHash);
+
+    return () => window.removeEventListener("hashchange", syncHash);
+  }, []);
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
+
+    const handleEscape = (event: globalThis.KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeMenu();
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [closeMenu, open]);
 
   return (
     <header className="fixed left-0 right-0 top-0 z-40 bg-white text-origin-ink">
@@ -64,9 +147,13 @@ export function Header() {
             <UserRoundCog size={27} fill="currentColor" strokeWidth={1.6} />
           </button>
           <button
+            ref={menuTriggerRef}
             className="grid size-10 place-items-center text-origin-ink lg:hidden"
-            onClick={() => setOpen(true)}
+            onClick={openMenu}
             aria-label="Open navigation"
+            aria-expanded={open}
+            aria-controls="mobile-navigation"
+            type="button"
           >
             <Menu size={36} strokeWidth={2.7} />
           </button>
@@ -76,41 +163,93 @@ export function Header() {
       <AnimatePresence>
         {open ? (
           <motion.div
-            className="fixed inset-0 z-50 bg-white text-origin-ink lg:hidden"
-            initial={{ opacity: 0 }}
+            ref={menuRef}
+            id="mobile-navigation"
+            aria-modal="true"
+            className="fixed inset-0 z-[9999] min-h-dvh overflow-y-auto overflow-x-hidden bg-[#111c31] px-6 text-white lg:hidden"
+            initial={shouldReduceMotion ? false : { opacity: 0, y: -10 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
+            onKeyDown={handleMenuKeyDown}
+            role="dialog"
+            transition={{ duration: shouldReduceMotion ? 0 : 0.28, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="flex h-20 items-center justify-between px-5">
-              <OriginLogo />
-              <button className="grid size-11 place-items-center" onClick={() => setOpen(false)} aria-label="Close navigation">
-                <X size={25} />
-              </button>
-            </div>
-            <motion.nav
-              className="flex flex-col border-y border-origin-line"
-              initial="closed"
-              animate="open"
-              variants={{
-                open: { transition: { staggerChildren: 0.08 } },
-                closed: {}
-              }}
-            >
-              {navItems.map((item) => (
-                <motion.div
-                  key={item.href}
-                  className="border-b border-origin-line px-5 py-5 text-left text-[clamp(1.5rem,8vw,2rem)] font-bold"
-                  variants={{
-                    closed: { opacity: 0, x: -18 },
-                    open: { opacity: 1, x: 0 }
-                  }}
+            <div className="pointer-events-none absolute -right-24 -top-24 size-[320px] rounded-full bg-[#7c55bb]/25 blur-3xl" />
+            <div className="relative flex min-h-dvh flex-col pb-[calc(28px+env(safe-area-inset-bottom))] pt-[calc(20px+env(safe-area-inset-top))]">
+              <div className="flex items-center justify-between gap-4">
+                <Link className="rounded-[12px] bg-white px-3 py-1.5" href="/" onClick={closeMenu}>
+                  <OriginLogo />
+                  <span className="sr-only">Origin Peptides Home</span>
+                </Link>
+                <button
+                  ref={closeButtonRef}
+                  className="grid size-11 shrink-0 place-items-center rounded-full border border-white/12 bg-white/[.06] text-white transition hover:bg-white/12 focus:outline-none focus:ring-2 focus:ring-[#9c75dc] active:scale-95"
+                  onClick={closeMenu}
+                  aria-label="Close navigation"
+                  type="button"
                 >
-                  <Link href={item.href} onClick={() => setOpen(false)}>
-                    {item.label}
-                  </Link>
-                </motion.div>
-              ))}
-            </motion.nav>
+                  <X size={23} strokeWidth={2.2} />
+                </button>
+              </div>
+
+              <motion.nav
+                aria-label="Mobile navigation"
+                className="mt-12 flex flex-col border-y border-white/10"
+                initial="closed"
+                animate="open"
+                variants={{
+                  open: { transition: { staggerChildren: shouldReduceMotion ? 0 : 0.055 } },
+                  closed: {}
+                }}
+              >
+                {navItems.map((item, index) => {
+                  const isActive = isActiveLink(item.href);
+
+                  return (
+                    <motion.div
+                      key={item.href}
+                      className="border-b border-white/10 last:border-b-0"
+                      variants={{
+                        closed: { opacity: 0, x: -16 },
+                        open: { opacity: 1, x: 0 }
+                      }}
+                      transition={{ duration: shouldReduceMotion ? 0 : 0.26, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      <Link
+                        href={item.href}
+                        onClick={closeMenu}
+                        className="group relative grid min-h-14 grid-cols-[44px_minmax(0,1fr)_18px] items-center gap-3 py-5 text-left focus:outline-none"
+                      >
+                        <span className="self-start pt-1 text-[13px] font-extrabold text-[#9c75dc]">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span className="min-w-0 text-[clamp(1.875rem,8vw,2.125rem)] font-extrabold leading-none tracking-[-.03em] text-white transition group-hover:text-white/82">
+                          {item.label}
+                          {isActive ? <span className="mt-3 block h-[3px] w-12 rounded-full bg-[#9c75dc]" /> : null}
+                        </span>
+                        {isActive ? <span className="size-2 rounded-full bg-[#9c75dc]" aria-hidden="true" /> : null}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </motion.nav>
+
+              <Link
+                className="mt-10 inline-flex min-h-14 items-center justify-center rounded-full border border-[#9c75dc] px-6 text-[16px] font-extrabold text-white transition hover:bg-[#9c75dc]/18 focus:outline-none focus:ring-2 focus:ring-[#9c75dc] active:scale-[.98]"
+                href="/products"
+                onClick={closeMenu}
+              >
+                Browse Products <span className="ml-2" aria-hidden="true">&rarr;</span>
+              </Link>
+
+              <div className="mt-auto pt-12">
+                <p className="text-[13px] font-extrabold uppercase tracking-[0.18em] text-[#9c75dc]">Research use only</p>
+                <p className="mt-3 text-[15px] font-semibold text-white/72">Quality &bull; Transparency &bull; Reliability</p>
+                <div className="mt-10 flex items-end justify-between gap-6">
+                  <p className="text-[13px] font-semibold text-white/48">&copy; 2026 Origin Peptides</p>
+                </div>
+              </div>
+            </div>
           </motion.div>
         ) : null}
       </AnimatePresence>
