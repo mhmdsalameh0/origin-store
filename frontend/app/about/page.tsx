@@ -73,6 +73,78 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
+
+        <section className="relative overflow-hidden bg-[#0d1119] px-5 py-14 text-white md:px-8 md:py-20">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_22%,rgba(55,122,255,.16),transparent_34%),radial-gradient(circle_at_74%_66%,rgba(100,73,204,.14),transparent_36%)]" />
+
+          <div className="relative mx-auto max-w-[1280px]">
+            <div className="grid gap-9 lg:grid-cols-[minmax(0,41%)_minmax(0,59%)] lg:items-center lg:gap-14">
+              <div className="relative min-w-0 py-2 md:pl-10">
+                <span className="pointer-events-none absolute -left-1 -top-8 text-[96px] font-extrabold leading-none text-white/[.035] md:left-0 md:text-[128px]">
+                  01
+                </span>
+                <p className="relative flex items-center gap-4 text-[13px] font-extrabold uppercase tracking-[0.08em] text-[#3f8cff]">
+                  <span className="h-9 w-[3px] rounded-full bg-[#2f86ff]" aria-hidden="true" />
+                  Our Purpose
+                </p>
+                <h2 className="relative mt-5 text-[clamp(2.55rem,8vw,4rem)] font-extrabold leading-[1.02] tracking-[-.04em] text-white">
+                  Our Mission
+                </h2>
+                <p className="relative mt-6 max-w-[520px] text-[16px] font-medium leading-[1.75] text-white/82">
+                  Our mission is to provide researchers with premium-quality research peptides that meet the highest
+                  standards of purity, consistency, and reliability. Through rigorous quality control, transparent practices,
+                  and exceptional customer support, <span className="font-extrabold text-white">Origin Peptides</span> is
+                  committed to advancing scientific research by delivering trusted compounds for laboratory and preclinical
+                  research use only.
+                </p>
+              </div>
+
+              <div className="relative min-h-[280px] overflow-hidden rounded-[18px] bg-[#111827] shadow-[0_28px_70px_rgba(0,0,0,.26)] md:min-h-[390px]">
+                <Image
+                  src="/images/about-story-vials.png"
+                  alt="Origin Peptides vials in a dark laboratory"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 720px"
+                  className="object-cover object-center"
+                />
+              </div>
+            </div>
+
+            <div className="my-10 h-px bg-white/14 md:my-12" />
+
+            <div className="grid gap-9 lg:grid-cols-[minmax(0,52%)_minmax(0,48%)] lg:items-center lg:gap-16">
+              <div className="relative min-h-[280px] overflow-hidden rounded-[18px] bg-[#111827] shadow-[0_28px_70px_rgba(0,0,0,.26)] md:min-h-[390px]">
+                <Image
+                  src="/images/about-story-vials.png"
+                  alt="Origin Peptides research vials on a laboratory counter"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 670px"
+                  className="object-cover object-center"
+                />
+              </div>
+
+              <div className="relative min-w-0 py-2 md:pr-10">
+                <span className="pointer-events-none absolute right-0 -top-8 text-[96px] font-extrabold leading-none text-white/[.035] md:text-[128px]">
+                  02
+                </span>
+                <p className="relative flex items-center gap-4 text-[13px] font-extrabold uppercase tracking-[0.08em] text-[#3f8cff]">
+                  <span className="h-9 w-[3px] rounded-full bg-[#2f86ff]" aria-hidden="true" />
+                  Looking Ahead
+                </p>
+                <h2 className="relative mt-5 text-[clamp(2.55rem,8vw,4rem)] font-extrabold leading-[1.02] tracking-[-.04em] text-white">
+                  Our Vision
+                </h2>
+                <p className="relative mt-6 max-w-[560px] text-[16px] font-medium leading-[1.75] text-white/82">
+                  Our vision is to become a trusted leader in the research peptide industry by making premium-quality
+                  research compounds more accessible to the scientific community. Through rigorous quality standards,
+                  transparency, and continuous innovation, <span className="font-extrabold text-white">Origin Peptides</span>{" "}
+                  is dedicated to supporting researchers with reliable products that advance scientific discovery and
+                  laboratory research.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </>
