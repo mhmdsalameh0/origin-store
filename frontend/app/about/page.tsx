@@ -101,7 +101,7 @@ export default function AboutPage() {
 
               <div className="relative min-h-[280px] overflow-hidden rounded-[18px] bg-[#111827] shadow-[0_28px_70px_rgba(0,0,0,.26)] md:min-h-[390px]">
                 <Image
-                  src="/images/about-story-vials.png"
+                  src="/images/ChatGPT Image Aug 16, 2026, 01_00_01 AM.png"
                   alt="Origin Peptides vials in a dark laboratory"
                   fill
                   sizes="(max-width: 1024px) 100vw, 720px"
@@ -115,7 +115,7 @@ export default function AboutPage() {
             <div className="grid gap-9 lg:grid-cols-[minmax(0,52%)_minmax(0,48%)] lg:items-center lg:gap-16">
               <div className="relative min-h-[280px] overflow-hidden rounded-[18px] bg-[#111827] shadow-[0_28px_70px_rgba(0,0,0,.26)] md:min-h-[390px]">
                 <Image
-                  src="/images/about-story-vials.png"
+                  src="/images/ChatGPT Image Aug 16, 2026, 01_00_01 AM.png"
                   alt="Origin Peptides research vials on a laboratory counter"
                   fill
                   sizes="(max-width: 1024px) 100vw, 670px"
