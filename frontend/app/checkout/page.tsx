@@ -3,6 +3,7 @@
 import { useCart } from "@/components/cart/CartProvider";
 import { Footer } from "@/components/home/Footer";
 import { Header } from "@/components/home/Header";
+import { apiUrl } from "@/lib/api";
 import { formatPrice } from "@/lib/productCatalog";
 import Image from "next/image";
 import Link from "next/link";
@@ -132,8 +133,7 @@ export default function CheckoutPage() {
     setIsSubmitting(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api";
-      const response = await fetch(`${apiUrl}/orders`, {
+      const response = await fetch(apiUrl("/orders"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -173,7 +173,12 @@ export default function CheckoutPage() {
       setIdempotencyKey(typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`);
       router.push(`/order-success?order=${encodeURIComponent(data.orderNumber)}`);
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : "Unable to place order. Please try again.");
+      const message = error instanceof Error ? error.message : "Unable to place order. Please try again.";
+      setSubmitError(
+        message === "Failed to fetch"
+          ? "Unable to reach the order server. Please check the API URL or try again in a moment."
+          : message
+      );
     } finally {
       setIsSubmitting(false);
     }

@@ -7,15 +7,23 @@ import { productsRouter } from "./routes/products.js";
 dotenv.config();
 
 const app = express();
-const productionOrigin = process.env.FRONTEND_ORIGIN;
+const productionOrigins = (process.env.FRONTEND_ORIGIN ?? "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 const localOrigin = process.env.NODE_ENV === "production" ? undefined : "http://localhost:3000";
-const allowedOrigin = productionOrigin ?? localOrigin;
+const allowedOrigins = new Set([...productionOrigins, ...(localOrigin ? [localOrigin] : [])]);
+const previewOriginPattern = /^https:\/\/origin-store-frontend(?:-[a-z0-9-]+)*\.vercel\.app$/i;
+
+function isAllowedOrigin(origin: string) {
+  return allowedOrigins.has(origin) || previewOriginPattern.test(origin);
+}
 
 app.use(express.json());
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || origin === allowedOrigin) {
+      if (!origin || isAllowedOrigin(origin)) {
         callback(null, true);
         return;
       }
