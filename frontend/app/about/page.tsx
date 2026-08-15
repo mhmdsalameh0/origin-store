@@ -83,11 +83,7 @@ export default function AboutPage() {
                 <span className="pointer-events-none absolute -left-1 -top-8 text-[96px] font-extrabold leading-none text-white/[.035] md:left-0 md:text-[128px]">
                   01
                 </span>
-                <p className="relative flex items-center gap-4 text-[13px] font-extrabold uppercase tracking-[0.08em] text-[#3f8cff]">
-                  <span className="h-9 w-[3px] rounded-full bg-[#2f86ff]" aria-hidden="true" />
-                  Our Purpose
-                </p>
-                <h2 className="relative mt-5 text-[clamp(2.55rem,8vw,4rem)] font-extrabold leading-[1.02] tracking-[-.04em] text-white">
+                <h2 className="relative text-[clamp(2.55rem,8vw,4rem)] font-extrabold leading-[1.02] tracking-[-.04em] text-white">
                   Our Mission
                 </h2>
                 <p className="relative mt-6 max-w-[520px] text-[16px] font-medium leading-[1.75] text-white/82">
@@ -127,11 +123,7 @@ export default function AboutPage() {
                 <span className="pointer-events-none absolute right-0 -top-8 text-[96px] font-extrabold leading-none text-white/[.035] md:text-[128px]">
                   02
                 </span>
-                <p className="relative flex items-center gap-4 text-[13px] font-extrabold uppercase tracking-[0.08em] text-[#3f8cff]">
-                  <span className="h-9 w-[3px] rounded-full bg-[#2f86ff]" aria-hidden="true" />
-                  Looking Ahead
-                </p>
-                <h2 className="relative mt-5 text-[clamp(2.55rem,8vw,4rem)] font-extrabold leading-[1.02] tracking-[-.04em] text-white">
+                <h2 className="relative text-[clamp(2.55rem,8vw,4rem)] font-extrabold leading-[1.02] tracking-[-.04em] text-white">
                   Our Vision
                 </h2>
                 <p className="relative mt-6 max-w-[560px] text-[16px] font-medium leading-[1.75] text-white/82">
