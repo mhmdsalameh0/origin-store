@@ -158,7 +158,12 @@ export default function CheckoutPage() {
       });
 
       const data = (await response.json().catch(() => null)) as
-        | { orderNumber?: string; error?: string; fields?: Partial<Record<keyof CheckoutForm | "items" | "idempotencyKey", string>> }
+        | {
+            orderNumber?: string;
+            error?: string;
+            code?: string;
+            fields?: Partial<Record<keyof CheckoutForm | "items" | "idempotencyKey", string>>;
+          }
         | null;
 
       if (!response.ok || !data?.orderNumber) {
@@ -166,7 +171,9 @@ export default function CheckoutPage() {
           setErrors((current) => ({ ...current, ...data.fields }));
         }
 
-        throw new Error(data?.error ?? "Unable to place order. Please try again.");
+        const safeReason = data?.code ? `${data.error ?? "Unable to place order."} (${data.code})` : data?.error;
+
+        throw new Error(safeReason ?? "Unable to place order. Please try again.");
       }
 
       clearCart();

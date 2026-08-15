@@ -35,6 +35,10 @@ type OrderRequestBody = {
 };
 
 type SavedOrder = Prisma.OrderGetPayload<{ include: { items: true } }>;
+type OrderEmailStatus = {
+  customerEmailStatus: "Pending" | "Sent" | "Failed";
+  ownerEmailStatus: "Pending" | "Sent" | "Failed";
+};
 
 export const ordersRouter = Router();
 
@@ -72,6 +76,36 @@ function generateOrderNumber() {
   const suffix = Math.random().toString(36).slice(2, 8).toUpperCase();
 
   return `OP-${stamp}-${suffix}`;
+}
+
+function safeErrorDetails(error: unknown) {
+  if (!(error instanceof Error)) {
+    return { name: "UnknownError", message: "Unknown error" };
+  }
+
+  const code = "code" in error && typeof error.code === "string" ? error.code : undefined;
+  const message = error.message.includes("Can't reach database server")
+    ? "Can't reach database server"
+    : error.message.includes("Resend email failed")
+      ? error.message.replace(/Resend email failed: (\d+).*/s, "Resend email failed: $1")
+      : error.message;
+
+  return {
+    name: error.name,
+    ...(code ? { code } : {}),
+    message
+  };
+}
+
+function isDatabaseConnectionError(error: unknown) {
+  return error instanceof Error && error.name === "PrismaClientInitializationError";
+}
+
+function logOrderError(stage: string, error: unknown) {
+  console.error("Order request failed", {
+    stage,
+    ...safeErrorDetails(error)
+  });
 }
 
 async function createUniqueOrderNumber() {
@@ -303,7 +337,7 @@ async function sendResendEmail({ html, subject, to }: { html: string; subject: s
   }
 }
 
-async function sendOrderEmails(order: SavedOrder) {
+async function sendOrderEmails(order: SavedOrder): Promise<OrderEmailStatus> {
   const ownerEmail = process.env.ORDER_NOTIFICATION_EMAIL;
 
   if (!ownerEmail) {
@@ -316,8 +350,12 @@ async function sendOrderEmails(order: SavedOrder) {
         emailError: message
       }
     });
-    console.error(`Order ${order.orderNumber} email error:`, message);
-    return;
+    console.error("Order email failed", {
+      orderNumber: order.orderNumber,
+      stage: "email_configuration",
+      message
+    });
+    return { ownerEmailStatus: "Failed", customerEmailStatus: "Pending" };
   }
 
   const results = await Promise.allSettled([
@@ -349,8 +387,17 @@ async function sendOrderEmails(order: SavedOrder) {
   });
 
   if (errors.length > 0) {
-    console.error(`Order ${order.orderNumber} email error:`, errors.join(" | "));
+    console.error("Order email failed", {
+      orderNumber: order.orderNumber,
+      stage: "email_sending",
+      errors: errors.map((error) => error.replace(/Resend email failed: (\d+).*/s, "Resend email failed: $1"))
+    });
   }
+
+  return {
+    ownerEmailStatus: ownerResult.status === "fulfilled" ? "Sent" : "Failed",
+    customerEmailStatus: customerResult.status === "fulfilled" ? "Sent" : "Failed"
+  };
 }
 
 ordersRouter.post("/", async (req, res) => {
@@ -361,17 +408,17 @@ ordersRouter.post("/", async (req, res) => {
     return;
   }
 
-  const existingOrder = await prisma.order.findUnique({
-    where: { idempotencyKey: validation.order.idempotencyKey },
-    include: { items: true }
-  });
-
-  if (existingOrder) {
-    res.json({ orderNumber: existingOrder.orderNumber, duplicate: true });
-    return;
-  }
-
   try {
+    const existingOrder = await prisma.order.findUnique({
+      where: { idempotencyKey: validation.order.idempotencyKey },
+      include: { items: true }
+    });
+
+    if (existingOrder) {
+      res.json({ orderNumber: existingOrder.orderNumber, duplicate: true });
+      return;
+    }
+
     const orderNumber = await createUniqueOrderNumber();
 
     const order = await prisma.$transaction((tx) =>
@@ -401,13 +448,18 @@ ordersRouter.post("/", async (req, res) => {
       })
     );
 
+    let emailStatus: OrderEmailStatus = { ownerEmailStatus: "Pending", customerEmailStatus: "Pending" };
+
     try {
-      await sendOrderEmails(order);
+      emailStatus = await sendOrderEmails(order);
     } catch (emailError) {
-      console.error(`Order ${order.orderNumber} email status update error:`, emailError);
+      logOrderError("email_status_update", emailError);
     }
 
-    res.status(201).json({ orderNumber: order.orderNumber });
+    res.status(201).json({
+      orderNumber: order.orderNumber,
+      email: emailStatus
+    });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
       const duplicateOrder = await prisma.order.findUnique({
@@ -421,7 +473,13 @@ ordersRouter.post("/", async (req, res) => {
       }
     }
 
-    console.error("Order creation error:", error);
-    res.status(500).json({ error: "Unable to place order. Please try again." });
+    const databaseUnavailable = isDatabaseConnectionError(error);
+    logOrderError(databaseUnavailable ? "database_connection" : "database_save", error);
+    res.status(databaseUnavailable ? 503 : 500).json({
+      error: databaseUnavailable
+        ? "Order service cannot reach the database. Please try again soon."
+        : "Order could not be saved. Please try again.",
+      code: databaseUnavailable ? "DATABASE_UNAVAILABLE" : "ORDER_SAVE_FAILED"
+    });
   }
 });
