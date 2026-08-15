@@ -46,7 +46,7 @@ const resourceCards = [
 export function PriorityAccess() {
   return (
     <SectionReveal className="bg-[#e9fbe5] py-10 text-origin-ink md:py-12">
-      <div className="mx-auto grid w-full max-w-[1360px] gap-5 px-5 md:grid-cols-2 lg:px-8">
+      <div className="mx-auto grid w-full max-w-[1200px] gap-5 px-5 md:grid-cols-2 md:px-8">
         {resourceCards.map((card) => (
           <article
             className={`relative min-h-[132px] overflow-hidden rounded-[8px] bg-white p-7 shadow-[0_10px_30px_rgba(29,36,25,.04)] ${card.className}`}
@@ -54,11 +54,11 @@ export function PriorityAccess() {
           >
             <div className="relative z-10 max-w-[560px]">
               <h2 className="text-xl font-bold leading-tight text-black">{card.title}</h2>
-              {card.copy ? <p className="mt-6 max-w-lg text-sm font-normal leading-6 text-[#263242]">{card.copy}</p> : null}
+              {card.copy ? <p className="mt-6 max-w-lg text-[15px] font-normal leading-7 text-[#263242]">{card.copy}</p> : null}
               {card.action ? (
                 <Link
                   href={card.action.href}
-                  className="mt-7 inline-grid h-9 place-items-center rounded-full border border-[#111722] px-7 text-sm font-semibold text-black transition hover:bg-[#111722] hover:text-white"
+                  className="mt-7 inline-grid min-h-11 place-items-center rounded-full border border-[#111722] px-7 text-[15px] font-semibold text-black transition hover:bg-[#111722] hover:text-white"
                 >
                   {card.action.label}
                 </Link>

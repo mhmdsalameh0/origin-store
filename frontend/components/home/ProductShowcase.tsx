@@ -28,23 +28,23 @@ function MobileProductCard({ product }: { product: (typeof products)[number] }) 
         />
       </div>
 
-      <div className="mt-4 grid w-full grid-rows-[3px_42px_40px_38px_54px] justify-items-center gap-y-3 px-5 pb-3">
+      <div className="mt-4 grid w-full grid-rows-[3px_48px_40px_38px_54px] justify-items-center gap-y-3 px-5 pb-3">
         <div className="h-[3px] w-[112px] self-start justify-self-center" style={{ backgroundColor: product.accent }} />
         <h3
-          className={`flex min-h-[42px] items-start justify-center whitespace-nowrap font-sans font-bold uppercase leading-none tracking-normal text-[#111111] ${
-            isRetatrutide ? "text-[18px]" : "text-[22px]"
+          className={`flex min-h-[48px] max-w-full items-start justify-center text-center font-sans font-bold uppercase leading-tight tracking-normal text-[#111111] ${
+            isRetatrutide ? "text-[17px]" : "text-[22px]"
           }`}
         >
           {product.displayName}
         </h3>
-        <p className="flex min-h-10 items-start justify-center whitespace-nowrap font-sans text-[13px] font-normal normal-case leading-none tracking-normal text-[#1f2933]">
+        <p className="flex min-h-10 max-w-full items-start justify-center text-center font-sans text-[15px] font-normal normal-case leading-tight tracking-normal text-[#1f2933]">
           {product.category}
         </p>
         <p className="self-start font-sans text-[27px] font-semibold leading-none text-[#29313c]">{product.price}</p>
         <Link
           href={`/products/${product.slug}`}
           scroll
-          className="flex h-9 w-[78%] items-center justify-center gap-1.5 self-start rounded-full bg-[#202329] px-5 font-sans text-[12px] font-semibold normal-case tracking-normal text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_8px_18px_rgba(15,23,42,.14)] transition-colors duration-300 hover:bg-[#0f1115]"
+          className="flex min-h-11 w-[78%] items-center justify-center gap-1.5 self-start rounded-full bg-[#202329] px-5 font-sans text-[15px] font-semibold normal-case tracking-normal text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_8px_18px_rgba(15,23,42,.14)] transition-colors duration-300 hover:bg-[#0f1115]"
         >
           <ShoppingCart size={14} strokeWidth={2} />
           <span>View Product</span>
@@ -84,14 +84,14 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
         >
           {product.displayName}
         </h3>
-        <p className="flex min-h-10 items-start justify-center whitespace-nowrap font-sans text-[13px] font-normal normal-case leading-none tracking-normal text-[#1f2933]">
+        <p className="flex min-h-10 max-w-full items-start justify-center text-center font-sans text-[15px] font-normal normal-case leading-tight tracking-normal text-[#1f2933] md:text-[13px]">
           {product.category}
         </p>
         <p className="self-start font-sans text-[29px] font-semibold leading-none text-[#29313c]">{product.price}</p>
         <Link
           href={`/products/${product.slug}`}
           scroll
-          className="flex h-10 w-[218px] items-center justify-center gap-1.5 self-start rounded-full bg-[#202329] px-5 font-sans text-[12px] font-semibold normal-case tracking-normal text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_8px_18px_rgba(15,23,42,.14)] transition-colors duration-300 hover:bg-[#0f1115]"
+          className="flex min-h-11 w-[218px] items-center justify-center gap-1.5 self-start rounded-full bg-[#202329] px-5 font-sans text-[15px] font-semibold normal-case tracking-normal text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_8px_18px_rgba(15,23,42,.14)] transition-colors duration-300 hover:bg-[#0f1115] md:text-[12px]"
         >
           <ShoppingCart size={14} strokeWidth={2} />
           <span>View Product</span>
@@ -230,12 +230,12 @@ export function ProductShowcase() {
     <SectionReveal className="bg-white py-16 font-sans text-origin-ink md:py-20">
       <div id="products" className="mx-auto max-w-[1780px] px-5">
         <div className="mx-auto mb-10 max-w-6xl text-center">
-          <h2 className="font-sans text-[42px] font-bold leading-[1.05] tracking-normal text-black md:text-[70px]">
+          <h2 className="font-sans text-[clamp(2rem,5vw,2.75rem)] font-bold leading-[1.05] tracking-[-.03em] text-black md:text-[70px] md:tracking-normal">
             Origin&apos;s Restored Peptides
             <br />
             Excellence in Research
           </h2>
-          <p className="mt-6 text-[20px] font-normal leading-8 tracking-[0.01em] text-[#5d6674] md:text-[24px]">
+          <p className="mt-6 text-[16px] font-normal leading-7 tracking-[0.01em] text-[#5d6674] md:text-[24px] md:leading-8">
             High-purity research compounds, precisely formulated and clearly documented.
           </p>
         </div>

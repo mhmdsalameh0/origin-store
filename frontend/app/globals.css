@@ -47,6 +47,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
 button,
 a {
   -webkit-tap-highlight-color: transparent;
@@ -60,7 +67,7 @@ a {
 }
 
 .section-shell {
-  width: min(100% - 32px, 1240px);
+  width: min(100% - 40px, 1200px);
   margin-inline: auto;
 }
 
@@ -113,6 +120,12 @@ a {
 
 @media (max-width: 768px) {
   .section-shell {
-    width: min(100% - 24px, 680px);
+    width: min(100% - 40px, 680px);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .section-shell {
+    width: min(100% - 64px, 960px);
   }
 }

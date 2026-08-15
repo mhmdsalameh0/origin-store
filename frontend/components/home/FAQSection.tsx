@@ -37,8 +37,8 @@ export function FAQSection() {
       <div className="pointer-events-none absolute left-0 top-0 size-[360px] bg-[#d7c5ff]/20 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 right-0 size-[320px] bg-[#ffe4c7]/22 blur-3xl" />
 
-      <div className="relative mx-auto grid w-[min(1180px,calc(100%-64px))] items-center gap-8 lg:grid-cols-[minmax(0,46%)_minmax(0,54%)] lg:gap-12">
-        <div className="relative h-[clamp(480px,42vw,550px)] overflow-hidden rounded-[24px] border-2 border-white bg-white shadow-[0_18px_52px_rgba(68,55,35,.11)]">
+      <div className="relative mx-auto grid w-full max-w-[1180px] items-center gap-8 lg:grid-cols-[minmax(0,46%)_minmax(0,54%)] lg:gap-12">
+        <div className="relative h-[360px] overflow-hidden rounded-[24px] border-2 border-white bg-white shadow-[0_18px_52px_rgba(68,55,35,.11)] sm:h-[clamp(420px,42vw,550px)]">
           <Image
             src="/images/section.png"
             alt="Origin GHK-CU vial in a laboratory"
@@ -53,13 +53,13 @@ export function FAQSection() {
             </div>
             <div>
               <p className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-[#7650d8]">Research Support</p>
-              <p className="mt-1 text-[14px] font-medium leading-tight text-[#5d6575]">Clear answers. Reliable guidance.</p>
+              <p className="mt-1 text-[15px] font-medium leading-tight text-[#5d6575] md:text-[14px]">Clear answers. Reliable guidance.</p>
             </div>
           </div>
         </div>
 
         <div>
-          <h2 className="text-center text-[30px] font-extrabold leading-none tracking-[-.01em] text-black">FAQ</h2>
+          <h2 className="text-center text-[clamp(2rem,5vw,2.75rem)] font-extrabold leading-[1.05] tracking-[-.03em] text-black md:text-[30px] md:leading-none md:tracking-[-.01em]">FAQ</h2>
 
           <div className="mt-4 space-y-[10px]">
             {faqs.map((faq, index) => {
@@ -72,7 +72,7 @@ export function FAQSection() {
                 >
                   <button
                     aria-expanded={isOpen}
-                    className="grid w-full grid-cols-[36px_minmax(0,1fr)_36px] items-center gap-4 px-[18px] py-[15px] text-left transition hover:bg-white"
+                    className="grid min-h-11 w-full grid-cols-[36px_minmax(0,1fr)_36px] items-center gap-4 px-[18px] py-[15px] text-left transition hover:bg-white"
                     onClick={() => toggleItem(index)}
                   >
                     <span className="grid size-9 place-items-center rounded-[8px] bg-[#f1e7ff] text-[15px] font-bold text-[#7650d8]">
@@ -95,8 +95,8 @@ export function FAQSection() {
                         transition={{ duration: 0.22 }}
                         className="overflow-hidden"
                       >
-                        <div className="ml-[70px] mr-[18px] border-t border-[#dfd0ff] pb-[15px] pt-3">
-                          <p className="max-w-[650px] text-[14px] font-medium leading-[1.55] text-[#6a7182]">{faq.answer}</p>
+                        <div className="mx-[18px] border-t border-[#dfd0ff] pb-[15px] pt-3 sm:ml-[70px] sm:mr-[18px]">
+                          <p className="max-w-[650px] text-[15px] font-medium leading-[1.6] text-[#6a7182]">{faq.answer}</p>
                         </div>
                       </motion.div>
                     ) : null}

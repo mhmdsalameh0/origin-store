@@ -35,17 +35,17 @@ export function Hero() {
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="relative z-10 order-2 flex min-h-[300px] flex-col items-center justify-center overflow-hidden px-5 py-10 text-center md:order-1 md:h-full md:min-h-0 md:items-start md:justify-center md:bg-white md:py-12 md:pl-[12vw] md:pr-10 md:text-left lg:pl-[12vw] xl:pl-[12%]"
+          className="relative z-10 order-2 flex min-h-[300px] flex-col items-center justify-center overflow-hidden px-5 py-10 text-center md:order-1 md:h-full md:min-h-0 md:items-start md:justify-center md:bg-white md:px-8 md:py-12 md:text-left lg:pl-[8vw] lg:pr-10 xl:pl-[calc((100vw-1200px)/2)]"
         >
-          <h1 className="max-w-[760px] text-[56px] font-extrabold leading-[1.04] tracking-[-.04em] text-black sm:text-[58px] md:max-w-[620px] md:text-[40px] md:leading-[1.08] md:tracking-[-.03em] lg:text-[42px]">
+          <h1 className="max-w-[760px] text-[clamp(2.35rem,10vw,3.5rem)] font-extrabold leading-[1.04] tracking-[-.04em] text-black md:max-w-[620px] md:text-[40px] md:leading-[1.08] md:tracking-[-.03em] lg:text-[42px]">
             Origin&apos;s Restored Peptides
             <br />
             Excellence in Research
           </h1>
-          <p className="mt-6 max-w-[680px] text-[24px] font-normal leading-[1.55] text-[#00102a] md:mt-6 md:max-w-[430px] md:text-[14px] md:leading-[1.55] lg:text-[15px]">
+          <p className="mt-6 max-w-[680px] text-[18px] font-normal leading-[1.55] text-[#00102a] sm:text-[20px] md:mt-6 md:max-w-[430px] md:text-[15px] md:leading-[1.55]">
             Manufactured to 99%+ purity standards and verified through independent third-party testing.
           </p>
-          <button className="mt-7 w-fit rounded-[24px] bg-black px-9 py-4 text-[22px] font-bold text-white transition hover:-translate-y-0.5 hover:bg-origin-green md:mt-9 md:rounded-[17px] md:px-6 md:py-3 md:text-[16px]">
+          <button className="mt-7 min-h-11 w-fit rounded-[24px] bg-black px-8 py-3 text-[17px] font-bold text-white transition hover:-translate-y-0.5 hover:bg-origin-green md:mt-9 md:rounded-[17px] md:px-6 md:text-[16px]">
             Contact →
           </button>
         </motion.div>

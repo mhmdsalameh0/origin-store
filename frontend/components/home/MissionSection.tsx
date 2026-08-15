@@ -43,13 +43,21 @@ export function MissionSection() {
         <div className="relative grid min-h-[390px] place-items-center bg-[#8055b8] py-8 lg:min-h-0 lg:bg-transparent lg:py-0">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_55%_22%,rgba(255,255,255,.24),transparent_34%),linear-gradient(180deg,rgba(45,24,82,.18),transparent_50%)]" />
           <motion.div
-            className="relative z-10 h-[350px] w-full max-w-[480px] overflow-hidden rounded-bl-[82px] rounded-tr-[82px] border border-[#b987ff]/80 bg-[#fffef1] shadow-[0_0_42px_rgba(169,109,255,.42),0_28px_70px_rgba(0,0,0,.3)]"
+            className="relative z-10 h-[350px] w-full max-w-[480px] overflow-hidden rounded-bl-[82px] rounded-tr-[82px] border border-[#b987ff]/80 bg-[#dfeaff] shadow-[0_0_42px_rgba(169,109,255,.42),0_28px_70px_rgba(0,0,0,.3)]"
             initial={shouldReduceMotion ? false : { opacity: 0, x: 28, scale: 0.96 }}
             whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, x: 0, scale: 1 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(223,31,45,.10),transparent_42%)]" />
+            <Image
+              src="/images/quality-tb500-vial.png"
+              alt=""
+              fill
+              sizes="(max-width: 1024px) 86vw, 480px"
+              className="scale-110 object-cover object-center blur-sm"
+              aria-hidden="true"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-white/18" />
             <div className="absolute bottom-11 left-1/2 h-5 w-[42%] -translate-x-1/2 rounded-full bg-black/18 blur-xl" />
             <motion.div
               className="relative h-full w-full"
@@ -61,7 +69,7 @@ export function MissionSection() {
                 alt="Origin Peptides TB-500 vial"
                 fill
                 sizes="(max-width: 1024px) 86vw, 480px"
-                className="object-cover object-center"
+                className="object-contain object-center"
               />
             </motion.div>
           </motion.div>
