@@ -137,6 +137,59 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
+
+        <section className="relative overflow-hidden bg-white px-5 py-14 text-origin-ink md:px-8 md:py-20">
+          <div className="pointer-events-none absolute -left-16 top-20 h-64 w-64 rounded-full bg-[#6f37b8]/[.08] blur-3xl" />
+          <div className="pointer-events-none absolute right-0 top-0 h-72 w-72 rounded-full bg-[#f4efff] blur-3xl" />
+
+          <div className="relative mx-auto grid max-w-[1280px] gap-10 lg:grid-cols-[minmax(0,52%)_minmax(0,48%)] lg:items-center lg:gap-14">
+            <div className="relative min-w-0">
+              <div className="absolute -bottom-6 -left-5 h-[78%] w-[78%] rounded-[24px] bg-[#d7c5ff]/55" aria-hidden="true" />
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[18px] bg-[#f7f4ff] shadow-[0_24px_70px_rgba(35,28,54,.12)]">
+                <Image
+                  src="/images/ChatGPT Image Aug 16, 2026, 01_30_49 AM.png"
+                  alt="Origin Peptides product vials and packaging"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 660px"
+                  className="object-cover object-center"
+                />
+              </div>
+            </div>
+
+            <div className="min-w-0">
+              <p className="flex items-center gap-4 text-[13px] font-extrabold uppercase tracking-[0.12em] text-[#6f37b8]">
+                Our Commitment
+                <span className="h-px w-16 bg-[#6f37b8]" aria-hidden="true" />
+              </p>
+              <h2 className="mt-6 max-w-[760px] text-[clamp(2.25rem,5vw,3.35rem)] font-normal leading-[1.08] tracking-[-.04em] text-black">
+                Built on Quality, Driven by Research
+              </h2>
+
+              <div className="mt-8 max-w-[760px] space-y-6 text-[17px] font-normal leading-[1.85] text-[#171c28]">
+                <p>
+                  <span className="font-extrabold text-black">Origin&rsquo;s Restored Peptides</span> is focused on
+                  delivering dependable research compounds for laboratory and preclinical applications. Through rigorous
+                  sourcing, careful quality verification, and batch-specific testing, we work to maintain consistent
+                  standards across every product we offer.
+                </p>
+
+                <p>
+                  <span className="font-extrabold text-black">Our approach</span> is built around transparency, reliability,
+                  and scientific integrity. By providing clear product information, supporting documentation, and dependable
+                  service, we aim to help researchers make informed decisions and carry out their work with confidence.
+                </p>
+              </div>
+
+              <div className="mt-8 grid gap-0 border-t border-[#d8cde9] pt-6 text-[15px] font-medium text-[#171c28] sm:grid-cols-[minmax(0,1fr)_1px_minmax(0,1fr)_1px_minmax(0,1fr)] sm:items-center sm:text-center md:text-[16px]">
+                <span className="border-b border-[#d8cde9] py-3 sm:border-b-0 sm:py-0">Verified Quality</span>
+                <span className="hidden h-5 w-px bg-[#d8cde9] sm:block" aria-hidden="true" />
+                <span className="border-b border-[#d8cde9] py-3 sm:border-b-0 sm:py-0">Transparent Standards</span>
+                <span className="hidden h-5 w-px bg-[#d8cde9] sm:block" aria-hidden="true" />
+                <span className="py-3 sm:py-0">Research Focused</span>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </>
