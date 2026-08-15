@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+:root {
+  --origin-black: #121711;
+  --origin-ink: #1d2419;
+  --origin-cream: #f4f6ee;
+  --origin-paper: #ffffff;
+  --origin-muted: #6d7568;
+  --origin-red: #7f8d61;
+  --origin-green: #6f7d52;
+  --origin-gold: #d7c7a4;
+  --origin-line: rgba(29, 36, 25, 0.14);
+  --font-body: var(--font-manrope), Arial, Helvetica, sans-serif;
+  --font-heading: var(--font-manrope), Arial, Helvetica, sans-serif;
+}
+
+@theme inline {
+  --color-origin-black: var(--origin-black);
+  --color-origin-ink: var(--origin-ink);
+  --color-origin-cream: var(--origin-cream);
+  --color-origin-paper: var(--origin-paper);
+  --color-origin-muted: var(--origin-muted);
+  --color-origin-red: var(--origin-red);
+  --color-origin-green: var(--origin-green);
+  --color-origin-gold: var(--origin-gold);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-heading);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--origin-paper);
+  color: var(--origin-ink);
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.display-type {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  text-transform: none;
+}
+
+.section-shell {
+  width: min(100% - 32px, 1240px);
+  margin-inline: auto;
+}
+
+.noise {
+  background-image:
+    radial-gradient(circle at 18% 18%, rgba(111, 125, 82, 0.2), transparent 24rem),
+    radial-gradient(circle at 82% 22%, rgba(215, 199, 164, 0.42), transparent 26rem);
+}
+
+.peptide-vial {
+  position: relative;
+  width: min(58vw, 230px);
+  aspect-ratio: 0.43;
+  border-radius: 20px 20px 42px 42px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.78), transparent 20%, transparent 82%, rgba(0, 0, 0, 0.08)),
+    linear-gradient(180deg, #f9fbf5 0%, #eef2e5 52%, #ffffff 100%);
+  border: 1px solid rgba(29, 36, 25, 0.12);
+  box-shadow: 0 28px 70px rgba(29, 36, 25, 0.16);
+}
+
+.peptide-vial::before {
+  content: "";
+  position: absolute;
+  inset: -9% 18% auto;
+  height: 15%;
+  border-radius: 12px 12px 4px 4px;
+  background: linear-gradient(180deg, #d8ddcc, #b9c2a2);
+  border: 1px solid rgba(29, 36, 25, 0.18);
+}
+
+.peptide-vial::after {
+  content: "";
+  position: absolute;
+  left: 16%;
+  right: 16%;
+  top: 37%;
+  height: 25%;
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.64), rgba(255, 255, 255, 0.16)),
+    var(--vial-accent, var(--origin-green));
+}
+
+.soft-card {
+  border: 1px solid var(--origin-line);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 16px 45px rgba(29, 36, 25, 0.08);
+}
+
+@media (max-width: 768px) {
+  .section-shell {
+    width: min(100% - 24px, 680px);
+  }
+}
