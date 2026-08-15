@@ -1,6 +1,14 @@
 import { Footer } from "@/components/home/Footer";
 import { Header } from "@/components/home/Header";
+import { BadgeCheck, Headphones, IdCard, Truck } from "lucide-react";
 import Image from "next/image";
+
+const serviceHighlights = [
+  { label: "Fast Delivery", icon: Truck },
+  { label: "Research-Grade Quality Standards", icon: IdCard },
+  { label: "24/7 Customer Support", icon: Headphones },
+  { label: "Quality-Checked Orders", icon: BadgeCheck }
+];
 
 export default function AboutPage() {
   return (
@@ -188,6 +196,20 @@ export default function AboutPage() {
                 <span className="py-3 sm:py-0">Research Focused</span>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="bg-[#101a2b] px-5 py-10 md:px-8 md:py-12">
+          <div className="mx-auto grid max-w-[1280px] gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {serviceHighlights.map((item) => (
+              <article
+                className="grid min-h-[158px] place-items-center rounded-[16px] bg-[#7c55bb] px-5 py-8 text-center text-white shadow-[0_18px_44px_rgba(12,18,30,.16)]"
+                key={item.label}
+              >
+                <item.icon size={46} strokeWidth={2.2} />
+                <h2 className="mt-5 text-[15px] font-extrabold leading-snug">{item.label}</h2>
+              </article>
+            ))}
           </div>
         </section>
       </main>
