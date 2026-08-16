@@ -230,13 +230,11 @@ export function ProductShowcase() {
     <SectionReveal className="bg-white py-16 font-sans text-origin-ink md:py-20">
       <div id="products" className="mx-auto max-w-[1780px] px-5">
         <div className="mx-auto mb-10 max-w-6xl text-center">
-          <h2 className="font-sans text-[clamp(2rem,5vw,2.75rem)] font-bold leading-[1.05] tracking-[-.03em] text-black md:text-[70px] md:tracking-normal">
-            Origin&apos;s Restored Peptides
-            <br />
-            Excellence in Research
+          <h2 className="font-sans text-[clamp(1.75rem,4vw,2.5rem)] font-bold leading-[1.08] tracking-[-.03em] text-black">
+            Explore the Origin&apos;s Restored Peptides
           </h2>
-          <p className="mt-6 text-[16px] font-normal leading-7 tracking-[0.01em] text-[#5d6674] md:text-[24px] md:leading-8">
-            High-purity research compounds, precisely formulated and clearly documented.
+          <p className="mt-2 text-[14px] font-normal leading-6 tracking-[0.01em] text-[#5d6674] md:text-[16px]">
+            Reliable research solutions developed to support your scientific goals.
           </p>
         </div>
 
