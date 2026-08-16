@@ -85,15 +85,14 @@ export function ProductDetailClient({ product }: { product: CatalogProduct }) {
     <>
       <main className="bg-white font-sans text-origin-ink">
         <section className="mx-auto grid min-h-[calc(100vh-120px)] max-w-7xl gap-12 px-5 py-16 md:grid-cols-[0.95fr_1.05fr] md:items-start md:px-8 md:py-24">
-          <div className="relative flex min-h-[420px] items-center justify-center overflow-hidden rounded-[8px] bg-[#f5f7fb]">
-            <div className="absolute inset-x-10 bottom-16 h-16 rounded-full bg-slate-300/30 blur-2xl" />
-            <div className="relative z-10 h-[500px] w-full">
+          <div className="relative grid min-h-[420px] place-items-center overflow-hidden rounded-[8px] bg-[#f5f7fb] p-5 md:min-h-[560px]">
+            <div className="relative h-[min(500px,72vw)] w-full max-w-[560px]">
               <Image
                 src={product.image}
                 alt={`${product.name} product`}
                 fill
                 priority
-                className="object-contain"
+                className="object-contain object-center"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>

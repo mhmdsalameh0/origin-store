@@ -17,14 +17,14 @@ function MobileProductCard({ product }: { product: (typeof products)[number] }) 
 
   return (
     <article className="flex h-full flex-col items-center bg-white text-center">
-      <div className="flex h-[210px] w-full items-end justify-center">
+      <div className="grid h-[210px] w-full place-items-center bg-[#f5f7fb]">
         <Image
           src={product.image}
           alt={`${product.name} Origin Peptides vial`}
           width={190}
           height={220}
           sizes="100vw"
-          className="h-[190px] w-auto object-contain object-bottom"
+          className="h-full w-full object-contain object-center"
         />
       </div>
 
@@ -64,14 +64,14 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
       whileHover={{ y: -5 }}
       transition={{ layout: carouselTransition, duration: 0.25 }}
     >
-      <div className="flex h-[310px] w-full items-end justify-center">
+      <div className="grid h-[310px] w-full place-items-center bg-[#f5f7fb]">
         <Image
           src={product.image}
           alt={`${product.name} Origin Peptides vial`}
           width={260}
           height={330}
           sizes="(max-width: 768px) 100vw, 25vw"
-          className={`${product.imageClassName} w-auto object-contain object-bottom transition duration-500 group-hover:scale-[1.035]`}
+          className="h-full w-full object-contain object-center"
         />
       </div>
 

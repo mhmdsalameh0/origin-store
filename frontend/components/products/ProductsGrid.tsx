@@ -25,14 +25,14 @@ function ProductGridCard({ product }: { product: CatalogProduct }) {
 
   return (
     <article className="group flex h-full flex-col items-center rounded-[18px] border border-[#e2def1] bg-white/88 px-5 py-7 text-center shadow-[0_18px_48px_rgba(36,31,57,.055)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_62px_rgba(36,31,57,.09)]">
-      <Link className="flex h-[260px] w-full items-end justify-center" href={productHref}>
+      <Link className="grid h-[260px] w-full place-items-center rounded-[14px] bg-[#f5f7fb]" href={productHref}>
         <Image
           src={product.image}
           alt={`${product.name} Origin Peptides vial`}
           width={260}
           height={330}
           sizes="(max-width: 768px) 100vw, 25vw"
-          className="h-[240px] w-auto object-contain object-bottom transition duration-500 group-hover:scale-[1.035]"
+          className="h-full w-full object-contain object-center"
         />
       </Link>
 
