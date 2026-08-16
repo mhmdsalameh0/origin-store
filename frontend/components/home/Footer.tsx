@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export function Footer() {
   const linkClass =
     "group relative w-fit text-[14px] font-medium leading-none text-white/68 transition-colors duration-200 hover:text-white";
@@ -10,10 +12,15 @@ export function Footer() {
         <div className="grid gap-9 sm:grid-cols-2 lg:grid-cols-[1.22fr_0.7fr_0.82fr_1fr] lg:gap-16">
           <div>
             <div className="flex items-center gap-3.5">
-              <span className="grid size-10 place-items-center rounded-full border border-white/15 bg-white text-[12px] font-extrabold text-[#6f4cd3] shadow-[0_8px_28px_rgba(255,255,255,.08)]">
-                OP
+              <span className="relative block h-[46px] w-[168px] rounded-[14px] bg-white px-3 py-2 shadow-[0_8px_28px_rgba(255,255,255,.08)]">
+                <Image
+                  src="/images/ChatGPT-Image-Jul-26-2026-02_19_38-AM-1-768x358.png"
+                  alt="Origin Peptides"
+                  fill
+                  sizes="168px"
+                  className="object-contain object-left px-3 py-2"
+                />
               </span>
-              <span className="text-[25px] font-extrabold leading-none tracking-[-.03em] text-white">Origin Peptides</span>
             </div>
             <p className="mt-5 max-w-[330px] text-[14px] font-medium leading-[1.8] text-white/66">
               High-purity research compounds for laboratory and preclinical research applications
