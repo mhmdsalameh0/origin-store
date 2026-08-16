@@ -17,15 +17,16 @@ function MobileProductCard({ product }: { product: (typeof products)[number] }) 
 
   return (
     <article className="flex h-full flex-col items-center bg-white text-center">
-      <div className="grid h-[210px] w-full place-items-center bg-[#f5f7fb]">
-        <Image
-          src={product.image}
-          alt={`${product.name} Origin Peptides vial`}
-          width={190}
-          height={220}
-          sizes="100vw"
-          className="h-full w-full object-contain object-center"
-        />
+      <div className="grid h-[210px] w-full place-items-center">
+        <div className="relative h-full aspect-[2/3] overflow-hidden bg-[#f5f7fb]">
+          <Image
+            src={product.image}
+            alt={`${product.name} Origin Peptides vial`}
+            fill
+            sizes="140px"
+            className="object-contain object-center"
+          />
+        </div>
       </div>
 
       <div className="mt-4 grid w-full grid-rows-[3px_48px_40px_38px_54px] justify-items-center gap-y-3 px-5 pb-3">
@@ -64,15 +65,16 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
       whileHover={{ y: -5 }}
       transition={{ layout: carouselTransition, duration: 0.25 }}
     >
-      <div className="grid h-[310px] w-full place-items-center bg-[#f5f7fb]">
-        <Image
-          src={product.image}
-          alt={`${product.name} Origin Peptides vial`}
-          width={260}
-          height={330}
-          sizes="(max-width: 768px) 100vw, 25vw"
-          className="h-full w-full object-contain object-center"
-        />
+      <div className="grid h-[310px] w-full place-items-center">
+        <div className="relative h-full aspect-[2/3] overflow-hidden bg-[#f5f7fb]">
+          <Image
+            src={product.image}
+            alt={`${product.name} Origin Peptides vial`}
+            fill
+            sizes="(max-width: 768px) 190px, 207px"
+            className="object-contain object-center"
+          />
+        </div>
       </div>
 
       <div className="mt-4 grid w-full grid-rows-[3px_40px_34px_40px_44px] justify-items-center gap-y-3 px-5 pb-3">
