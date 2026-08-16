@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import { AppCart } from "@/components/cart/AppCart";
+import { VerificationGate } from "@/components/verification/VerificationGate";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -19,7 +20,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className={manrope.variable}>
       <body>
-        <AppCart>{children}</AppCart>
+        <VerificationGate>
+          <AppCart>{children}</AppCart>
+        </VerificationGate>
       </body>
     </html>
   );
