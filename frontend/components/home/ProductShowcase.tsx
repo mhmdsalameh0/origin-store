@@ -11,41 +11,51 @@ import { SectionReveal } from "./SectionReveal";
 const carouselTransition = { duration: 0.68, ease: "easeInOut" } as const;
 
 const products = catalogProducts;
+const showcaseImages: Record<string, string> = {
+  "TB-500": "/images/showcase-tb-500-clean.png",
+  "GHK-CU": "/images/showcase-ghk-cu-clean.png",
+  "MOTS-C": "/images/showcase-mots-c-clean.png",
+  Retatrutide: "/images/showcase-retatrutide-clean.png"
+};
+
+function getShowcaseImage(product: (typeof products)[number]) {
+  return showcaseImages[product.name] ?? product.image;
+}
 
 function MobileProductCard({ product }: { product: (typeof products)[number] }) {
   const isRetatrutide = product.name === "Retatrutide";
+  const imageSrc = getShowcaseImage(product);
 
   return (
     <article className="flex h-full flex-col items-center bg-white text-center">
-      <div className="grid h-[210px] w-full place-items-center">
-        <div className="relative h-full aspect-[2/3] overflow-hidden bg-[#f5f7fb]">
-          <Image
-            src={product.image}
-            alt={`${product.name} Origin Peptides vial`}
-            fill
-            sizes="140px"
-            className="object-contain object-center"
-          />
-        </div>
+      <div className="grid h-[245px] w-full place-items-center bg-white">
+        <Image
+          src={imageSrc}
+          alt={`${product.name} Origin Peptides vial`}
+          width={260}
+          height={320}
+          sizes="(max-width: 640px) 78vw"
+          className="h-full max-h-[232px] w-auto object-contain object-center"
+        />
       </div>
 
-      <div className="mt-4 grid w-full grid-rows-[3px_48px_40px_38px_54px] justify-items-center gap-y-3 px-5 pb-3">
-        <div className="h-[3px] w-[112px] self-start justify-self-center" style={{ backgroundColor: product.accent }} />
+      <div className="flex w-full flex-col items-center px-5 pb-3 pt-4">
+        <div className="h-[3px] w-[112px]" style={{ backgroundColor: product.accent }} />
         <h3
-          className={`flex min-h-[48px] max-w-full items-start justify-center text-center font-sans font-bold uppercase leading-tight tracking-normal text-[#111111] ${
-            isRetatrutide ? "text-[17px]" : "text-[22px]"
+          className={`mt-4 flex min-h-0 max-w-full items-start justify-center text-center font-sans font-bold uppercase leading-tight tracking-normal text-[#111111] ${
+            isRetatrutide ? "text-[18px]" : "text-[22px]"
           }`}
         >
           {product.displayName}
         </h3>
-        <p className="flex min-h-10 max-w-full items-start justify-center text-center font-sans text-[15px] font-normal normal-case leading-tight tracking-normal text-[#1f2933]">
+        <p className="mt-2 flex max-w-full items-start justify-center text-center font-sans text-[14px] font-normal normal-case leading-tight tracking-normal text-[#1f2933]">
           {product.category}
         </p>
-        <p className="self-start font-sans text-[27px] font-semibold leading-none text-[#29313c]">{product.price}</p>
+        <p className="mt-4 font-sans text-[28px] font-semibold leading-none text-[#29313c]">{product.price}</p>
         <Link
           href={`/products/${product.slug}`}
           scroll
-          className="flex min-h-11 w-[78%] items-center justify-center gap-1.5 self-start rounded-full bg-[#202329] px-5 font-sans text-[15px] font-semibold normal-case tracking-normal text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_8px_18px_rgba(15,23,42,.14)] transition-colors duration-300 hover:bg-[#0f1115]"
+          className="mt-5 flex min-h-11 w-[78%] items-center justify-center gap-1.5 rounded-full bg-[#202329] px-5 font-sans text-[15px] font-semibold normal-case tracking-normal text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_8px_18px_rgba(15,23,42,.14)] transition-colors duration-300 hover:bg-[#0f1115]"
         >
           <ShoppingCart size={14} strokeWidth={2} />
           <span>View Product</span>
@@ -57,6 +67,7 @@ function MobileProductCard({ product }: { product: (typeof products)[number] }) 
 
 function ProductCard({ product }: { product: (typeof products)[number] }) {
   const isRetatrutide = product.name === "Retatrutide";
+  const imageSrc = getShowcaseImage(product);
 
   return (
     <motion.article
@@ -66,9 +77,9 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
       transition={{ layout: carouselTransition, duration: 0.25 }}
     >
       <div className="grid h-[310px] w-full place-items-center">
-        <div className="relative h-full aspect-[2/3] overflow-hidden bg-[#f5f7fb]">
+        <div className="relative h-full aspect-[2/3] overflow-hidden bg-white">
           <Image
-            src={product.image}
+            src={imageSrc}
             alt={`${product.name} Origin Peptides vial`}
             fill
             sizes="(max-width: 768px) 190px, 207px"
@@ -242,7 +253,7 @@ export function ProductShowcase() {
 
         <div className="relative sm:hidden" onMouseEnter={() => setIsMobileHovering(true)} onMouseLeave={() => setIsMobileHovering(false)}>
           <button
-            className="absolute left-0 top-[105px] z-10 grid size-[54px] -translate-y-1/2 place-items-center text-[#111722] transition hover:-translate-x-1"
+            className="absolute left-0 top-[122px] z-10 grid size-[54px] -translate-y-1/2 place-items-center text-[#111722] transition hover:-translate-x-1"
             aria-label="Previous products"
             onClick={() => handleMobileArrowClick("previous")}
             type="button"
@@ -271,7 +282,7 @@ export function ProductShowcase() {
             </div>
           </div>
           <button
-            className="absolute right-0 top-[105px] z-10 grid size-[54px] -translate-y-1/2 place-items-center text-[#111722] transition hover:translate-x-1"
+            className="absolute right-0 top-[122px] z-10 grid size-[54px] -translate-y-1/2 place-items-center text-[#111722] transition hover:translate-x-1"
             aria-label="Next products"
             onClick={() => handleMobileArrowClick("next")}
             type="button"
