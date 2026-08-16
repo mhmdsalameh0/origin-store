@@ -11,35 +11,35 @@ import { useState } from "react";
 const supportFaqs = [
   {
     question: "How quickly will I receive a response?",
-    answer: "Our research support team typically responds within 24 hours during business days."
+    answer: "We typically respond to all email inquiries within 24 hours on business days (Monday-Friday, 9am-6pm EST). For urgent order issues, please include your order number in the subject line for priority handling."
   },
   {
     question: "How can I track my order?",
-    answer: "Order updates are provided after checkout. If you need help locating an update, email support with your order details."
+    answer: "Once your order ships you'll receive an email with a tracking number. You can also use the order lookup above - just enter your order number and email, no account needed."
   },
   {
     question: "I received the wrong item or my order is damaged. What should I do?",
-    answer: "Please contact support with your order number and clear photos of the package or item so our team can review it quickly."
+    answer: "Email us within 7 days of delivery with your order number and a photo of the item and packaging. We'll arrange a replacement or refund right away."
   },
   {
     question: "How can I verify the quality of my order?",
-    answer: "Product quality documentation is reviewed and provided where available so researchers can confirm batch-specific details."
+    answer: "Every batch is third-party tested. Certificates of Analysis list purity, identity, and batch number, and are matched to the lot printed on your vial."
   },
   {
     question: "Do you offer bulk or wholesale pricing?",
-    answer: "Bulk requests are reviewed case by case. Contact support with the products and quantities you need."
+    answer: "Yes. We offer tiered pricing for labs and research institutions. Email our team with the compounds, quantities, and timeline you need and we'll send a quote."
   },
   {
     question: "Can you recommend products for my research?",
-    answer: "We can help with product information and documentation, but we cannot provide medical, treatment, or dosing guidance."
+    answer: "Our team can share available documentation and specifications so you can select what fits your protocol. We cannot advise on research design or dosing."
   },
   {
     question: "How do I get a Certificate of Analysis (CoA) for my order?",
-    answer: "Email support with your order number and product name, and our team will help with available documentation."
+    answer: "CoAs are linked on each product page and can be sent for your specific lot - email us the order number and batch printed on the vial."
   },
   {
     question: "My payment was declined. What should I do?",
-    answer: "Please verify your billing details and contact support if the issue continues."
+    answer: "Declines usually come from the issuing bank. Confirm the billing address matches your card, then retry or use an alternate method. Contact us if it keeps failing."
   }
 ];
 
