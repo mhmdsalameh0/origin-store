@@ -175,6 +175,62 @@ export default function ContactPage() {
             </div>
           </div>
         </section>
+
+        <section className="relative overflow-hidden bg-[linear-gradient(110deg,#f8f7b9_0%,#e9f7d1_48%,#f9e5ef_100%)] px-5 py-16 text-center md:px-8 md:py-20">
+          <Image
+            src="/images/heroghk-cu.png.png"
+            alt=""
+            width={82}
+            height={82}
+            className="pointer-events-none absolute left-[4%] top-7 hidden rotate-[-14deg] drop-shadow-[0_20px_34px_rgba(74,55,132,.18)] sm:block"
+          />
+          <Image
+            src="/images/tb500.png"
+            alt=""
+            width={92}
+            height={92}
+            className="pointer-events-none absolute bottom-16 right-[5%] hidden rotate-[14deg] drop-shadow-[0_22px_34px_rgba(37,73,116,.18)] sm:block"
+          />
+
+          <div className="relative mx-auto flex max-w-[760px] flex-col items-center">
+            <h2 className="max-w-[620px] text-[clamp(2rem,5vw,3.05rem)] font-extrabold leading-[1.08] tracking-[-.045em] text-[#10131b]">
+              Reliable research compounds, quality documentation, and dedicated support for laboratories and researchers.
+            </h2>
+
+            <Link
+              href="/products"
+              className="mt-10 inline-flex min-h-[50px] items-center justify-center gap-3 rounded-full bg-[#10131b] px-7 text-[13px] font-extrabold text-white shadow-[0_16px_36px_rgba(16,19,27,.16)] transition hover:bg-[#1b2435] focus:outline-none focus:ring-2 focus:ring-[#6d48c9] active:scale-[.98]"
+            >
+              Explore Research Products
+              <span aria-hidden="true">&rarr;</span>
+            </Link>
+
+            <div className="mt-14 grid w-full max-w-[760px] gap-6 rounded-[16px] bg-white/56 px-6 py-7 text-left shadow-[0_18px_42px_rgba(84,62,108,.08)] backdrop-blur md:grid-cols-[minmax(0,1fr)_minmax(260px,320px)] md:items-center md:px-8">
+              <div>
+                <h3 className="text-[19px] font-extrabold leading-tight text-black">Research Updates from Origin&rsquo;s Restored Peptides</h3>
+                <p className="mt-3 max-w-[440px] text-[13px] font-medium leading-[1.55] text-[#6b7282]">
+                  Subscribe for catalog updates, new research compounds, and quality documentation news.
+                </p>
+                <p className="mt-3 text-[12px] font-medium text-[#8a92a1]">For researchers and labs. No spam, unsubscribe anytime.</p>
+              </div>
+
+              <form className="flex min-h-[46px] overflow-hidden rounded-full bg-white shadow-[0_12px_28px_rgba(15,23,42,.08)]">
+                <label className="sr-only" htmlFor="contact-research-email">
+                  Email address
+                </label>
+                <input
+                  id="contact-research-email"
+                  className="min-w-0 flex-1 bg-transparent px-5 text-[13px] font-medium text-[#10131b] outline-none placeholder:text-[#8a92a1]"
+                  placeholder="Enter your email"
+                  type="email"
+                />
+                <button className="m-1 rounded-full bg-[#10131b] px-5 text-[12px] font-extrabold text-white transition hover:bg-[#1b2435] focus:outline-none focus:ring-2 focus:ring-[#6d48c9] active:scale-[.98]" type="button">
+                  Subscribe
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </>
