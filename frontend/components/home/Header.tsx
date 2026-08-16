@@ -12,7 +12,7 @@ const navItems = [
   { label: "Home", href: "/" },
   { label: "Products", href: "/products" },
   { label: "About Us", href: "/about" },
-  { label: "Contact us", href: "/#contact" }
+  { label: "Contact us", href: "/contact" }
 ];
 
 function OriginLogo({ compact = false }: { compact?: boolean }) {
