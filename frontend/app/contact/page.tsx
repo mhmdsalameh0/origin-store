@@ -193,8 +193,11 @@ export default function ContactPage() {
           />
 
           <div className="relative mx-auto flex max-w-[760px] flex-col items-center">
-            <h2 className="max-w-[620px] text-[clamp(2rem,5vw,3.05rem)] font-extrabold leading-[1.08] tracking-[-.045em] text-[#10131b]">
-              Reliable research compounds, quality documentation, and dedicated support for laboratories and researchers.
+            <h2 className="max-w-[620px] text-[clamp(1.8rem,4vw,2.45rem)] font-extrabold leading-[1.13] tracking-[-.04em] text-[#10131b]">
+              <span className="block">Reliable research compounds,</span>
+              <span className="block">quality documentation, and</span>
+              <span className="block">dedicated support for laboratories</span>
+              <span className="block">and researchers.</span>
             </h2>
 
             <Link
