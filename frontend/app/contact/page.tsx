@@ -108,41 +108,50 @@ export default function ContactPage() {
               <p className="mt-2 text-[12px] font-medium text-[#8a92a1]">Quick answers to common questions</p>
             </div>
 
-            <div className="mt-9 space-y-3">
+            <div className="mt-9 space-y-4">
               {supportFaqs.map((faq, index) => {
                 const isOpen = openItem === index;
 
                 return (
-                  <article className="overflow-hidden rounded-[10px] bg-white shadow-[0_10px_24px_rgba(15,23,42,.035)]" key={faq.question}>
+                  <motion.article
+                    layout
+                    className="overflow-hidden rounded-[10px] bg-white shadow-[0_10px_24px_rgba(15,23,42,.035)]"
+                    key={faq.question}
+                    transition={{ layout: { duration: 0.32, ease: [0.22, 1, 0.36, 1] } }}
+                  >
                     <button
                       aria-expanded={isOpen}
                       className={[
-                        "grid min-h-[50px] w-full grid-cols-[minmax(0,1fr)_28px] items-center gap-4 px-5 text-left text-[13px] font-extrabold leading-snug transition focus:outline-none focus:ring-2 focus:ring-[#cf2f6a]",
+                        "grid min-h-[56px] w-full grid-cols-[minmax(0,1fr)_28px] items-center gap-4 px-5 text-left text-[13px] font-extrabold leading-snug transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#cf2f6a]",
                         isOpen ? "bg-[#cf2f6a] text-white" : "text-black hover:bg-white/70"
                       ].join(" ")}
                       onClick={() => setOpenItem((item) => (item === index ? -1 : index))}
                       type="button"
                     >
                       <span>{faq.question}</span>
-                      <span className={["grid size-6 place-items-center rounded-full", isOpen ? "bg-white text-[#cf2f6a]" : "bg-[#eef1f6] text-[#7c8494]"].join(" ")}>
+                      <motion.span
+                        animate={{ rotate: isOpen ? 180 : 0 }}
+                        className={["grid size-6 place-items-center rounded-full transition-colors duration-300", isOpen ? "bg-white text-[#cf2f6a]" : "bg-[#eef1f6] text-[#7c8494]"].join(" ")}
+                        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                      >
                         <ChevronDown size={14} strokeWidth={2.4} />
-                      </span>
+                      </motion.span>
                     </button>
 
                     <AnimatePresence initial={false}>
                       {isOpen ? (
                         <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.22 }}
+                          initial={{ height: 0, opacity: 0, y: -8 }}
+                          animate={{ height: "auto", opacity: 1, y: 0 }}
+                          exit={{ height: 0, opacity: 0, y: -6 }}
+                          transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
                           className="overflow-hidden"
                         >
-                          <p className="px-5 pb-5 pt-1 text-[13px] font-medium leading-[1.65] text-[#687284]">{faq.answer}</p>
+                          <p className="px-5 pb-6 pt-5 text-[13px] font-medium leading-[1.75] text-[#687284]">{faq.answer}</p>
                         </motion.div>
                       ) : null}
                     </AnimatePresence>
-                  </article>
+                  </motion.article>
                 );
               })}
             </div>
