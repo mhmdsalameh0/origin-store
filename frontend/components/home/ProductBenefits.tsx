@@ -1,5 +1,6 @@
 import { BadgeCheck, Boxes, CircleDollarSign, ClipboardCheck, FileText, FlaskConical, PackageCheck, ShieldCheck, UsersRound } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { SectionReveal } from "./SectionReveal";
 
 const benefits = [
@@ -144,7 +145,7 @@ export function ProductBenefits({ variant }: { variant: "dark" | "light" }) {
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="object-contain object-center p-8"
               />
-              <div className="absolute bottom-8 left-1/2 z-10 flex w-[min(266px,calc(100%-32px))] -translate-x-1/2 items-center gap-4 border border-[#dfe3e8] bg-white px-4 py-4 shadow-[0_8px_22px_rgba(29,36,25,.055)]">
+              <Link href="/documentation" className="absolute bottom-8 left-1/2 z-10 flex w-[min(266px,calc(100%-32px))] -translate-x-1/2 cursor-pointer items-center gap-4 border border-[#dfe3e8] bg-white px-4 py-4 shadow-[0_8px_22px_rgba(29,36,25,.055)] focus:outline-none focus:ring-2 focus:ring-[#7650d8]">
                 <div className="grid size-11 place-items-center rounded border border-[#dfe3e8]">
                   <FileText size={19} />
                 </div>
@@ -152,7 +153,7 @@ export function ProductBenefits({ variant }: { variant: "dark" | "light" }) {
                   <p className="text-[14px] font-bold leading-tight text-black">See the Proof</p>
                   <p className="mt-2 text-[13px] text-[#263242]">View Our Quality Procedures</p>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
         ) : (
