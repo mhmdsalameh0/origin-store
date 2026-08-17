@@ -112,9 +112,9 @@ export function ProductsGrid({ products }: { products: CatalogProduct[] }) {
 
   return (
     <>
-      <div className="my-9 flex items-center justify-between gap-6 rounded-[16px] border border-[#e2def1] bg-white/88 px-8 py-6 shadow-[0_14px_44px_rgba(36,31,57,.06)] max-md:flex-col max-md:items-stretch">
-        <div className="flex flex-wrap items-center gap-x-[22px] gap-y-3">
-          <label className="flex cursor-pointer items-center gap-2 text-[14px] font-semibold text-[#202329]">
+      <div className="my-9 flex items-center justify-between gap-6 rounded-[16px] border border-[#e2def1] bg-white/88 px-8 py-6 shadow-[0_14px_44px_rgba(36,31,57,.06)] max-md:flex-col max-md:items-stretch max-md:gap-5 max-md:px-4 max-md:py-5">
+        <div className="flex flex-wrap items-center gap-x-[22px] gap-y-3 max-md:grid max-md:w-full max-md:grid-cols-2 max-md:items-start max-md:gap-x-4 max-md:gap-y-4">
+          <label className="flex cursor-pointer items-center gap-2 text-[14px] font-semibold text-[#202329] max-md:min-w-0 max-md:items-start">
             <input
               checked={activeCategory === "All Products"}
               className="sr-only"
@@ -126,7 +126,7 @@ export function ProductsGrid({ products }: { products: CatalogProduct[] }) {
           </label>
 
           {categories.map((category) => (
-            <label className="flex cursor-pointer items-center gap-2 text-[14px] font-semibold text-[#202329]" key={category}>
+            <label className="flex cursor-pointer items-center gap-2 text-[14px] font-semibold text-[#202329] max-md:min-w-0 max-md:items-start" key={category}>
               <input
                 checked={activeCategory === category}
                 className="sr-only"
@@ -142,7 +142,7 @@ export function ProductsGrid({ products }: { products: CatalogProduct[] }) {
         <label className="flex shrink-0 items-center gap-4 text-[14px] font-semibold text-[#5d6674] max-md:grid max-md:w-full max-md:gap-2">
           Sort by
           <select
-            className="h-12 min-w-[260px] rounded-[10px] border border-[#d8c9f7] bg-white px-5 text-[16px] font-medium text-[#202329] outline-none transition focus:border-[#7650d8] max-md:w-full"
+            className="h-12 min-w-[260px] rounded-[10px] border border-[#d8c9f7] bg-white px-5 text-[16px] font-medium text-[#202329] outline-none transition focus:border-[#7650d8] max-md:w-full max-md:min-w-0"
             onChange={(event) => setSortOption(event.target.value as SortOption)}
             value={sortOption}
           >
