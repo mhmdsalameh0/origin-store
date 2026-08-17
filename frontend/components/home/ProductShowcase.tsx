@@ -117,10 +117,12 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
 export function ProductShowcase() {
   const autoplayResumeTimer = useRef<number | null>(null);
   const mobileAutoplayResumeTimer = useRef<number | null>(null);
+  const mobileViewportRef = useRef<HTMLDivElement | null>(null);
   const touchStartX = useRef(0);
   const [orderedProducts, setOrderedProducts] = useState(products);
   const [mobileIndex, setMobileIndex] = useState(1);
   const [mobileTransitionEnabled, setMobileTransitionEnabled] = useState(true);
+  const [mobileMetrics, setMobileMetrics] = useState({ offset: 0, sidePadding: 0, slideWidth: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [isMobileHovering, setIsMobileHovering] = useState(false);
   const [isInteractionPaused, setIsInteractionPaused] = useState(false);
@@ -228,6 +230,29 @@ export function ProductShowcase() {
   }, [isMobileHovering, isMobileInteractionPaused, rotateMobileProducts]);
 
   useEffect(() => {
+    const updateMobileMetrics = () => {
+      const viewportWidth = mobileViewportRef.current?.clientWidth ?? 0;
+
+      if (!viewportWidth) {
+        return;
+      }
+
+      const slideWidth = viewportWidth * 0.62;
+
+      setMobileMetrics({
+        offset: slideWidth + 16,
+        sidePadding: viewportWidth * 0.05,
+        slideWidth
+      });
+    };
+
+    updateMobileMetrics();
+    window.addEventListener("resize", updateMobileMetrics);
+
+    return () => window.removeEventListener("resize", updateMobileMetrics);
+  }, []);
+
+  useEffect(() => {
     return () => {
       if (autoplayResumeTimer.current) {
         window.clearTimeout(autoplayResumeTimer.current);
@@ -251,7 +276,7 @@ export function ProductShowcase() {
           </p>
         </div>
 
-        <div className="relative sm:hidden" onMouseEnter={() => setIsMobileHovering(true)} onMouseLeave={() => setIsMobileHovering(false)}>
+        <div className="relative md:hidden" onMouseEnter={() => setIsMobileHovering(true)} onMouseLeave={() => setIsMobileHovering(false)}>
           <button
             className="absolute left-0 top-[122px] z-10 grid size-[54px] -translate-y-1/2 place-items-center text-[#111722] transition hover:-translate-x-1"
             aria-label="Previous products"
@@ -260,21 +285,23 @@ export function ProductShowcase() {
           >
             <ChevronLeft size={46} strokeWidth={1.5} />
           </button>
-          <div className="overflow-hidden px-10" onTouchEnd={handleTouchEnd} onTouchStart={handleTouchStart}>
+          <div ref={mobileViewportRef} className="overflow-hidden" onTouchEnd={handleTouchEnd} onTouchStart={handleTouchStart}>
             <div
-              className="flex"
+              className="flex gap-4"
               onTransitionEnd={handleMobileTransitionEnd}
               style={{
-                width: `${mobileSlides.length * 100}%`,
-                transform: `translate3d(-${mobileIndex * (100 / mobileSlides.length)}%, 0, 0)`,
-                transition: mobileTransitionEnabled ? "transform 900ms ease-in-out" : "none"
+                paddingInline: mobileMetrics.sidePadding ? `${mobileMetrics.sidePadding}px` : "5%",
+                transform: mobileMetrics.offset
+                  ? `translate3d(-${mobileIndex * mobileMetrics.offset}px, 0, 0)`
+                  : `translate3d(-${mobileIndex * 62}%, 0, 0)`,
+                transition: "none"
               }}
             >
               {mobileSlides.map((product, index) => (
                 <div
                   key={`${product.name}-mobile-${index}`}
                   className="shrink-0"
-                  style={{ flexBasis: `${100 / mobileSlides.length}%` }}
+                  style={{ flexBasis: mobileMetrics.slideWidth ? `${mobileMetrics.slideWidth}px` : "62%" }}
                 >
                   <MobileProductCard product={product} />
                 </div>
@@ -291,7 +318,7 @@ export function ProductShowcase() {
           </button>
         </div>
 
-        <div className="relative hidden sm:block" onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+        <div className="relative hidden md:block" onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
           <button
             className="absolute left-8 top-[165px] z-10 hidden size-[54px] -translate-y-1/2 place-items-center text-[#111722] transition hover:-translate-x-1 xl:grid"
             aria-label="Previous products"

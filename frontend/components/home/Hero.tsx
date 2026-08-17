@@ -2,6 +2,7 @@
 
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import type { MouseEvent } from "react";
 
 export function Hero() {
@@ -30,28 +31,9 @@ export function Hero() {
 
   return (
     <section className="relative mb-0 overflow-hidden bg-white pb-0 pt-[83px] text-[#020711]">
-      <div className="mb-0 grid h-auto items-stretch gap-0 overflow-hidden border-0 bg-[#eef1f7] pb-0 [column-gap:0] md:h-[424px] md:grid-cols-[50%_50%] md:bg-white">
+      <div className="mb-0 h-auto overflow-hidden border-0 bg-[#eef1f7] pb-0 md:h-[424px] md:bg-white">
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="relative z-10 order-2 flex min-h-[300px] flex-col items-center justify-center overflow-hidden px-5 py-9 text-center md:order-1 md:h-full md:min-h-0 md:items-start md:justify-center md:bg-white md:px-8 md:py-12 md:text-left lg:pl-[8vw] lg:pr-10 xl:pl-[calc((100vw-1200px)/2)]"
-        >
-          <h1 className="max-w-[760px] text-[32px] font-extrabold leading-[1.04] tracking-normal text-black md:max-w-[620px] md:text-[40px] md:leading-[1.08] lg:text-[42px]">
-            Origin&apos;s Restored Peptides
-            <br />
-            Excellence in Research
-          </h1>
-          <p className="mt-5 max-w-[680px] text-[13px] font-normal leading-[1.55] text-[#00102a] sm:text-[15px] md:mt-6 md:max-w-[430px] md:text-[15px] md:leading-[1.55]">
-            Manufactured to 99%+ purity standards and verified through independent third-party testing.
-          </p>
-          <button className="mt-7 min-h-11 w-fit rounded-[24px] bg-black px-8 py-3 text-[17px] font-bold text-white transition hover:-translate-y-0.5 hover:bg-origin-green md:mt-9 md:rounded-[17px] md:px-6 md:text-[16px]">
-            Contact →
-          </button>
-        </motion.div>
-
-        <motion.div
-          className="relative z-0 order-1 block h-[240px] w-full overflow-hidden md:order-2 md:h-full md:min-h-0"
+          className="relative z-0 flex w-full flex-col overflow-hidden md:h-full md:flex-row"
           onMouseMove={handleMediaPointerMove}
           onMouseLeave={resetParallax}
         >
@@ -64,7 +46,7 @@ export function Hero() {
             />
           ) : null}
           <motion.div
-            className="absolute inset-0 z-0 origin-center"
+            className="relative z-0 h-[240px] w-full origin-center md:order-2 md:h-full md:w-1/2"
             style={shouldReduceMotion ? undefined : { x: parallaxX, y: parallaxY }}
           >
             <motion.div
@@ -86,24 +68,37 @@ export function Hero() {
                     : { duration: 6.5, ease: "easeInOut", repeat: Infinity, repeatType: "loop", delay: 1.1 }
                 }
               >
-                <Image
-                  src="/images/hero-origin-products-mobile.png"
-                  alt="Origin Peptides products"
-                  fill
-                  priority
-                  sizes="100vw"
-                  className="object-cover object-center md:hidden"
-                />
-                <Image
-                  src="/images/hero-origin-products-website.png"
-                  alt="Origin Peptides MOTS-C, TB-500, GHK-CU, and NAD+ products"
-                  fill
-                  priority
-                  sizes="50vw"
-                  className="hidden object-cover object-[64%_center] md:block"
-                />
+                <div className="relative h-full w-full overflow-hidden bg-white" aria-label="Origin Peptides MOTS-C, TB-500, GHK-CU, and NAD+ products">
+                  <div className="absolute inset-0 bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_18%,#eef1ff_56%,#dfeeff_100%)]" />
+                  <Image
+                    src="/images/hero-origin-amino-composite-overlap-preview.png"
+                    alt="Origin Peptides MOTS-C, TB-500, NAD+, and GHK-CU products"
+                    fill
+                    priority
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-contain object-[58%_58%] scale-[0.88] md:scale-[0.84]"
+                  />
+                </div>
               </motion.div>
             </motion.div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="relative z-30 flex flex-col items-center px-5 pb-10 pt-8 text-center md:order-1 md:w-1/2 md:items-start md:justify-center md:px-12 md:py-0 md:pr-8 md:text-left lg:px-[50px] lg:pr-10"
+          >
+            <h1 className="max-w-[360px] text-[30px] font-extrabold leading-[1.02] tracking-normal text-black md:max-w-none md:whitespace-nowrap md:text-[43px] lg:text-[45px]">
+              Origin&apos;s Restored Peptides
+            </h1>
+            <p className="mt-4 max-w-[320px] text-[11px] font-normal leading-[1.45] text-[#00102a] md:mt-7 md:max-w-[430px] md:text-[16px] md:leading-[1.55]">
+              Manufactured to 99%+ purity standards and verified through independent third-party testing.
+            </p>
+            <Link href="/contact" className="mt-5 flex min-h-10 w-fit items-center gap-4 rounded-[24px] bg-black px-7 py-2.5 text-[13px] font-bold text-white transition hover:-translate-y-0.5 hover:bg-origin-green md:mt-7 md:min-h-11 md:px-8 md:py-3 md:text-[15px]">
+              Contact Us
+              <span aria-hidden="true">&rarr;</span>
+            </Link>
           </motion.div>
         </motion.div>
       </div>
