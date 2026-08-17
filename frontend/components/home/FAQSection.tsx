@@ -88,8 +88,8 @@ export function FAQSection() {
         </div>
       </div>
 
-      <div className="relative mx-[-24px] mt-16 overflow-hidden bg-[linear-gradient(180deg,#fffec8_0%,#f2ffd9_56%,#ebffe8_100%)] px-6 pb-5 pt-16 md:mx-[-32px] md:px-12 md:pb-6 md:pt-20">
-        <div className="pointer-events-none absolute -left-2 -top-10 h-[170px] w-[120px] -rotate-[13deg] md:left-16 md:-top-8 md:h-[210px] md:w-[150px]">
+      <div className="relative mx-[-24px] mt-16 overflow-hidden bg-[linear-gradient(180deg,#fffec8_0%,#f2ffd9_56%,#ebffe8_100%)] px-6 pb-5 pt-24 md:mx-[-32px] md:px-12 md:pb-6 md:pt-20">
+        <div className="pointer-events-none absolute left-3 top-4 h-[116px] w-[82px] -rotate-[13deg] md:left-16 md:top-6 md:h-[180px] md:w-[128px]">
           <Image
             src="/images/heroghk-cu.png.png"
             alt=""
@@ -126,7 +126,7 @@ export function FAQSection() {
         </div>
 
         <div className="relative mx-auto mt-12 max-w-[1250px] rounded-[24px] bg-[linear-gradient(105deg,#e8e3ff_0%,#f5e8f5_62%,#ffedf3_100%)] px-7 py-7 shadow-[0_18px_46px_rgba(78,62,106,.11)] md:mt-14 md:rounded-[18px] md:px-9 md:py-8">
-          <div className="pointer-events-none absolute -right-3 -top-16 h-[210px] w-[135px] rotate-[9deg] md:-right-1 md:-top-20 md:h-[250px] md:w-[160px]">
+          <div className="pointer-events-none absolute right-4 top-4 h-[110px] w-[70px] rotate-[9deg] md:-right-1 md:-top-14 md:h-[220px] md:w-[140px]">
             <Image
               src="/images/heronad-plus.png.png"
               alt=""
@@ -138,7 +138,7 @@ export function FAQSection() {
           </div>
 
           <div className="grid gap-7 pr-0 md:grid-cols-[minmax(0,1fr)_minmax(360px,32%)] md:items-center md:pr-28 lg:pr-40">
-            <div>
+            <div className="pr-20 md:pr-0">
               <h4 className="text-[22px] font-extrabold leading-tight text-black md:text-[24px]">
                 Research updates from Origin
               </h4>
