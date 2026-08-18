@@ -80,7 +80,16 @@ export function Hero() {
                     fill
                     priority
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-contain object-[30%_55%] scale-[0.88] md:scale-100"
+                    className="hidden object-contain object-[30%_55%] scale-[0.88] md:block md:scale-100"
+                  />
+                  <Image
+                    src="/images/WhatsApp Image 2026-08-18 at 11.55.17 AM (1).jpeg"
+                    alt="Origin Peptides MOTS-C, NAD+, and GHK-CU products"
+                    fill
+                    priority
+                    unoptimized
+                    sizes="100vw"
+                    className="object-contain md:hidden"
                   />
                 </div>
               </motion.div>
