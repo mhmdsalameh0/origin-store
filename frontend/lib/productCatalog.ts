@@ -32,7 +32,7 @@ export const catalogProducts: CatalogProduct[] = [
     accent: "#1289d9",
     imageClassName: "h-[285px]",
     description: "A premium research peptide supplied for neuro research use with Origin documentation standards.",
-    dosageOptions: ["10 MG", "20 MG"],
+    dosageOptions: ["10 MG"],
     sku: "TB-5",
     additionalInformation: {
       Purity: "99%+",
@@ -76,7 +76,7 @@ export const catalogProducts: CatalogProduct[] = [
     accent: "#087936",
     imageClassName: "h-[285px]",
     description: "A precisely formulated research compound for circadian research applications.",
-    dosageOptions: ["10 MG", "20 MG"],
+    dosageOptions: ["10 MG"],
     sku: "MOTS-10",
     additionalInformation: {
       Purity: "99%+",
@@ -98,7 +98,7 @@ export const catalogProducts: CatalogProduct[] = [
     accent: "#df1f2d",
     imageClassName: "h-[285px]",
     description: "A documented research peptide option prepared for dermal research protocols.",
-    dosageOptions: ["10 MG", "20 MG"],
+    dosageOptions: ["10 MG"],
     sku: "RETA-10",
     additionalInformation: {
       Purity: "99%+",
