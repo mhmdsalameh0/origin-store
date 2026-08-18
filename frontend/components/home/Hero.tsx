@@ -31,7 +31,7 @@ export function Hero() {
 
   return (
     <section className="relative mb-0 overflow-hidden bg-white pb-0 pt-[83px] text-[#020711]">
-      <div className="mb-0 h-auto overflow-hidden border-0 bg-white pb-0 md:h-[560px]">
+      <div className="mb-0 h-auto overflow-hidden border-0 bg-[linear-gradient(160deg,#ffffff_0%,#dbe8ff_100%)] pb-0 md:h-[560px] md:bg-white">
         <motion.div
           className="relative z-0 flex w-full flex-col overflow-hidden md:h-full md:flex-row"
           onMouseMove={handleMediaPointerMove}

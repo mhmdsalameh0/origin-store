@@ -166,22 +166,22 @@ export function ProductBenefits({ variant }: { variant: "dark" | "light" }) {
             <div className="mt-12 grid items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3">
             {benefits.map((benefit) => (
               <div
-                className="group flex h-full min-h-[230px] flex-col overflow-hidden rounded-[20px] border border-white/70 bg-white/75 shadow-[0_18px_44px_rgba(44,35,71,.08)] backdrop-blur transition duration-300 motion-safe:hover:-translate-y-1.5 hover:border-[#d9ccff] hover:shadow-[0_24px_58px_rgba(91,66,134,.14)]"
+                className="group flex h-full min-h-[170px] flex-col overflow-hidden rounded-[20px] border border-white/70 bg-white/75 shadow-[0_18px_44px_rgba(44,35,71,.08)] backdrop-blur transition duration-300 motion-safe:hover:-translate-y-1.5 hover:border-[#d9ccff] hover:shadow-[0_24px_58px_rgba(91,66,134,.14)]"
                 key={benefit.title}
               >
                 <div className="h-[3px] w-full" style={{ backgroundColor: benefit.accent }} />
-                <div className="flex flex-1 flex-col p-8">
+                <div className="flex flex-1 flex-col p-5">
                 <div
-                  className="grid size-14 place-items-center rounded-[16px] transition duration-300 motion-safe:group-hover:scale-105"
+                  className="grid size-11 place-items-center rounded-[14px] transition duration-300 motion-safe:group-hover:scale-105"
                   style={{
                     background: `linear-gradient(135deg, ${benefit.tintA}, ${benefit.tintB})`,
                     color: benefit.accent
                   }}
                 >
-                  <benefit.icon size={22} strokeWidth={2.1} />
+                  <benefit.icon size={19} strokeWidth={2.1} />
                 </div>
-                <h3 className="mt-7 text-[20px] font-extrabold leading-tight tracking-[-.02em] text-[#07111f]">{benefit.title}</h3>
-                <p className="mt-4 text-[15px] font-medium leading-7 text-[#697386]">{benefit.copy}</p>
+                <h3 className="mt-4 text-[18px] font-extrabold leading-tight tracking-[-.02em] text-[#07111f]">{benefit.title}</h3>
+                <p className="mt-2 text-[14px] font-medium leading-6 text-[#697386]">{benefit.copy}</p>
                 </div>
               </div>
             ))}

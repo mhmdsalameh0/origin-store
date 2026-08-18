@@ -1,4 +1,17 @@
 import Image from "next/image";
+import Link from "next/link";
+
+const usefulLinks = [
+  { label: "Products", href: "/products" },
+  { label: "About", href: "/about" },
+  { label: "Contact us", href: "/contact" }
+];
+
+const featuredProducts = [
+  { label: "BPC-157", href: "/products/bpc-157" },
+  { label: "TB-500", href: "/products/tb-500" },
+  { label: "GHK-CU", href: "/products/ghk-cu" }
+];
 
 export function Footer() {
   const linkClass =
@@ -12,13 +25,13 @@ export function Footer() {
         <div className="grid gap-9 sm:grid-cols-2 lg:grid-cols-[1.22fr_0.7fr_0.82fr_1fr] lg:gap-16">
           <div>
             <div className="flex items-center gap-3.5">
-              <span className="relative block h-[46px] w-[168px] rounded-[14px] bg-white px-3 py-2 shadow-[0_8px_28px_rgba(255,255,255,.08)]">
+              <span className="relative block h-[64px] w-[220px] rounded-[14px] bg-white p-1.5 shadow-[0_8px_28px_rgba(255,255,255,.08)]">
                 <Image
                   src="/images/ChatGPT-Image-Jul-26-2026-02_19_38-AM-1-768x358.png"
                   alt="Origin Peptides"
                   fill
-                  sizes="168px"
-                  className="object-contain object-left px-3 py-2"
+                  sizes="220px"
+                  className="object-contain object-center"
                 />
               </span>
             </div>
@@ -30,23 +43,23 @@ export function Footer() {
           <div>
             <h3 className="text-[12px] font-extrabold uppercase tracking-[0.22em] text-[#dbcaff]">Useful Links</h3>
             <nav className="mt-5 grid gap-4">
-              {["Products", "About", "Contact us"].map((item) => (
-                <button className={linkClass} key={item} type="button">
-                  {item}
+              {usefulLinks.map((item) => (
+                <Link className={linkClass} href={item.href} key={item.label}>
+                  {item.label}
                   <span className="absolute -bottom-1 left-0 h-px w-0 bg-[#a978ff] transition-all duration-300 group-hover:w-full" />
-                </button>
+                </Link>
               ))}
             </nav>
           </div>
 
           <div>
-            <h3 className="text-[12px] font-extrabold uppercase tracking-[0.22em] text-[#dbcaff]">Legal</h3>
+            <h3 className="text-[12px] font-extrabold uppercase tracking-[0.22em] text-[#dbcaff]">Our Products</h3>
             <nav className="mt-5 grid gap-4">
-              {["Privacy Policy", "Terms of Service", "Shipping Policy", "Refund Policy"].map((item) => (
-                <button className={linkClass} key={item} type="button">
-                  {item}
+              {featuredProducts.map((item) => (
+                <Link className={linkClass} href={item.href} key={item.label}>
+                  {item.label}
                   <span className="absolute -bottom-1 left-0 h-px w-0 bg-[#a978ff] transition-all duration-300 group-hover:w-full" />
-                </button>
+                </Link>
               ))}
             </nav>
           </div>
