@@ -1,10 +1,10 @@
 "use client";
 
+import { useCart } from "@/components/cart/CartProvider";
 import { catalogProducts } from "@/lib/productCatalog";
 import { LayoutGroup, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { TouchEvent, useCallback, useEffect, useRef, useState } from "react";
 import { SectionReveal } from "./SectionReveal";
 
@@ -23,8 +23,21 @@ function getShowcaseImage(product: (typeof products)[number]) {
 }
 
 function MobileProductCard({ product }: { product: (typeof products)[number] }) {
+  const { addItem, openDrawer } = useCart();
   const isRetatrutide = product.name === "Retatrutide";
   const imageSrc = getShowcaseImage(product);
+  const handleAddToCart = () => {
+    addItem({
+      productId: product.id,
+      slug: product.slug,
+      name: product.displayName,
+      image: product.image,
+      dosage: product.dosageOptions[0] ?? product.dose,
+      price: product.priceCents,
+      quantity: 1
+    });
+    openDrawer();
+  };
 
   return (
     <article className="flex h-full flex-col items-center bg-white text-center">
@@ -52,22 +65,35 @@ function MobileProductCard({ product }: { product: (typeof products)[number] }) 
           {product.category}
         </p>
         <p className="mt-4 font-sans text-[28px] font-semibold leading-none text-[#29313c]">{product.price}</p>
-        <Link
-          href={`/products/${product.slug}`}
-          scroll
+        <button
+          type="button"
+          onClick={handleAddToCart}
           className="mt-5 flex min-h-11 w-[78%] items-center justify-center gap-1.5 rounded-full bg-[#202329] px-5 font-sans text-[15px] font-semibold normal-case tracking-normal text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_8px_18px_rgba(15,23,42,.14)] transition-colors duration-300 hover:bg-[#0f1115]"
         >
           <ShoppingCart size={14} strokeWidth={2} />
-          <span>View Product</span>
-        </Link>
+          <span>Add to Cart</span>
+        </button>
       </div>
     </article>
   );
 }
 
 function ProductCard({ product }: { product: (typeof products)[number] }) {
+  const { addItem, openDrawer } = useCart();
   const isRetatrutide = product.name === "Retatrutide";
   const imageSrc = getShowcaseImage(product);
+  const handleAddToCart = () => {
+    addItem({
+      productId: product.id,
+      slug: product.slug,
+      name: product.displayName,
+      image: product.image,
+      dosage: product.dosageOptions[0] ?? product.dose,
+      price: product.priceCents,
+      quantity: 1
+    });
+    openDrawer();
+  };
 
   return (
     <motion.article
@@ -101,14 +127,14 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
           {product.category}
         </p>
         <p className="self-start font-sans text-[29px] font-semibold leading-none text-[#29313c]">{product.price}</p>
-        <Link
-          href={`/products/${product.slug}`}
-          scroll
+        <button
+          type="button"
+          onClick={handleAddToCart}
           className="flex min-h-11 w-[218px] items-center justify-center gap-1.5 self-start rounded-full bg-[#202329] px-5 font-sans text-[15px] font-semibold normal-case tracking-normal text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_8px_18px_rgba(15,23,42,.14)] transition-colors duration-300 hover:bg-[#0f1115] md:text-[12px]"
         >
           <ShoppingCart size={14} strokeWidth={2} />
-          <span>View Product</span>
-        </Link>
+          <span>Add to Cart</span>
+        </button>
       </div>
     </motion.article>
   );

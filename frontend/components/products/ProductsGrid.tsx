@@ -1,7 +1,8 @@
 "use client";
 
+import { useCart } from "@/components/cart/CartProvider";
 import { CatalogProduct } from "@/lib/productCatalog";
-import { ArrowRight, Check, ShoppingCart } from "lucide-react";
+import { Check, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
@@ -20,8 +21,21 @@ const sortOptions = [
 type SortOption = (typeof sortOptions)[number];
 
 function ProductGridCard({ product }: { product: CatalogProduct }) {
+  const { addItem, openDrawer } = useCart();
   const isRetatrutide = product.name === "Retatrutide";
   const productHref = `/products/${product.slug}`;
+  const handleAddToCart = () => {
+    addItem({
+      productId: product.id,
+      slug: product.slug,
+      name: product.displayName,
+      image: product.image,
+      dosage: product.dosageOptions[0] ?? product.dose,
+      price: product.priceCents,
+      quantity: 1
+    });
+    openDrawer();
+  };
 
   return (
     <article className="group flex h-full flex-col items-center rounded-[18px] border border-[#e2def1] bg-white/88 px-5 py-7 text-center shadow-[0_18px_48px_rgba(36,31,57,.055)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_62px_rgba(36,31,57,.09)]">
@@ -51,15 +65,14 @@ function ProductGridCard({ product }: { product: CatalogProduct }) {
           {product.category}
         </p>
         <p className="self-start font-sans text-[32px] font-semibold leading-none text-[#202329]">{product.price}</p>
-        <Link
-          href={productHref}
-          scroll
+        <button
+          type="button"
+          onClick={handleAddToCart}
           className="flex h-12 w-full items-center justify-center gap-3 self-start rounded-[14px] bg-[linear-gradient(180deg,#262b34,#12161d)] px-5 font-sans text-[16px] font-bold normal-case tracking-normal text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_10px_22px_rgba(15,23,42,.16)] transition duration-300 hover:bg-[#0f1115] hover:brightness-110"
         >
           <ShoppingCart size={19} strokeWidth={2} />
-          <span>View Product</span>
-          <ArrowRight size={18} strokeWidth={2} />
-        </Link>
+          <span>Add to Cart</span>
+        </button>
       </div>
     </article>
   );
