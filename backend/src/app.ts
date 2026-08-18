@@ -12,7 +12,8 @@ const productionOrigins = (process.env.FRONTEND_ORIGIN ?? "")
   .map((origin) => origin.trim())
   .filter(Boolean);
 const localOrigin = process.env.NODE_ENV === "production" ? undefined : "http://localhost:3000";
-const allowedOrigins = new Set([...productionOrigins, ...(localOrigin ? [localOrigin] : [])]);
+const knownProductionOrigins = ["https://www.originrestored.com", "https://originrestored.com"];
+const allowedOrigins = new Set([...productionOrigins, ...knownProductionOrigins, ...(localOrigin ? [localOrigin] : [])]);
 const previewOriginPattern = /^https:\/\/origin-store-frontend(?:-[a-z0-9-]+)*\.vercel\.app$/i;
 
 function isAllowedOrigin(origin: string) {
