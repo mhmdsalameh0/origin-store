@@ -54,7 +54,7 @@ export const catalogProducts: CatalogProduct[] = [
     accent: "#6f46b8",
     imageClassName: "h-[285px]",
     description: "A high-purity research peptide presented with clear documentation for cellular research workflows.",
-    dosageOptions: ["10 MG", "20 MG"],
+    dosageOptions: ["10 MG"],
     sku: "GHK-CU-50",
     additionalInformation: {
       Purity: "99%+",

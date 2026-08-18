@@ -20,6 +20,7 @@ const resourceCards = [
   {
     title: "Support You Can Count On",
     icon: Search,
+    action: { label: "Contact", href: "/contact" },
     className: "md:col-span-1 lg:col-span-1"
   },
   {
@@ -32,6 +33,7 @@ const resourceCards = [
   {
     title: "Supporting Research Across Canada",
     icon: Timer,
+    action: { label: "Contact", href: "/contact" },
     className: "md:col-span-1 lg:col-span-1"
   },
   {
