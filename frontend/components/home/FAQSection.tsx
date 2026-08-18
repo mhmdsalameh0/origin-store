@@ -107,7 +107,7 @@ export function FAQSection() {
               confidence
               <motion.span
                 aria-hidden="true"
-                className="absolute -bottom-1 left-0 h-[4px] w-full origin-left rounded-full bg-[#86df96]"
+                className="absolute -bottom-1 left-0 h-[4px] w-full origin-left rounded-full bg-[linear-gradient(90deg,#d4e157_0%,#8bd450_40%,#3fc98a_100%)]"
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true, margin: "-40px" }}
