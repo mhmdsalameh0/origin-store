@@ -137,7 +137,7 @@ export function ProductBenefits({ variant }: { variant: "dark" | "light" }) {
               </div>
             </div>
 
-            <div className="relative min-h-[500px] overflow-hidden bg-[#e9edf3]">
+            <div className="relative min-h-[500px] overflow-hidden rounded-[18px] bg-[#e9edf3]">
               <Image
                 src="/images/tb500.png"
                 alt="TB-500 Origin Peptides bottle"
