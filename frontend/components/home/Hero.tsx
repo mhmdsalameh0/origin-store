@@ -31,12 +31,17 @@ export function Hero() {
 
   return (
     <section className="relative mb-0 overflow-hidden bg-white pb-0 pt-[83px] text-[#020711]">
-      <div className="mb-0 h-auto overflow-hidden border-0 bg-[#eef1f7] pb-0 md:h-[424px] md:bg-white">
+      <div className="mb-0 h-auto overflow-hidden border-0 bg-white pb-0 md:h-[560px]">
         <motion.div
           className="relative z-0 flex w-full flex-col overflow-hidden md:h-full md:flex-row"
           onMouseMove={handleMediaPointerMove}
           onMouseLeave={resetParallax}
         >
+          <div className="pointer-events-none absolute inset-0 z-0 hidden md:flex">
+            <div className="w-1/2 bg-white" />
+            <div className="w-1/2 bg-[linear-gradient(135deg,#eef1ff_0%,#dbe8ff_100%)]" />
+          </div>
+          <div className="pointer-events-none absolute inset-y-0 left-1/2 z-10 hidden w-px -translate-x-1/2 bg-[#020711]/10 md:block" />
           {!shouldReduceMotion ? (
             <motion.div
               className="pointer-events-none absolute inset-y-0 z-20 w-1/3 bg-[linear-gradient(100deg,transparent_0%,rgba(255,255,255,0.42)_48%,transparent_100%)] blur-sm"
@@ -46,7 +51,7 @@ export function Hero() {
             />
           ) : null}
           <motion.div
-            className="relative z-0 h-[240px] w-full origin-center md:order-2 md:h-full md:w-1/2"
+            className="relative z-20 h-[240px] w-full origin-center md:order-2 md:h-full md:w-[56%] md:-ml-[16%]"
             style={shouldReduceMotion ? undefined : { x: parallaxX, y: parallaxY }}
           >
             <motion.div
@@ -68,15 +73,14 @@ export function Hero() {
                     : { duration: 6.5, ease: "easeInOut", repeat: Infinity, repeatType: "loop", delay: 1.1 }
                 }
               >
-                <div className="relative h-full w-full overflow-hidden bg-white" aria-label="Origin Peptides MOTS-C, TB-500, GHK-CU, and NAD+ products">
-                  <div className="absolute inset-0 bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_18%,#eef1ff_56%,#dfeeff_100%)]" />
+                <div className="relative h-full w-full overflow-hidden" aria-label="Origin Peptides MOTS-C, TB-500, GHK-CU, and NAD+ products">
                   <Image
                     src="/images/hero-origin-amino-composite-overlap-preview.png"
                     alt="Origin Peptides MOTS-C, TB-500, NAD+, and GHK-CU products"
                     fill
                     priority
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-contain object-[58%_58%] scale-[0.88] md:scale-[0.84]"
+                    className="object-contain object-[30%_55%] scale-[0.88] md:scale-100"
                   />
                 </div>
               </motion.div>
