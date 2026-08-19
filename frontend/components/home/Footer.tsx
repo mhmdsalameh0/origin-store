@@ -7,10 +7,11 @@ const usefulLinks = [
   { label: "Contact us", href: "/contact" }
 ];
 
-const featuredProducts = [
-  { label: "BPC-157", href: "/products/bpc-157" },
-  { label: "TB-500", href: "/products/tb-500" },
-  { label: "GHK-CU", href: "/products/ghk-cu" }
+const legalLinks = [
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms of Service", href: "/terms-of-service" },
+  { label: "Shipping Policy", href: "/shipping-policy" },
+  { label: "Refund and Returns Policy", href: "/refund-and-returns-policy" }
 ];
 
 export function Footer() {
@@ -22,7 +23,7 @@ export function Footer() {
       <div className="pointer-events-none absolute right-[12%] top-8 size-[220px] rounded-full bg-[#8b55ff]/10 blur-3xl" />
 
       <div className="relative mx-auto max-w-[1280px]">
-        <div className="grid gap-9 sm:grid-cols-2 lg:grid-cols-[1.22fr_0.7fr_0.82fr_1fr] lg:gap-16">
+        <div className="grid gap-9 sm:grid-cols-2 lg:grid-cols-[1.22fr_0.7fr_0.95fr_1fr] lg:gap-16">
           <div>
             <div className="flex items-center gap-3.5">
               <span className="relative block h-[64px] w-[220px] rounded-[14px] bg-white p-1.5 shadow-[0_8px_28px_rgba(255,255,255,.08)]">
@@ -53,9 +54,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-[12px] font-extrabold uppercase tracking-[0.22em] text-[#dbcaff]">Our Products</h3>
+            <h3 className="text-[12px] font-extrabold uppercase tracking-[0.22em] text-[#dbcaff]">Legal</h3>
             <nav className="mt-5 grid gap-4">
-              {featuredProducts.map((item) => (
+              {legalLinks.map((item) => (
                 <Link className={linkClass} href={item.href} key={item.label}>
                   {item.label}
                   <span className="absolute -bottom-1 left-0 h-px w-0 bg-[#a978ff] transition-all duration-300 group-hover:w-full" />
@@ -90,14 +91,6 @@ export function Footer() {
 
         <div className="mt-9 flex flex-col gap-4 border-t border-white/10 pt-6 md:flex-row md:items-center md:justify-between">
           <p className="text-[12px] font-bold text-white/58">© 2026 Origin Peptides. All rights reserved</p>
-          <div className="flex gap-5">
-            {["Privacy Policy", "Terms of Service"].map((item) => (
-              <button className={linkClass} key={item} type="button">
-                {item}
-                <span className="absolute -bottom-1 left-0 h-px w-0 bg-[#a978ff] transition-all duration-300 group-hover:w-full" />
-              </button>
-            ))}
-          </div>
         </div>
       </div>
     </footer>

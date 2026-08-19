@@ -42,7 +42,7 @@ export function QualitySection() {
   return (
     <SectionReveal className="relative z-10 mt-0 bg-white text-origin-ink" reveal={false}>
       <div className="grid gap-0 [column-gap:0] md:grid-cols-[50%_50%]">
-        <div className="relative order-1 px-5 py-8 md:order-2 md:px-9 md:py-8 lg:px-10">
+        <div className="relative order-1 px-5 pb-8 pt-5 md:order-2 md:px-9 md:py-8 lg:px-10">
           <h2 className="text-[clamp(2rem,5vw,2.75rem)] font-extrabold leading-[1.05] tracking-[-.03em] text-black md:text-[31px] md:tracking-normal">Our Commitment to Quality</h2>
           <p className="mt-4 max-w-[650px] text-[16px] leading-8 text-[#666]">
             Quality you can rely on, supported by rigorous testing and carefully reviewed to meet our established purity standards.
@@ -71,7 +71,7 @@ export function QualitySection() {
         </div>
         <div className="relative order-2 mt-10 min-h-[330px] overflow-hidden md:order-1 md:mt-0 md:min-h-[420px]">
           <Image
-            src="/images/quality-tb500-22.png"
+            src="/images/cvs.png"
             alt="Origin TB-500 peptide vial"
             fill
             sizes="(max-width: 768px) 100vw, 50vw"

@@ -220,7 +220,7 @@ export function Header() {
                       <Link
                         href={item.href}
                         onClick={closeMenu}
-                        className="group relative inline-flex min-h-10 items-center text-left font-serif text-[25px] font-bold leading-none text-[#101d31] transition hover:text-[#8055bd] focus:outline-none focus:ring-2 focus:ring-[#8055bd]"
+                        className="group relative inline-flex min-h-10 items-center text-left text-[25px] font-bold leading-none text-[#101d31] transition hover:text-[#8055bd] focus:outline-none focus:ring-2 focus:ring-[#8055bd]"
                       >
                         <span className="min-w-0">
                           {item.label}

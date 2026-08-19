@@ -2,7 +2,7 @@ export const fallbackProducts = [
   {
     id: "fallback-pre",
     slug: "ghk-cu-50",
-    name: "GHK-CU 50 MG",
+    name: "GHK-5MG",
     category: "Cellular Research",
     description: "Original placeholder research compound card for the Home product strip.",
     priceCents: 2066,
@@ -14,7 +14,7 @@ export const fallbackProducts = [
   {
     id: "fallback-protein",
     slug: "mots-10",
-    name: "Mots - MOTS-10",
+    name: "MOTS-10MG",
     category: "Circadian Research",
     description: "Original placeholder research compound card for the Home product strip.",
     priceCents: 2066,
@@ -26,7 +26,7 @@ export const fallbackProducts = [
   {
     id: "fallback-reta",
     slug: "reta-10",
-    name: "Reta - RT-10",
+    name: "RETA-10MG",
     category: "Dermal Research",
     description: "Original placeholder research compound card for the Home product strip.",
     priceCents: 2066,
@@ -38,7 +38,7 @@ export const fallbackProducts = [
   {
     id: "fallback-tb",
     slug: "tb-5",
-    name: "TB - TB-5",
+    name: "TB-5MG",
     category: "Neuro Research",
     description: "Original placeholder research compound card for the Home product strip.",
     priceCents: 2066,

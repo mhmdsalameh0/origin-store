@@ -1,4 +1,4 @@
-import { BadgeCheck, Boxes, CircleDollarSign, ClipboardCheck, FileText, FlaskConical, PackageCheck, ShieldCheck, UsersRound } from "lucide-react";
+import { BadgeCheck, Boxes, Check, ChevronRight, CircleDollarSign, ClipboardCheck, FileText, FlaskConical, PackageCheck, ShieldCheck, UsersRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { SectionReveal } from "./SectionReveal";
@@ -138,6 +138,15 @@ export function ProductBenefits({ variant }: { variant: "dark" | "light" }) {
             </div>
 
             <div className="relative min-h-[500px] overflow-hidden rounded-[18px] bg-[#e9edf3]">
+              <div className="absolute left-7 top-7 z-10 flex items-center gap-3 rounded-[14px] bg-white px-4 py-3 text-left shadow-[0_12px_30px_rgba(15,23,42,.1)] sm:left-10 sm:top-8">
+                <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[#bdf7d1] text-[#18a957]">
+                  <Check size={19} strokeWidth={2.5} />
+                </span>
+                <span>
+                  <span className="block whitespace-nowrap text-[14px] font-extrabold leading-none text-black">99%+ Purity</span>
+                  <span className="mt-2 block whitespace-nowrap text-[11px] font-medium leading-none text-[#697386]">Verified by HPLC</span>
+                </span>
+              </div>
               <Image
                 src="/images/tb500.png"
                 alt="TB-500 Origin Peptides bottle"
@@ -145,14 +154,20 @@ export function ProductBenefits({ variant }: { variant: "dark" | "light" }) {
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="object-contain object-center p-8"
               />
-              <Link href="/documentation" className="absolute bottom-8 left-1/2 z-10 flex w-[min(266px,calc(100%-32px))] -translate-x-1/2 cursor-pointer items-center gap-4 border border-[#dfe3e8] bg-white px-4 py-4 shadow-[0_8px_22px_rgba(29,36,25,.055)] focus:outline-none focus:ring-2 focus:ring-[#7650d8]">
-                <div className="grid size-11 place-items-center rounded border border-[#dfe3e8]">
-                  <FileText size={19} />
-                </div>
-                <div>
-                  <p className="text-[14px] font-bold leading-tight text-black">See the Proof</p>
-                  <p className="mt-2 text-[13px] text-[#263242]">View Our Quality Procedures</p>
-                </div>
+              <Link
+                href="/documentation"
+                className="absolute bottom-8 left-1/2 z-10 flex w-[min(520px,calc(100%-40px))] -translate-x-1/2 items-center gap-4 rounded-[8px] bg-white px-4 py-4 text-left shadow-[0_12px_30px_rgba(15,23,42,.1)] transition hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#202329]"
+              >
+                <span className="grid size-12 shrink-0 place-items-center rounded-[8px] border border-[#dfe3e8] bg-[#f8f9fb] text-[#111111]">
+                  <FileText size={20} strokeWidth={1.8} />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-[14px] font-extrabold leading-tight text-black">See the Proof</span>
+                  <span className="mt-2 block text-[12px] font-medium leading-tight text-[#697386]">View our quality procedures</span>
+                </span>
+                <span className="grid size-8 shrink-0 place-items-center rounded-full bg-[#f3f4f6] text-[#5d6674]">
+                  <ChevronRight size={17} strokeWidth={2} />
+                </span>
               </Link>
             </div>
           </div>

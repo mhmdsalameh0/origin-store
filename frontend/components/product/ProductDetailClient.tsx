@@ -85,8 +85,8 @@ export function ProductDetailClient({ product }: { product: CatalogProduct }) {
     <>
       <main className="bg-white font-sans text-origin-ink">
         <section className="mx-auto grid min-h-[calc(100vh-120px)] max-w-7xl gap-12 px-5 py-16 md:grid-cols-[0.95fr_1.05fr] md:items-start md:px-8 md:py-24">
-          <div className="relative grid min-h-[420px] place-items-center overflow-hidden rounded-[8px] bg-white p-5 md:min-h-[560px]">
-            <div className="relative h-[min(500px,72vw)] aspect-[2/3] max-h-[500px] overflow-hidden rounded-[8px] bg-white">
+          <div className="relative grid min-h-[460px] place-items-center overflow-hidden p-5 md:min-h-[640px]">
+            <div className="relative aspect-[1122/1235] w-[min(320px,76vw)] overflow-hidden md:w-[min(430px,82%)]">
               <Image
                 src={product.image}
                 alt={`${product.name} product`}
