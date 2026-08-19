@@ -212,7 +212,26 @@ export default function CheckoutPage() {
                 <h2 className="text-2xl font-bold text-black">Delivery</h2>
                 <div className="mt-4 grid gap-4 md:grid-cols-2">
                   <div className="md:col-span-2">
-                    <Field error={errors.country} label="Country/region" name="country" value={form.country} onChange={updateField} />
+                    <label className="grid gap-2 text-sm font-semibold text-[#202329]" htmlFor="checkout-country">
+                      Country/region
+                      <select
+                        id="checkout-country"
+                        name="country"
+                        value={form.country}
+                        onChange={(event) => updateField("country", event.target.value)}
+                        aria-invalid={Boolean(errors.country)}
+                        aria-describedby={errors.country ? "checkout-country-error" : undefined}
+                        className="h-12 rounded-[6px] border border-origin-line bg-white px-4 text-base font-normal outline-none transition focus:border-[#202329]"
+                      >
+                        <option value="United States">United States</option>
+                        <option value="Canada">Canada</option>
+                      </select>
+                      {errors.country ? (
+                        <span id="checkout-country-error" className="text-xs font-semibold text-[#c62828]">
+                          {errors.country}
+                        </span>
+                      ) : null}
+                    </label>
                   </div>
                   <Field error={errors.firstName} label="First name" name="firstName" value={form.firstName} onChange={updateField} />
                   <Field error={errors.lastName} label="Last name" name="lastName" value={form.lastName} onChange={updateField} />

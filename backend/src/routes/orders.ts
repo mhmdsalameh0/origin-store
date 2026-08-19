@@ -3,6 +3,7 @@ import { Router } from "express";
 import { prisma } from "../lib/prisma.js";
 
 const pendingPaymentStatus = "Pending Payment";
+const allowedShippingCountries = new Set(["United States", "Canada"]);
 
 type OrderItemInput = {
   productId?: unknown;
@@ -147,6 +148,7 @@ function validateOrderPayload(body: OrderRequestBody) {
   if (!lastName) errors.lastName = "Last name is required.";
   if (!phone) errors.phone = "Phone number is required.";
   if (!country) errors.country = "Country/region is required.";
+  else if (!allowedShippingCountries.has(country)) errors.country = "We currently ship to the United States and Canada only.";
   if (!address) errors.address = "Address is required.";
   if (!city) errors.city = "City is required.";
   if (!district) errors.district = "District/state is required.";

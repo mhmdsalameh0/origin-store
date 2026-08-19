@@ -83,7 +83,7 @@ export default function ContactPage() {
             </p>
 
             <Link
-              href="mailto:support@originpeptides.com"
+              href="mailto:support@originrestored.com"
               className="mt-7 inline-flex min-h-[46px] items-center justify-center gap-3 rounded-full bg-[#10131b] px-7 text-[14px] font-extrabold text-white shadow-[0_14px_36px_rgba(16,19,27,.18)] transition hover:bg-[#1b2435] focus:outline-none focus:ring-2 focus:ring-[#6d48c9] active:scale-[.98]"
             >
               <Mail size={17} strokeWidth={2} />
@@ -166,7 +166,7 @@ export default function ContactPage() {
                 products, documentation, orders, and research support.
               </p>
               <Link
-                href="mailto:support@originpeptides.com"
+                href="mailto:support@originrestored.com"
                 className="mt-6 inline-flex min-h-9 items-center justify-center gap-2 rounded-full bg-[#10131b] px-5 text-[11px] font-extrabold text-white transition hover:bg-[#1b2435] focus:outline-none focus:ring-2 focus:ring-[#6d48c9] active:scale-[.98]"
               >
                 <Mail size={13} strokeWidth={2} />
