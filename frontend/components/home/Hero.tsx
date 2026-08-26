@@ -66,7 +66,7 @@ export function Hero() {
           }
         }
       `}</style>
-      <div className="mb-0 h-auto overflow-hidden border-0 bg-[linear-gradient(90deg,#cfe0f8_0%,#c9dbf4_50%,#c6d9f3_100%)] pb-0 md:h-[560px] md:bg-white lg:h-auto lg:min-h-0 lg:py-0">
+      <div className="mb-0 h-auto overflow-hidden border-0 bg-[linear-gradient(90deg,#cddef5_0%,#d2e1f7_25%,#cddef5_50%,#d0e0f5_75%,#c6d8f2_100%)] pb-0 md:h-[560px] md:bg-white lg:h-auto lg:min-h-0 lg:py-0">
         <motion.div
           className="relative z-0 flex w-full flex-col overflow-hidden md:h-full md:flex-row lg:h-auto"
         >
@@ -142,6 +142,7 @@ export function Hero() {
               </div>
             </motion.div>
           </motion.div>
+          <div className="pointer-events-none absolute inset-x-0 top-[calc(56.25vw-32px)] z-20 h-24 bg-[linear-gradient(180deg,rgba(205,222,245,0)_0%,rgba(205,222,245,.74)_42%,rgba(205,222,245,1)_72%,rgba(205,222,245,0)_100%)] md:hidden" />
 
           <motion.div
             initial={{ opacity: 0, y: 28 }}

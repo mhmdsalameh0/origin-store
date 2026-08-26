@@ -2,6 +2,7 @@
 
 import { Footer } from "@/components/home/Footer";
 import { Header } from "@/components/home/Header";
+import { ResearchUseBadge } from "@/components/home/ResearchUseBadge";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowDown, ChevronDown, Mail } from "lucide-react";
 import Image from "next/image";
@@ -90,6 +91,7 @@ export default function ContactPage() {
               Email Us
               <span aria-hidden="true">&rarr;</span>
             </Link>
+            <ResearchUseBadge />
 
             <a
               href="#support-faq"
