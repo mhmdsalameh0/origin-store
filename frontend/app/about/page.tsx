@@ -26,9 +26,14 @@ export default function AboutPage() {
           />
           <div className="absolute inset-0 bg-black/48" />
           <div className="relative z-10 grid min-h-[440px] place-items-center px-6 text-center md:min-h-[520px]">
-            <h1 className="text-[44px] font-extrabold leading-none text-white drop-shadow-[0_8px_28px_rgba(0,0,0,.36)] md:text-[64px]">
-              About Us
-            </h1>
+            <div>
+              <h1 className="text-[44px] font-extrabold leading-none text-white drop-shadow-[0_8px_28px_rgba(0,0,0,.36)] md:text-[64px]">
+                About Us
+              </h1>
+              <p className="mt-4 text-[13px] font-extrabold uppercase tracking-[0.22em] text-white/88 drop-shadow-[0_6px_18px_rgba(0,0,0,.32)] md:text-[15px]">
+                For Research Use Only
+              </p>
+            </div>
           </div>
         </section>
 
@@ -71,11 +76,11 @@ export default function AboutPage() {
             <div className="flex min-w-0 justify-center xl:justify-end">
               <div className="relative mt-7 aspect-[4/3] w-full overflow-hidden rounded-[18px] border border-[#dfe3eb] bg-[#f7f8fb] md:mt-0 md:h-[320px] md:max-w-[500px] lg:h-[340px]">
                 <Image
-                  src="/images/about-origin-vials-closeup.png"
+                  src="/images/sellele.png"
                   alt="Origin Peptides research vials in a laboratory"
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 500px, 500px"
-                  className="object-cover object-center"
+                  className="object-contain object-center"
                 />
               </div>
             </div>
@@ -119,11 +124,11 @@ export default function AboutPage() {
             <div className="grid gap-9 lg:grid-cols-[minmax(0,52%)_minmax(0,48%)] lg:items-center lg:gap-16">
               <div className="relative order-2 min-h-[280px] overflow-hidden rounded-[18px] bg-[#111827] shadow-[0_28px_70px_rgba(0,0,0,.26)] md:min-h-[390px] lg:order-1">
                 <Image
-                  src="/images/quality-tb500-22.png"
+                  src="/images/sellele.png"
                   alt="Origin Peptides research vials on a laboratory counter"
                   fill
                   sizes="(max-width: 1024px) 100vw, 670px"
-                  className="object-cover object-center"
+                  className="object-contain object-center"
                 />
               </div>
 
@@ -155,7 +160,7 @@ export default function AboutPage() {
               <div className="absolute -bottom-6 -left-5 h-[78%] w-[78%] rounded-[24px] bg-[#d7c5ff]/55" aria-hidden="true" />
               <div className="relative aspect-[4/3] overflow-hidden rounded-[18px] bg-[#f7f4ff] shadow-[0_24px_70px_rgba(35,28,54,.12)]">
                 <Image
-                  src="/images/ChatGPT Image Aug 16, 2026, 01_30_49 AM.png"
+                  src="/images/sellele.png"
                   alt="Origin Peptides product vials and packaging"
                   fill
                   sizes="(max-width: 1024px) 100vw, 660px"

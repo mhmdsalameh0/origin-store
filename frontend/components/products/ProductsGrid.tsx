@@ -1,7 +1,7 @@
 "use client";
 
 import { CatalogProduct } from "@/lib/productCatalog";
-import { ArrowRight, Check, ShoppingCart } from "lucide-react";
+import { Check, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
@@ -22,6 +22,7 @@ type SortOption = (typeof sortOptions)[number];
 function ProductGridCard({ product }: { product: CatalogProduct }) {
   const isRetatrutide = product.name === "Retatrutide";
   const productHref = `/products/${product.slug}`;
+  const detailsHref = `${productHref}?tab=coa`;
 
   return (
     <article className="group relative flex h-full flex-col items-center rounded-[18px] border border-[#e2def1] bg-white/88 px-5 py-7 text-center shadow-[0_18px_48px_rgba(36,31,57,.055)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_62px_rgba(36,31,57,.09)]">
@@ -37,7 +38,7 @@ function ProductGridCard({ product }: { product: CatalogProduct }) {
         </span>
       </Link>
 
-      <div className="mt-5 grid w-full grid-rows-[3px_40px_34px_44px_48px] justify-items-center gap-y-4">
+      <div className="mt-5 grid w-full grid-rows-[3px_40px_34px_18px_44px_48px] justify-items-center gap-y-4">
         <div className="h-[3px] w-[112px] self-start justify-self-center" style={{ backgroundColor: product.accent }} />
         <Link
           className={`flex min-h-[42px] items-start justify-center whitespace-nowrap font-sans font-bold uppercase leading-none tracking-normal text-[#111111] transition hover:text-[#202329] ${
@@ -50,16 +51,27 @@ function ProductGridCard({ product }: { product: CatalogProduct }) {
         <p className="flex min-h-10 items-start justify-center whitespace-nowrap font-sans text-[16px] font-normal normal-case leading-none tracking-normal text-[#697386]">
           {product.category}
         </p>
+        <p className="inline-flex items-center gap-1 rounded-full border border-[#e0e8f0] bg-white px-2 py-0.5 text-[6.8px] font-extrabold uppercase leading-none tracking-[0.14em] text-[#526074] shadow-[0_5px_12px_rgba(15,23,42,.03)]">
+          <span className="size-[2.5px] rounded-full bg-origin-green shadow-[0_0_0_2px_rgba(111,125,82,.12)]" aria-hidden="true" />
+          For Research Use Only
+        </p>
         <p className="self-start font-sans text-[32px] font-semibold leading-none text-[#202329]">{product.price}</p>
-        <Link
-          href={productHref}
-          scroll
-          className="flex h-12 w-full items-center justify-center gap-3 self-start rounded-[14px] bg-[linear-gradient(180deg,#262b34,#12161d)] px-5 font-sans text-[16px] font-bold normal-case tracking-normal text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_10px_22px_rgba(15,23,42,.16)] transition duration-300 hover:bg-[#0f1115] hover:brightness-110"
-        >
-          <ShoppingCart size={19} strokeWidth={2} />
-          <span>Add to Cart</span>
-          <ArrowRight size={18} strokeWidth={2} />
-        </Link>
+        <div className="grid h-12 w-full grid-cols-2 gap-3 self-start">
+          <Link
+            href={detailsHref}
+            scroll
+            className="grid h-12 place-items-center rounded-[14px] border border-[#d8dde6] bg-white px-5 font-sans text-[14px] font-bold normal-case tracking-normal text-[#202329] transition hover:border-[#202329] hover:bg-slate-50"
+          >
+            Details
+          </Link>
+          <Link
+            href={productHref}
+            className="flex h-12 items-center justify-center gap-2 rounded-[14px] bg-[linear-gradient(180deg,#262b34,#12161d)] px-3 font-sans text-[14px] font-bold normal-case tracking-normal text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_10px_22px_rgba(15,23,42,.16)] transition duration-300 hover:bg-[#0f1115] hover:brightness-110"
+          >
+            <Plus size={16} strokeWidth={2.4} />
+            Add to cart
+          </Link>
+        </div>
       </div>
     </article>
   );

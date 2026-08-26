@@ -3,6 +3,7 @@ import { Header } from "@/components/home/Header";
 import { ProductDetailClient } from "@/components/product/ProductDetailClient";
 import { getProductBySlug, productsPageProducts } from "@/lib/productCatalog";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
@@ -39,7 +40,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
   return (
     <>
       <Header />
-      <ProductDetailClient product={product} />
+      <Suspense fallback={null}>
+        <ProductDetailClient product={product} />
+      </Suspense>
       <Footer />
     </>
   );

@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { TouchEvent, useCallback, useEffect, useRef, useState } from "react";
+import { ResearchUseBadge } from "./ResearchUseBadge";
 import { SectionReveal } from "./SectionReveal";
 
 const carouselTransition = { duration: 0.68, ease: "easeInOut" } as const;
@@ -51,6 +52,7 @@ function MobileProductCard({ product }: { product: (typeof products)[number] }) 
         <p className="mt-2 flex max-w-full items-start justify-center text-center font-sans text-[14px] font-normal normal-case leading-tight tracking-normal text-[#1f2933]">
           {product.category}
         </p>
+        <ResearchUseBadge />
         <p className="mt-4 font-sans text-[28px] font-semibold leading-none text-[#29313c]">{product.price}</p>
         <Link
           href={`/products/${product.slug}`}
@@ -88,7 +90,7 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
         </div>
       </div>
 
-      <div className="mt-4 grid w-full grid-rows-[3px_40px_34px_40px_44px] justify-items-center gap-y-3 px-5 pb-3">
+      <div className="mt-4 grid w-full grid-rows-[3px_40px_58px_40px_44px] justify-items-center gap-y-3 px-5 pb-3">
         <div className="h-[3px] w-[112px] self-start justify-self-center" style={{ backgroundColor: product.accent }} />
         <h3
           className={`flex min-h-[42px] items-start justify-center whitespace-nowrap font-sans font-bold uppercase leading-none tracking-normal text-[#111111] ${
@@ -97,9 +99,12 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
         >
           {product.displayName}
         </h3>
-        <p className="flex min-h-10 max-w-full items-start justify-center text-center font-sans text-[15px] font-normal normal-case leading-tight tracking-normal text-[#1f2933] md:text-[13px]">
-          {product.category}
-        </p>
+        <div className="flex min-h-[58px] flex-col items-center justify-start">
+          <p className="flex max-w-full items-start justify-center text-center font-sans text-[15px] font-normal normal-case leading-tight tracking-normal text-[#1f2933] md:text-[13px]">
+            {product.category}
+          </p>
+          <ResearchUseBadge />
+        </div>
         <p className="self-start font-sans text-[29px] font-semibold leading-none text-[#29313c]">{product.price}</p>
         <Link
           href={`/products/${product.slug}`}

@@ -58,6 +58,10 @@ export function CartDrawer() {
                   Cart
                 </h2>
                 <p className="mt-1 text-sm text-origin-muted">Review your selected research products.</p>
+                <p className="mt-2 inline-flex items-center gap-1 rounded-full border border-[#e0e8f0] bg-white px-2 py-0.5 text-[6.8px] font-extrabold uppercase leading-none tracking-[0.14em] text-[#526074] shadow-[0_5px_12px_rgba(15,23,42,.03)]">
+                  <span className="size-[2.5px] rounded-full bg-origin-green shadow-[0_0_0_2px_rgba(111,125,82,.12)]" aria-hidden="true" />
+                  For Research Use Only
+                </p>
               </div>
               <button ref={closeButtonRef} className="grid size-10 place-items-center rounded-full hover:bg-slate-100" onClick={closeDrawer} aria-label="Close cart">
                 <X size={22} />

@@ -10,7 +10,7 @@ const usefulLinks = [
 const legalLinks = [
   { label: "Privacy Policy", href: "/privacy-policy" },
   { label: "Terms of Service", href: "/terms-of-service" },
-  { label: "Shipping Policy", href: "/shipping-policy" },
+  { label: "Disclaimer", href: "/disclaimer" },
   { label: "Refund and Returns Policy", href: "/refund-and-returns-policy" }
 ];
 

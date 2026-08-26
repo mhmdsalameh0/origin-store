@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { ResearchUseBadge } from "./ResearchUseBadge";
 
 const desktopRainParticles = [
   { left: "6%", top: "-8%", width: 1, height: 18, opacity: 0.36, duration: "6.2s", delay: "-1.1s", drift: "-18px", travel: "520px" },
@@ -65,7 +66,7 @@ export function Hero() {
           }
         }
       `}</style>
-      <div className="mb-0 h-auto overflow-hidden border-0 bg-[#dceeff] pb-0 md:h-[560px] md:bg-white lg:h-auto lg:min-h-0 lg:py-0">
+      <div className="mb-0 h-auto overflow-hidden border-0 bg-[linear-gradient(90deg,#cfe0f8_0%,#c9dbf4_50%,#c6d9f3_100%)] pb-0 md:h-[560px] md:bg-white lg:h-auto lg:min-h-0 lg:py-0">
         <motion.div
           className="relative z-0 flex w-full flex-col overflow-hidden md:h-full md:flex-row lg:h-auto"
         >
@@ -75,7 +76,7 @@ export function Hero() {
           </div>
           <div className="pointer-events-none absolute inset-y-0 left-1/2 z-10 hidden w-px -translate-x-1/2 bg-[#020711]/10 md:block" />
           <motion.div
-            className="pointer-events-none relative order-1 z-20 aspect-[1/0.78] w-full shrink origin-center md:pointer-events-auto md:order-2 md:h-full md:w-1/2 md:aspect-auto lg:h-auto lg:self-center"
+            className="pointer-events-none absolute inset-x-0 top-0 z-0 aspect-video w-full shrink origin-center md:pointer-events-auto md:relative md:order-2 md:h-full md:w-1/2 md:aspect-auto lg:h-auto lg:self-center"
           >
             <motion.div
               className="relative h-full w-full lg:h-auto"
@@ -90,18 +91,18 @@ export function Hero() {
               <div className="relative h-full w-full lg:h-auto">
                 <div className="relative h-full w-full overflow-hidden lg:h-auto" aria-label="Origin Peptides MOTS-C, TB-500, GHK-CU, and NAD+ products">
                   <Image
-                    src="/images/WhatsApp Image 2026-08-19 at 7.42.06 AM.jpeg"
+                    src="/images/hero/origin-products-desktop-16x9.png"
                     alt="Origin Peptides MOTS-C, TB-500, NAD+, and GHK-CU products"
                     fill
                     priority
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="hidden object-cover object-center md:block lg:hidden"
+                    className="hidden object-contain object-center md:block lg:hidden"
                   />
                   <div className="relative hidden aspect-video w-full overflow-hidden bg-transparent lg:block">
                     <img
                       src="/images/hero/origin-products-desktop-16x9.png"
                       alt="Origin Peptides product collection"
-                      className="absolute inset-0 z-0 block h-full w-full object-cover object-center select-none pointer-events-none"
+                      className="absolute inset-0 z-0 block h-full w-full object-contain object-center select-none pointer-events-none"
                       draggable="false"
                       loading="eager"
                       fetchPriority="high"
@@ -130,12 +131,12 @@ export function Hero() {
                     ) : null}
                   </div>
                   <Image
-                    src="/images/hero-products-cutout-transparent.png"
+                    src="/images/hero/origin-products-desktop-16x9.png"
                     alt="Origin Peptides MOTS-C, TB-500, NAD+, and GHK-CU products"
                     fill
                     priority
                     sizes="100vw"
-                    className="object-contain object-center md:hidden"
+                    className="object-contain object-top md:hidden"
                   />
                 </div>
               </div>
@@ -146,7 +147,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="relative z-30 order-2 flex flex-col items-center px-5 pb-5 pt-2 text-center md:order-1 md:w-1/2 md:items-start md:justify-center md:px-12 md:py-0 md:pr-8 md:text-left lg:px-[50px] lg:pr-10"
+            className="relative z-30 order-2 flex flex-col items-center px-5 pb-5 pt-[56.25vw] text-center md:order-1 md:w-1/2 md:items-start md:justify-center md:px-12 md:py-0 md:pr-8 md:text-left lg:px-[50px] lg:pr-10"
           >
             <h1 className="max-w-[340px] text-[31px] font-extrabold leading-[1.08] tracking-normal text-black md:max-w-none md:whitespace-nowrap md:text-[43px] lg:text-[36px]">
               Research Peptides You Can Trust
@@ -158,6 +159,7 @@ export function Hero() {
               Browse Catalog
               <span aria-hidden="true">&rarr;</span>
             </Link>
+            <ResearchUseBadge />
           </motion.div>
         </motion.div>
       </div>
