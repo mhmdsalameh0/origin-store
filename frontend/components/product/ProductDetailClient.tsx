@@ -1,6 +1,7 @@
 "use client";
 
 import { useCart } from "@/components/cart/CartProvider";
+import { coaReports, vanguardLab } from "@/lib/coaReports";
 import { CatalogProduct, formatPrice } from "@/lib/productCatalog";
 import { CheckCircle2, Minus, Plus, RotateCcw, ShieldCheck, Truck, X, Zap } from "lucide-react";
 import Image from "next/image";
@@ -28,6 +29,7 @@ export function ProductDetailClient({ product }: { product: CatalogProduct }) {
   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>(() => (searchParams.get("tab") === "coa" ? "COA" : "Description"));
   const [showOptionModal, setShowOptionModal] = useState(false);
   const detailImage = detailImages[product.slug] ?? product.image;
+  const coaReport = coaReports[product.slug];
 
   useEffect(() => {
     if (searchParams.get("tab") === "coa") {
@@ -272,22 +274,91 @@ export function ProductDetailClient({ product }: { product: CatalogProduct }) {
               ) : null}
               {activeTab === "COA" ? (
                 <div className="grid gap-5 rounded-[14px] border border-[#e6e1f2] bg-[#fbfaff] p-5">
-                  <div>
-                    <p className="text-[12px] font-extrabold uppercase tracking-[0.18em] text-[#7650d8]">Certificate of Analysis</p>
-                    <h2 className="mt-2 text-[24px] font-extrabold leading-tight text-black">{product.displayName}</h2>
-                  </div>
-                  <dl className="grid gap-3 text-[14px] sm:grid-cols-[160px_1fr]">
-                    <dt className="font-bold text-black">Status</dt>
-                    <dd>Documentation available for review</dd>
-                    <dt className="font-bold text-black">Purity</dt>
-                    <dd>{product.additionalInformation.Purity ?? "99%+"}</dd>
-                    <dt className="font-bold text-black">Category</dt>
-                    <dd>{product.category}</dd>
-                    <dt className="font-bold text-black">SKU</dt>
-                    <dd>{product.sku}</dd>
-                    <dt className="font-bold text-black">Use</dt>
-                    <dd>For laboratory research use only</dd>
-                  </dl>
+                  {coaReport ? (
+                    <>
+                      <div className="grid gap-4 sm:grid-cols-[1fr_auto]">
+                        <div>
+                          <p className="text-[12px] font-extrabold uppercase tracking-[0.18em] text-[#7650d8]">{coaReport.title}</p>
+                          <h2 className="mt-2 text-[24px] font-extrabold leading-tight text-black">{coaReport.subtitle}</h2>
+                        </div>
+                        <div className="text-left text-[12px] font-semibold leading-5 text-[#5d6674] sm:text-right">
+                          <p>{vanguardLab.name}</p>
+                          <p>{vanguardLab.address}</p>
+                          <p>{vanguardLab.cityStateZip}</p>
+                          <p>{vanguardLab.phone}</p>
+                        </div>
+                      </div>
+
+                      <div className="grid gap-4 text-[14px] sm:grid-cols-2">
+                        <div>
+                          <p className="font-bold text-black">Report To</p>
+                          <p>{coaReport.reportTo}</p>
+                        </div>
+                        <dl className="grid gap-2 sm:grid-cols-[130px_1fr]">
+                          {Object.entries(coaReport.details).map(([label, value]) => (
+                            <div key={label} className="contents">
+                              <dt className="font-bold text-black">{label}</dt>
+                              <dd>{value}</dd>
+                            </div>
+                          ))}
+                        </dl>
+                      </div>
+
+                      <p className="text-center text-[11px] italic leading-5 text-[#697386]">{coaReport.note}</p>
+
+                      <div className="overflow-x-auto rounded-[8px] border border-[#d7dbe4] bg-white">
+                        <table className="w-full min-w-[560px] border-collapse text-left text-[12px] leading-5">
+                          <thead className="bg-[#eef0f5] text-black">
+                            <tr>
+                              <th className="border border-[#d7dbe4] px-3 py-2 font-extrabold">Analysis</th>
+                              <th className="border border-[#d7dbe4] px-3 py-2 font-extrabold">Method</th>
+                              <th className="border border-[#d7dbe4] px-3 py-2 font-extrabold" colSpan={coaReport.results[0]?.result.length ?? 1}>
+                                Result (per Vial)
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {coaReport.results.map((row) => (
+                              <tr key={row.analysis}>
+                                <td className="border border-[#d7dbe4] px-3 py-2 font-medium text-[#202329]">{row.analysis}</td>
+                                <td className="border border-[#d7dbe4] px-3 py-2">{row.method}</td>
+                                {row.result.map((value, index) => (
+                                  <td key={`${row.analysis}-${index}`} className="border border-[#d7dbe4] px-3 py-2">
+                                    {value}
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="grid gap-1 text-[11px] font-semibold leading-5 text-[#697386]">
+                        {coaReport.footer.map((line) => (
+                          <p key={line}>{line}</p>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div>
+                        <p className="text-[12px] font-extrabold uppercase tracking-[0.18em] text-[#7650d8]">Certificate of Analysis</p>
+                        <h2 className="mt-2 text-[24px] font-extrabold leading-tight text-black">{product.displayName}</h2>
+                      </div>
+                      <dl className="grid gap-3 text-[14px] sm:grid-cols-[160px_1fr]">
+                        <dt className="font-bold text-black">Status</dt>
+                        <dd>Documentation available for review</dd>
+                        <dt className="font-bold text-black">Purity</dt>
+                        <dd>{product.additionalInformation.Purity ?? "99%+"}</dd>
+                        <dt className="font-bold text-black">Category</dt>
+                        <dd>{product.category}</dd>
+                        <dt className="font-bold text-black">SKU</dt>
+                        <dd>{product.sku}</dd>
+                        <dt className="font-bold text-black">Use</dt>
+                        <dd>For laboratory research use only</dd>
+                      </dl>
+                    </>
+                  )}
                   <Link
                     href="/documentation"
                     className="inline-flex h-11 w-fit items-center justify-center rounded-full bg-[#202329] px-6 text-[13px] font-bold text-white transition hover:bg-[#0f1115]"
