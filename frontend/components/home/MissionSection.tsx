@@ -49,8 +49,8 @@ export function MissionSection() {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
             <Image
-              src="/images/lalalal.png"
-              alt="Origin Peptides TB-500 vial"
+              src="/images/hero-origin-products-website.png"
+              alt="Origin Peptides floating product vials"
               fill
               sizes="(max-width: 1024px) 86vw, 480px"
               className="object-cover object-center"

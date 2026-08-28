@@ -18,7 +18,7 @@ export const vanguardLab = {
 export const coaReports: Record<string, CoaReport> = {
   "ghk-cu": {
     title: "Certificate of Analysis",
-    subtitle: "GHK-CU 50 mg",
+    subtitle: "GHK-CU 10MG",
     reportTo: "Origin Restored",
     details: {
       Compound: "GHK-CU",
@@ -72,11 +72,11 @@ export const coaReports: Record<string, CoaReport> = {
   },
   "bpc-157": {
     title: "Certificate of Analysis",
-    subtitle: "BPC-157 5 mg",
+    subtitle: "BPC-157 10 mg",
     reportTo: "Origin Restored",
     details: {
       Compound: "BPC-157",
-      Quantity: "5 mg",
+      Quantity: "10 mg",
       "Laboratory ID": "V260714-3 001",
       "Lot Number": "BPC157-01-2026",
       "Date Reported": "14/7/2026"
@@ -84,7 +84,7 @@ export const coaReports: Record<string, CoaReport> = {
     note: "Chromatogram for vial A shown above.",
     results: [
       { analysis: "Chromatographic Purity", method: "HPLC-UV/VIS", result: ["99.67%", "99.67%", "99.67%"] },
-      { analysis: "Quantity", method: "HPLC-UV/VIS", result: ["5.02 mg", "5.15 mg", "5.11 mg"] }
+      { analysis: "Quantity", method: "HPLC-UV/VIS", result: ["10.02 mg", "10.15 mg", "10.11 mg"] }
     ],
     footer: ["Report by: Dustin Newman, Laboratory Director", "Approved by: Tori Johnson, Operations Manager on 14/7/2026"]
   },
@@ -111,9 +111,9 @@ export const coaReports: Record<string, CoaReport> = {
 export const documentationCards = [
   {
     slug: "ghk-cu",
-    name: "GHK-CU 50 MG",
-    subtitle: "GHK-CU 50 MG",
-    copy: "PDF Document Review certificate documentation for Glow 70mg including batch reference and supporting quality verification details."
+    name: "GHK-CU 10MG",
+    subtitle: "GHK-CU 10MG",
+    copy: "PDF Document Review certificate documentation for GHK-CU 50 MG including batch reference and supporting quality verification details."
   },
   {
     slug: "mots-c",
@@ -129,9 +129,9 @@ export const documentationCards = [
   },
   {
     slug: "bpc-157",
-    name: "BPC-157",
-    subtitle: "BPC-157",
-    copy: "PDF Document Review certificate documentation for KLOW 80mg including batch reference and supporting quality verification details."
+    name: "BPC-157 10 MG",
+    subtitle: "BPC-157 10 MG",
+    copy: "PDF Document Review certificate documentation for BPC-157 10 MG including batch reference and supporting quality verification details."
   },
   {
     slug: "retatrutide",

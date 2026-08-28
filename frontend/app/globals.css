@@ -118,6 +118,43 @@ a {
   box-shadow: 0 16px 45px rgba(29, 36, 25, 0.08);
 }
 
+.legal-vial-float-left {
+  animation: legalVialFloatLeft 6.5s ease-in-out infinite;
+}
+
+.legal-vial-float-right {
+  animation: legalVialFloatRight 7.2s ease-in-out infinite;
+}
+
+@keyframes legalVialFloatLeft {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-13deg);
+  }
+
+  50% {
+    transform: translate3d(0, -13px, 0) rotate(-9deg);
+  }
+}
+
+@keyframes legalVialFloatRight {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-13deg);
+  }
+
+  50% {
+    transform: translate3d(-8px, 12px, 0) rotate(-17deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .legal-vial-float-left,
+  .legal-vial-float-right {
+    animation: none;
+  }
+}
+
 @media (max-width: 768px) {
   .section-shell {
     width: min(100% - 40px, 680px);

@@ -22,7 +22,6 @@ type SortOption = (typeof sortOptions)[number];
 function ProductGridCard({ product }: { product: CatalogProduct }) {
   const isRetatrutide = product.name === "Retatrutide";
   const productHref = `/products/${product.slug}`;
-  const detailsHref = `${productHref}?tab=coa`;
 
   return (
     <article className="group relative flex h-full flex-col items-center rounded-[18px] border border-[#e2def1] bg-white/88 px-5 py-7 text-center shadow-[0_18px_48px_rgba(36,31,57,.055)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_62px_rgba(36,31,57,.09)]">
@@ -58,7 +57,7 @@ function ProductGridCard({ product }: { product: CatalogProduct }) {
         <p className="self-start font-sans text-[32px] font-semibold leading-none text-[#202329]">{product.price}</p>
         <div className="grid h-12 w-full grid-cols-2 gap-3 self-start">
           <Link
-            href={detailsHref}
+            href={productHref}
             scroll
             className="grid h-12 place-items-center rounded-[14px] border border-[#d8dde6] bg-white px-5 font-sans text-[14px] font-bold normal-case tracking-normal text-[#202329] transition hover:border-[#202329] hover:bg-slate-50"
           >

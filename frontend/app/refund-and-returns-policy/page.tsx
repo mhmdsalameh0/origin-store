@@ -53,25 +53,18 @@ export default function RefundAndReturnsPolicyPage() {
       <main className="bg-white pt-[83px] font-sans text-origin-ink">
         <section className="relative overflow-hidden border-t border-[#efc64a] bg-[linear-gradient(180deg,#edf7ff_0%,#dcecff_100%)] px-5 py-16 text-center md:px-8 md:py-24">
           <Image
-            src="/images/hero-layer-mots-c.png"
-            alt=""
-            width={118}
-            height={150}
-            className="pointer-events-none absolute left-[6%] top-20 hidden rotate-[-13deg] object-contain drop-shadow-[0_24px_28px_rgba(57,94,131,.20)] sm:block lg:left-[8%]"
-          />
-          <Image
-            src="/images/showcase-retatrutide-transparent.png"
-            alt=""
-            width={150}
-            height={190}
-            className="pointer-events-none absolute right-[15%] top-24 hidden rotate-[-11deg] object-contain drop-shadow-[0_30px_32px_rgba(57,94,131,.20)] md:block"
-          />
-          <Image
-            src="/images/hero-layer-tb-500.png"
+            src="/images/hero-layer-ghk-cu.png"
             alt=""
             width={126}
             height={164}
-            className="pointer-events-none absolute right-[6%] top-14 hidden rotate-[15deg] object-contain drop-shadow-[0_24px_28px_rgba(57,94,131,.20)] sm:block lg:right-[8%]"
+            className="legal-vial-float-left pointer-events-none absolute left-2 top-5 block w-[72px] overflow-visible border-none bg-transparent object-contain shadow-none sm:left-[6%] sm:top-14 sm:w-[126px] lg:left-[8%]"
+          />
+          <Image
+            src="/images/hero-layer-mots-c.png"
+            alt=""
+            width={126}
+            height={164}
+            className="legal-vial-float-right pointer-events-none absolute right-2 top-5 block w-[72px] object-contain sm:right-[8%] sm:top-14 sm:w-[126px]"
           />
 
           <div className="relative mx-auto flex min-h-[300px] max-w-[760px] flex-col items-center justify-center md:min-h-[330px]">

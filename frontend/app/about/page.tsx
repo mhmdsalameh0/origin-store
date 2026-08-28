@@ -124,11 +124,11 @@ export default function AboutPage() {
             <div className="grid gap-9 lg:grid-cols-[minmax(0,52%)_minmax(0,48%)] lg:items-center lg:gap-16">
               <div className="relative order-2 min-h-[280px] overflow-hidden rounded-[18px] bg-[#111827] shadow-[0_28px_70px_rgba(0,0,0,.26)] md:min-h-[390px] lg:order-1">
                 <Image
-                  src="/images/sellele.png"
-                  alt="Origin Peptides research vials on a laboratory counter"
+                  src="/images/asd.png"
+                  alt="Origin Peptides research vials on a white tray"
                   fill
                   sizes="(max-width: 1024px) 100vw, 670px"
-                  className="object-contain object-center"
+                  className="object-cover object-center"
                 />
               </div>
 
@@ -160,8 +160,8 @@ export default function AboutPage() {
               <div className="absolute -bottom-6 -left-5 h-[78%] w-[78%] rounded-[24px] bg-[#d7c5ff]/55" aria-hidden="true" />
               <div className="relative aspect-[4/3] overflow-hidden rounded-[18px] bg-[#f7f4ff] shadow-[0_24px_70px_rgba(35,28,54,.12)]">
                 <Image
-                  src="/images/sellele.png"
-                  alt="Origin Peptides product vials and packaging"
+                  src="/images/llll.png"
+                  alt="Origin Peptides MOTS-C and TB-500 vials in a laboratory"
                   fill
                   sizes="(max-width: 1024px) 100vw, 660px"
                   className="object-cover object-center"
