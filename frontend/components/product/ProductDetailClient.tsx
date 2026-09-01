@@ -4,6 +4,7 @@ import { useCart } from "@/components/cart/CartProvider";
 import { CatalogProduct, formatPrice } from "@/lib/productCatalog";
 import { CheckCircle2, Minus, Plus, RotateCcw, ShieldCheck, Truck, X, Zap } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -185,7 +186,13 @@ export function ProductDetailClient({ product }: { product: CatalogProduct }) {
               </div>
             </div>
 
-            <div className="mt-5 grid gap-3">
+            <div className="mt-5 grid grid-cols-[56px_1fr] gap-3">
+              <Link
+                href="/documentation"
+                className="grid h-11 place-items-center rounded-full border border-[#d8dde6] bg-white text-[12px] font-bold text-[#202329] transition hover:border-[#202329] hover:bg-slate-50"
+              >
+                COA
+              </Link>
               <button
                 type="button"
                 onClick={handleAddToCart}

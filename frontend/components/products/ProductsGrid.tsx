@@ -65,7 +65,7 @@ function ProductGridCard({ product }: { product: CatalogProduct }) {
           </Link>
           <Link
             href={productHref}
-            className="flex h-12 items-center justify-center gap-2 rounded-[14px] bg-[linear-gradient(180deg,#262b34,#12161d)] px-3 font-sans text-[14px] font-bold normal-case tracking-normal text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_10px_22px_rgba(15,23,42,.16)] transition duration-300 hover:bg-[#0f1115] hover:brightness-110"
+            className="flex h-12 items-center justify-center gap-1.5 whitespace-nowrap rounded-[14px] bg-[linear-gradient(180deg,#262b34,#12161d)] px-3 font-sans text-[13px] font-bold normal-case tracking-normal text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_10px_22px_rgba(15,23,42,.16)] transition duration-300 hover:bg-[#0f1115] hover:brightness-110"
           >
             <Plus size={16} strokeWidth={2.4} />
             Add to cart
