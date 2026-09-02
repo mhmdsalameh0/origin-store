@@ -28,8 +28,8 @@ function MobileProductCard({ product }: { product: (typeof products)[number] }) 
   const imageSrc = getShowcaseImage(product);
 
   return (
-    <article className="flex h-full flex-col items-center bg-white text-center">
-      <div className="grid h-[245px] w-full place-items-center bg-white">
+    <article className="flex h-full flex-col items-center text-center">
+      <div className="grid h-[245px] w-full place-items-center">
         <Image
           src={imageSrc}
           alt={`${product.name} Origin Peptides vial`}
@@ -125,15 +125,12 @@ export function ProductShowcase() {
   const mobileViewportRef = useRef<HTMLDivElement | null>(null);
   const touchStartX = useRef(0);
   const [orderedProducts, setOrderedProducts] = useState(products);
-  const [mobileIndex, setMobileIndex] = useState(1);
-  const [mobileTransitionEnabled, setMobileTransitionEnabled] = useState(true);
+  const [mobileIndex, setMobileIndex] = useState(0);
   const [mobileMetrics, setMobileMetrics] = useState({ offset: 0, sidePadding: 0, slideWidth: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [isMobileHovering, setIsMobileHovering] = useState(false);
   const [isInteractionPaused, setIsInteractionPaused] = useState(false);
   const [isMobileInteractionPaused, setIsMobileInteractionPaused] = useState(false);
-
-  const mobileSlides = [products[products.length - 1], ...products, products[0]];
 
   const rotateProducts = useCallback((direction: "previous" | "next") => {
     setOrderedProducts((currentProducts) => {
@@ -175,8 +172,17 @@ export function ProductShowcase() {
   };
 
   const rotateMobileProducts = useCallback((direction: "previous" | "next") => {
-    setMobileTransitionEnabled(true);
-    setMobileIndex((currentIndex) => currentIndex + (direction === "next" ? 1 : -1));
+    setMobileIndex((currentIndex) => {
+      if (direction === "next" && currentIndex >= products.length - 1) {
+        return currentIndex;
+      }
+
+      if (direction === "previous" && currentIndex <= 0) {
+        return currentIndex;
+      }
+
+      return currentIndex + (direction === "next" ? 1 : -1);
+    });
   }, []);
 
   const handleMobileArrowClick = (direction: "previous" | "next") => {
@@ -198,20 +204,6 @@ export function ProductShowcase() {
 
     rotateMobileProducts(swipeDistance < 0 ? "next" : "previous");
     pauseMobileAfterInteraction();
-  };
-
-  const handleMobileTransitionEnd = () => {
-    if (mobileIndex === products.length + 1) {
-      setMobileTransitionEnabled(false);
-      setMobileIndex(1);
-      requestAnimationFrame(() => setMobileTransitionEnabled(true));
-    }
-
-    if (mobileIndex === 0) {
-      setMobileTransitionEnabled(false);
-      setMobileIndex(products.length);
-      requestAnimationFrame(() => setMobileTransitionEnabled(true));
-    }
   };
 
   useEffect(() => {
@@ -246,7 +238,7 @@ export function ProductShowcase() {
 
       setMobileMetrics({
         offset: slideWidth + 16,
-        sidePadding: viewportWidth * 0.05,
+        sidePadding: Math.max(0, viewportWidth - slideWidth * 1.5 - 16),
         slideWidth
       });
     };
@@ -293,18 +285,17 @@ export function ProductShowcase() {
           <div ref={mobileViewportRef} className="overflow-hidden" onTouchEnd={handleTouchEnd} onTouchStart={handleTouchStart}>
             <div
               className="flex gap-4"
-              onTransitionEnd={handleMobileTransitionEnd}
               style={{
-                paddingInline: mobileMetrics.sidePadding ? `${mobileMetrics.sidePadding}px` : "5%",
+                paddingInline: mobileMetrics.sidePadding ? `${mobileMetrics.sidePadding}px` : "3%",
                 transform: mobileMetrics.offset
                   ? `translate3d(-${mobileIndex * mobileMetrics.offset}px, 0, 0)`
                   : `translate3d(-${mobileIndex * 62}%, 0, 0)`,
-                transition: "none"
+                transition: "transform 0.68s ease-in-out"
               }}
             >
-              {mobileSlides.map((product, index) => (
+              {products.map((product) => (
                 <div
-                  key={`${product.name}-mobile-${index}`}
+                  key={`${product.name}-mobile`}
                   className="shrink-0"
                   style={{ flexBasis: mobileMetrics.slideWidth ? `${mobileMetrics.slideWidth}px` : "62%" }}
                 >
