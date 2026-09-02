@@ -1,6 +1,6 @@
 "use client";
 
-import { catalogProducts } from "@/lib/productCatalog";
+import { bpcProduct, catalogProducts, type CatalogProduct } from "@/lib/productCatalog";
 import { LayoutGroup, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
 import Image from "next/image";
@@ -12,6 +12,7 @@ import { SectionReveal } from "./SectionReveal";
 const carouselTransition = { duration: 0.68, ease: "easeInOut" } as const;
 
 const products = catalogProducts;
+const mobileProducts = [...catalogProducts, bpcProduct];
 const showcaseImages: Record<string, string> = {
   "TB-500": "/images/showcase-tb-500-clean.png",
   "GHK-CU": "/images/showcase-ghk-cu-clean.png",
@@ -19,11 +20,11 @@ const showcaseImages: Record<string, string> = {
   Retatrutide: "/images/showcase-retatrutide-clean.png"
 };
 
-function getShowcaseImage(product: (typeof products)[number]) {
+function getShowcaseImage(product: CatalogProduct) {
   return showcaseImages[product.name] ?? product.image;
 }
 
-function MobileProductCard({ product }: { product: (typeof products)[number] }) {
+function MobileProductCard({ product }: { product: CatalogProduct }) {
   const isRetatrutide = product.name === "Retatrutide";
   const imageSrc = getShowcaseImage(product);
 
@@ -67,7 +68,7 @@ function MobileProductCard({ product }: { product: (typeof products)[number] }) 
   );
 }
 
-function ProductCard({ product }: { product: (typeof products)[number] }) {
+function ProductCard({ product }: { product: CatalogProduct }) {
   const isRetatrutide = product.name === "Retatrutide";
   const imageSrc = getShowcaseImage(product);
 
@@ -125,12 +126,15 @@ export function ProductShowcase() {
   const mobileViewportRef = useRef<HTMLDivElement | null>(null);
   const touchStartX = useRef(0);
   const [orderedProducts, setOrderedProducts] = useState(products);
-  const [mobileIndex, setMobileIndex] = useState(0);
+  const [mobileIndex, setMobileIndex] = useState(1);
+  const [mobileTransitionEnabled, setMobileTransitionEnabled] = useState(true);
   const [mobileMetrics, setMobileMetrics] = useState({ offset: 0, sidePadding: 0, slideWidth: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [isMobileHovering, setIsMobileHovering] = useState(false);
   const [isInteractionPaused, setIsInteractionPaused] = useState(false);
   const [isMobileInteractionPaused, setIsMobileInteractionPaused] = useState(false);
+
+  const mobileSlides = [mobileProducts[mobileProducts.length - 1], ...mobileProducts, mobileProducts[0]];
 
   const rotateProducts = useCallback((direction: "previous" | "next") => {
     setOrderedProducts((currentProducts) => {
@@ -172,8 +176,9 @@ export function ProductShowcase() {
   };
 
   const rotateMobileProducts = useCallback((direction: "previous" | "next") => {
+    setMobileTransitionEnabled(true);
     setMobileIndex((currentIndex) => {
-      if (direction === "next" && currentIndex >= products.length - 1) {
+      if (direction === "next" && currentIndex >= mobileProducts.length + 1) {
         return currentIndex;
       }
 
@@ -204,6 +209,20 @@ export function ProductShowcase() {
 
     rotateMobileProducts(swipeDistance < 0 ? "next" : "previous");
     pauseMobileAfterInteraction();
+  };
+
+  const handleMobileTransitionEnd = () => {
+    if (mobileIndex === mobileProducts.length + 1) {
+      setMobileTransitionEnabled(false);
+      setMobileIndex(1);
+      requestAnimationFrame(() => setMobileTransitionEnabled(true));
+    }
+
+    if (mobileIndex === 0) {
+      setMobileTransitionEnabled(false);
+      setMobileIndex(mobileProducts.length);
+      requestAnimationFrame(() => setMobileTransitionEnabled(true));
+    }
   };
 
   useEffect(() => {
@@ -285,17 +304,18 @@ export function ProductShowcase() {
           <div ref={mobileViewportRef} className="overflow-hidden" onTouchEnd={handleTouchEnd} onTouchStart={handleTouchStart}>
             <div
               className="flex gap-4"
+              onTransitionEnd={handleMobileTransitionEnd}
               style={{
                 paddingInline: mobileMetrics.sidePadding ? `${mobileMetrics.sidePadding}px` : "3%",
                 transform: mobileMetrics.offset
                   ? `translate3d(-${mobileIndex * mobileMetrics.offset}px, 0, 0)`
                   : `translate3d(-${mobileIndex * 62}%, 0, 0)`,
-                transition: "transform 0.68s ease-in-out"
+                transition: mobileTransitionEnabled ? "transform 0.68s ease-in-out" : "none"
               }}
             >
-              {products.map((product) => (
+              {mobileSlides.map((product, index) => (
                 <div
-                  key={`${product.name}-mobile`}
+                  key={`${product.name}-mobile-${index}`}
                   className="shrink-0"
                   style={{ flexBasis: mobileMetrics.slideWidth ? `${mobileMetrics.slideWidth}px` : "62%" }}
                 >
