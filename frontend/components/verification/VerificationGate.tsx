@@ -2,44 +2,63 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
+import { ResearcherVerification } from "./ResearcherVerification";
 
 const verificationStorageKey = "origin-peptides-researcher-verified";
-const verificationCookie = "origin-peptides-researcher-verified=true; path=/; max-age=31536000; SameSite=Lax";
+
+type VerificationState = "checking" | "required" | "verified";
 
 export function hasResearcherVerification() {
-  return window.localStorage.getItem(verificationStorageKey) === "true";
+  return window.sessionStorage.getItem(verificationStorageKey) === "true";
 }
 
 export function saveResearcherVerification() {
-  window.localStorage.setItem(verificationStorageKey, "true");
-  document.cookie = verificationCookie;
+  window.sessionStorage.setItem(verificationStorageKey, "true");
 }
 
 export function VerificationGate({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const [canRender, setCanRender] = useState(false);
-  const isVerificationPage = pathname === "/verify";
+  const [verificationState, setVerificationState] = useState<VerificationState>("checking");
 
   useEffect(() => {
-    if (isVerificationPage) {
-      setCanRender(true);
-      return;
-    }
-
     try {
       if (hasResearcherVerification()) {
-        setCanRender(true);
-      } else {
-        router.replace("/verify");
+        setVerificationState("verified");
+
+        if (pathname === "/verify") {
+          router.replace("/");
+        }
+
+        return;
       }
     } catch {
-      router.replace("/verify");
+      // If session storage is unavailable, require verification for this page load.
     }
-  }, [isVerificationPage, router]);
 
-  if (!canRender) {
+    setVerificationState("required");
+  }, [pathname, router]);
+
+  const handleVerified = () => {
+    try {
+      saveResearcherVerification();
+    } catch {
+      // Still allow this mounted app session; a reload will require verification again.
+    }
+
+    setVerificationState("verified");
+
+    if (pathname === "/verify") {
+      router.replace("/");
+    }
+  };
+
+  if (verificationState === "checking" || (verificationState === "verified" && pathname === "/verify")) {
     return null;
+  }
+
+  if (verificationState === "required") {
+    return <ResearcherVerification onVerified={handleVerified} />;
   }
 
   return children;
