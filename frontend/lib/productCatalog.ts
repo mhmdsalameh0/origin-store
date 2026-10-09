@@ -22,9 +22,9 @@ export const catalogProducts: CatalogProduct[] = [
     id: "fallback-tb",
     slug: "tb-500",
     name: "TB-500",
-    displayName: "TB-10MG",
+    displayName: "TB-500 5MG",
     category: "Neuro Research",
-    dose: "10 MG",
+    dose: "5 MG",
     price: "$49.99",
     priceCents: 4999,
     createdAt: "2026-08-11T00:00:00.000Z",
@@ -32,8 +32,8 @@ export const catalogProducts: CatalogProduct[] = [
     accent: "#1289d9",
     imageClassName: "h-[285px]",
     description: "A premium research peptide supplied for neuro research use with Origin documentation standards.",
-    dosageOptions: ["10 MG"],
-    sku: "TB-10",
+    dosageOptions: ["5 MG"],
+    sku: "TB-500-5",
     additionalInformation: {
       Purity: "99%+",
       Category: "Neuro Research",
@@ -44,9 +44,9 @@ export const catalogProducts: CatalogProduct[] = [
     id: "fallback-pre",
     slug: "ghk-cu",
     name: "GHK-CU",
-    displayName: "GHK-10MG",
+    displayName: "GHK-CU 50MG",
     category: "Cellular Research",
-    dose: "10 MG",
+    dose: "50 MG",
     price: "$49.99",
     priceCents: 4999,
     createdAt: "2026-08-12T00:00:00.000Z",
@@ -54,8 +54,8 @@ export const catalogProducts: CatalogProduct[] = [
     accent: "#6f46b8",
     imageClassName: "h-[285px]",
     description: "A high-purity research peptide presented with clear documentation for cellular research workflows.",
-    dosageOptions: ["10 MG"],
-    sku: "GHK-CU-10",
+    dosageOptions: ["50 MG"],
+    sku: "GHK-CU-50",
     additionalInformation: {
       Purity: "99%+",
       Category: "Cellular Research",
@@ -66,7 +66,7 @@ export const catalogProducts: CatalogProduct[] = [
     id: "fallback-protein",
     slug: "mots-c",
     name: "MOTS-C",
-    displayName: "MOTS-10MG",
+    displayName: "MOTS-C 10MG",
     category: "Circadian Research",
     dose: "10 MG",
     price: "$54.99",
@@ -88,7 +88,7 @@ export const catalogProducts: CatalogProduct[] = [
     id: "fallback-reta",
     slug: "retatrutide",
     name: "Retatrutide",
-    displayName: "RETA-10MG",
+    displayName: "RETA 10MG",
     category: "Dermal Research",
     dose: "10 MG",
     price: "$119.00",
@@ -112,7 +112,7 @@ export const bpcProduct: CatalogProduct = {
   id: "products-page-bpc",
   slug: "bpc-157",
   name: "BPC-157",
-  displayName: "BPC-5MG",
+  displayName: "BPC-157 5MG",
   category: "Regenerative Research",
   dose: "5 MG",
   price: "$49.99",
@@ -122,7 +122,7 @@ export const bpcProduct: CatalogProduct = {
   accent: "#8ec67c",
   imageClassName: "h-[285px]",
   description: "A high-purity research compound prepared for regenerative research applications.",
-  dosageOptions: ["5 MG", "10 MG"],
+  dosageOptions: ["5 MG"],
   sku: "BPC-BP-5",
   additionalInformation: {
     Purity: "99%+",
@@ -131,7 +131,31 @@ export const bpcProduct: CatalogProduct = {
   }
 };
 
-export const productsPageProducts: CatalogProduct[] = [...catalogProducts, bpcProduct];
+export const bacteriostaticWaterProduct: CatalogProduct = {
+  id: "products-page-bacteriostatic-water",
+  slug: "bacteriostatic-water",
+  name: "Bacteriostatic Water",
+  displayName: "BAC WATER 10ML",
+  category: "Research Supplies",
+  dose: "10 ML",
+  price: "$12.00",
+  priceCents: 1200,
+  createdAt: "2026-08-16T00:00:00.000Z",
+  image: "/images/bac-water-10mL-transparent.png",
+  accent: "#0877b5",
+  imageClassName: "h-[285px]",
+  description: "Bacteriostatic water containing 0.9% benzyl alcohol, supplied in a 10 mL vial for laboratory research preparation.",
+  dosageOptions: ["10 ML"],
+  sku: "BAC-WATER-10ML",
+  additionalInformation: {
+    Volume: "10 mL",
+    Composition: "0.9% benzyl alcohol",
+    Category: "Research Supplies",
+    Storage: "Store according to laboratory protocol."
+  }
+};
+
+export const productsPageProducts: CatalogProduct[] = [...catalogProducts, bpcProduct, bacteriostaticWaterProduct];
 
 export function getProductBySlug(slug: string) {
   return productsPageProducts.find((product) => product.slug === slug);

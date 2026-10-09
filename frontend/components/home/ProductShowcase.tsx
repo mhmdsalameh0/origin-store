@@ -1,18 +1,18 @@
 "use client";
 
-import { bpcProduct, catalogProducts, type CatalogProduct } from "@/lib/productCatalog";
+import { useCart } from "@/components/cart/CartProvider";
+import { bacteriostaticWaterProduct, bpcProduct, catalogProducts, type CatalogProduct } from "@/lib/productCatalog";
 import { LayoutGroup, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { TouchEvent, useCallback, useEffect, useRef, useState } from "react";
 import { ResearchUseBadge } from "./ResearchUseBadge";
 import { SectionReveal } from "./SectionReveal";
 
 const carouselTransition = { duration: 0.68, ease: "easeInOut" } as const;
 
-const products = catalogProducts;
-const mobileProducts = [...catalogProducts, bpcProduct];
+const products = [...catalogProducts, bpcProduct, bacteriostaticWaterProduct];
+const mobileProducts = products;
 const showcaseImages: Record<string, string> = {
   "TB-500": "/images/showcase-tb-500-clean.png",
   "GHK-CU": "/images/showcase-ghk-cu-clean.png",
@@ -25,19 +25,34 @@ function getShowcaseImage(product: CatalogProduct) {
 }
 
 function MobileProductCard({ product }: { product: CatalogProduct }) {
-  const isRetatrutide = product.name === "Retatrutide";
+  const { addItem, openDrawer } = useCart();
+  const usesCompactTitle = product.name === "Retatrutide" || product.slug === "bacteriostatic-water";
+  const usesSquareProductImage = product.slug === "bpc-157" || product.slug === "bacteriostatic-water";
   const imageSrc = getShowcaseImage(product);
+
+  const handleAddToCart = () => {
+    addItem({
+      productId: product.id,
+      slug: product.slug,
+      name: product.displayName,
+      image: imageSrc,
+      dosage: product.dose,
+      price: product.priceCents,
+      quantity: 1
+    });
+    openDrawer();
+  };
 
   return (
     <article className="flex h-full flex-col items-center text-center">
       <div className="grid h-[245px] w-full place-items-center">
         <Image
           src={imageSrc}
-          alt={`${product.name} Origin Peptides vial`}
+          alt={`${product.name} product vial`}
           width={260}
           height={320}
           sizes="(max-width: 640px) 78vw"
-          className="h-full max-h-[232px] w-auto object-contain object-center"
+          className={`h-full max-h-[232px] w-auto object-contain object-center ${usesSquareProductImage ? "scale-[1.35]" : ""}`}
         />
       </div>
 
@@ -45,7 +60,7 @@ function MobileProductCard({ product }: { product: CatalogProduct }) {
         <div className="h-[3px] w-[112px]" style={{ backgroundColor: product.accent }} />
         <h3
           className={`mt-4 flex min-h-0 max-w-full items-start justify-center text-center font-sans font-bold uppercase leading-tight tracking-normal text-[#111111] ${
-            isRetatrutide ? "text-[18px]" : "text-[22px]"
+            usesCompactTitle ? "text-[18px]" : "text-[22px]"
           }`}
         >
           {product.displayName}
@@ -55,27 +70,42 @@ function MobileProductCard({ product }: { product: CatalogProduct }) {
         </p>
         <ResearchUseBadge />
         <p className="mt-4 font-sans text-[28px] font-semibold leading-none text-[#29313c]">{product.price}</p>
-        <Link
-          href={`/products/${product.slug}`}
-          scroll
+        <button
+          type="button"
+          onClick={handleAddToCart}
           className="mt-5 flex min-h-11 w-[78%] items-center justify-center gap-1.5 rounded-full bg-[#202329] px-5 font-sans text-[15px] font-semibold normal-case tracking-normal text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_8px_18px_rgba(15,23,42,.14)] transition-colors duration-300 hover:bg-[#0f1115]"
         >
           <ShoppingCart size={14} strokeWidth={2} />
           <span>Add to Cart</span>
-        </Link>
+        </button>
       </div>
     </article>
   );
 }
 
 function ProductCard({ product }: { product: CatalogProduct }) {
-  const isRetatrutide = product.name === "Retatrutide";
+  const { addItem, openDrawer } = useCart();
+  const usesCompactTitle = product.name === "Retatrutide" || product.slug === "bacteriostatic-water";
+  const usesSquareProductImage = product.slug === "bpc-157" || product.slug === "bacteriostatic-water";
   const imageSrc = getShowcaseImage(product);
+
+  const handleAddToCart = () => {
+    addItem({
+      productId: product.id,
+      slug: product.slug,
+      name: product.displayName,
+      image: imageSrc,
+      dosage: product.dose,
+      price: product.priceCents,
+      quantity: 1
+    });
+    openDrawer();
+  };
 
   return (
     <motion.article
       layout="position"
-      className="group flex h-full flex-col items-center bg-white text-center"
+      className="group flex h-full min-w-0 flex-col items-center bg-white text-center"
       whileHover={{ y: -5 }}
       transition={{ layout: carouselTransition, duration: 0.25 }}
     >
@@ -83,19 +113,19 @@ function ProductCard({ product }: { product: CatalogProduct }) {
         <div className="relative h-full aspect-[2/3] overflow-hidden bg-white">
           <Image
             src={imageSrc}
-            alt={`${product.name} Origin Peptides vial`}
+            alt={`${product.name} product vial`}
             fill
             sizes="(max-width: 768px) 190px, 207px"
-            className="object-contain object-center"
+            className={`object-contain object-center ${usesSquareProductImage ? "scale-[1.45]" : ""}`}
           />
         </div>
       </div>
 
-      <div className="mt-4 grid w-full grid-rows-[3px_40px_58px_40px_44px] justify-items-center gap-y-3 px-5 pb-3">
+      <div className="mt-4 grid min-w-0 w-full grid-rows-[3px_40px_58px_40px_44px] justify-items-center gap-y-3 px-3 pb-3">
         <div className="h-[3px] w-[112px] self-start justify-self-center" style={{ backgroundColor: product.accent }} />
         <h3
           className={`flex min-h-[42px] items-start justify-center whitespace-nowrap font-sans font-bold uppercase leading-none tracking-normal text-[#111111] ${
-            isRetatrutide ? "text-[18px] md:text-[23px] 2xl:text-[24px]" : "text-[22px] md:text-[25px] xl:text-[26px]"
+            usesCompactTitle ? "text-[18px] md:text-[20px] 2xl:text-[20px]" : "text-[22px] md:text-[25px] xl:text-[26px]"
           }`}
         >
           {product.displayName}
@@ -107,14 +137,14 @@ function ProductCard({ product }: { product: CatalogProduct }) {
           <ResearchUseBadge />
         </div>
         <p className="self-start font-sans text-[29px] font-semibold leading-none text-[#29313c]">{product.price}</p>
-        <Link
-          href={`/products/${product.slug}`}
-          scroll
-          className="flex min-h-11 w-[218px] items-center justify-center gap-1.5 self-start rounded-full bg-[#202329] px-5 font-sans text-[15px] font-semibold normal-case tracking-normal text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_8px_18px_rgba(15,23,42,.14)] transition-colors duration-300 hover:bg-[#0f1115] md:text-[12px]"
+        <button
+          type="button"
+          onClick={handleAddToCart}
+          className="flex min-h-11 w-full min-w-0 max-w-[218px] items-center justify-center gap-1.5 self-start rounded-full bg-[#202329] px-3 font-sans text-[15px] font-semibold normal-case tracking-normal text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_8px_18px_rgba(15,23,42,.14)] transition-colors duration-300 hover:bg-[#0f1115] md:text-[12px]"
         >
           <ShoppingCart size={14} strokeWidth={2} />
           <span>Add to Cart</span>
-        </Link>
+        </button>
       </div>
     </motion.article>
   );
@@ -285,7 +315,7 @@ export function ProductShowcase() {
       <div id="products" className="mx-auto max-w-[1780px] px-5">
         <div className="mx-auto mb-10 max-w-6xl text-center">
           <h2 className="font-sans text-[clamp(1.75rem,4vw,2.5rem)] font-bold leading-[1.08] tracking-[-.03em] text-black">
-            Explore the Origin&apos;s Restored Peptides
+            Explore Origin&apos;s Restored Research Products
           </h2>
           <p className="mt-2 text-[14px] font-normal leading-6 tracking-[0.01em] text-[#5d6674] md:text-[16px]">
             Reliable research solutions developed to support your scientific goals.
@@ -344,7 +374,7 @@ export function ProductShowcase() {
             <ChevronLeft size={46} strokeWidth={1.5} />
           </button>
           <LayoutGroup>
-            <div className="grid gap-11 sm:grid-cols-2 xl:grid-cols-4 xl:px-24">
+            <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-6 xl:gap-5 xl:px-10">
               {orderedProducts.map((product) => (
                 <ProductCard key={product.name} product={product} />
               ))}

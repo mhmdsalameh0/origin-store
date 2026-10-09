@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
-const categories = ["Cellular Research", "Circadian Research", "Dermal Research", "Neuro Research", "Regenerative Research"] as const;
+const categories = ["Cellular Research", "Circadian Research", "Dermal Research", "Neuro Research", "Regenerative Research", "Research Supplies"] as const;
 
 const sortOptions = [
   "Most Popular",
@@ -21,6 +21,7 @@ type SortOption = (typeof sortOptions)[number];
 
 function ProductGridCard({ product }: { product: CatalogProduct }) {
   const isRetatrutide = product.name === "Retatrutide";
+  const usesSquareProductImage = product.slug === "bpc-157" || product.slug === "bacteriostatic-water";
   const productHref = `/products/${product.slug}`;
 
   return (
@@ -29,10 +30,10 @@ function ProductGridCard({ product }: { product: CatalogProduct }) {
         <span className="relative block h-full aspect-[2/3] overflow-hidden rounded-[14px] bg-white">
           <Image
             src={product.image}
-            alt={`${product.name} Origin Peptides vial`}
+            alt={`${product.name} product vial`}
             fill
             sizes="(max-width: 768px) 180px, 190px"
-            className="object-contain object-center"
+            className={`object-contain object-center ${usesSquareProductImage ? "scale-[1.45]" : ""}`}
           />
         </span>
       </Link>
@@ -50,9 +51,9 @@ function ProductGridCard({ product }: { product: CatalogProduct }) {
         <p className="flex min-h-10 items-start justify-center whitespace-nowrap font-sans text-[16px] font-normal normal-case leading-none tracking-normal text-[#697386]">
           {product.category}
         </p>
-        <p className="inline-flex items-center gap-1 rounded-full border border-[#e0e8f0] bg-white px-2 py-0.5 text-[6.8px] font-extrabold uppercase leading-none tracking-[0.14em] text-[#526074] shadow-[0_5px_12px_rgba(15,23,42,.03)]">
-          <span className="size-[2.5px] rounded-full bg-origin-green shadow-[0_0_0_2px_rgba(111,125,82,.12)]" aria-hidden="true" />
-          For Research Use Only
+        <p className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full border border-[#e0e8f0] bg-white px-2 py-0.5 text-[6.8px] font-extrabold uppercase leading-none tracking-[0.14em] text-[#526074] shadow-[0_5px_12px_rgba(15,23,42,.03)]">
+          <span className="size-[2.5px] shrink-0 rounded-full bg-origin-green shadow-[0_0_0_2px_rgba(111,125,82,.12)]" aria-hidden="true" />
+          <span>For Research Use Only</span>
         </p>
         <p className="self-start font-sans text-[32px] font-semibold leading-none text-[#202329]">{product.price}</p>
         <div className="grid h-12 w-full grid-cols-2 gap-3 self-start">

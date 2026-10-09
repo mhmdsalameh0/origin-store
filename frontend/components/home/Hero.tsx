@@ -91,7 +91,7 @@ export function Hero() {
               <div className="relative h-full w-full lg:h-auto">
                 <div className="relative h-full w-full overflow-hidden lg:h-auto" aria-label="Origin Peptides MOTS-C, TB-500, GHK-CU, and NAD+ products">
                   <Image
-                    src="/images/hero/origin-products-desktop-16x9.png"
+                    src="/images/hero/origin-products-desktop-16x9-corrected.png"
                     alt="Origin Peptides MOTS-C, TB-500, NAD+, and GHK-CU products"
                     fill
                     priority
@@ -100,7 +100,7 @@ export function Hero() {
                   />
                   <div className="relative hidden aspect-video w-full overflow-hidden bg-transparent lg:block">
                     <img
-                      src="/images/hero/origin-products-desktop-16x9.png"
+                      src="/images/hero/origin-products-desktop-16x9-corrected.png"
                       alt="Origin Peptides product collection"
                       className="absolute inset-0 z-0 block h-full w-full object-contain object-center select-none pointer-events-none"
                       draggable="false"
@@ -131,7 +131,7 @@ export function Hero() {
                     ) : null}
                   </div>
                   <Image
-                    src="/images/hero/origin-products-desktop-16x9.png"
+                    src="/images/hero/origin-products-desktop-16x9-corrected.png"
                     alt="Origin Peptides MOTS-C, TB-500, NAD+, and GHK-CU products"
                     fill
                     priority

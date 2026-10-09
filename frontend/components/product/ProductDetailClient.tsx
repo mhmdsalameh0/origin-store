@@ -27,6 +27,8 @@ export function ProductDetailClient({ product }: { product: CatalogProduct }) {
   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>("Description");
   const [showOptionModal, setShowOptionModal] = useState(false);
   const detailImage = detailImages[product.slug] ?? product.image;
+  const isBacteriostaticWater = product.slug === "bacteriostatic-water";
+  const usesSquareProductImage = product.slug === "bpc-157" || isBacteriostaticWater;
 
   useEffect(() => {
     if (!showOptionModal) {
@@ -108,7 +110,7 @@ export function ProductDetailClient({ product }: { product: CatalogProduct }) {
                 alt={`${product.name} product`}
                 fill
                 priority
-                className="object-contain object-center"
+                className={`object-contain object-center ${usesSquareProductImage ? "scale-[1.25]" : ""}`}
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
@@ -126,7 +128,9 @@ export function ProductDetailClient({ product }: { product: CatalogProduct }) {
             <p className="text-[10px] font-extrabold uppercase tracking-[0.28em] text-[#697386]">{product.category}</p>
             <h1 className="mt-2 text-[38px] font-extrabold leading-none tracking-normal text-black md:text-[46px]">{product.name}</h1>
             <div className="mt-4 flex flex-wrap gap-2">
-              <span className="rounded-full border border-[#e1e6ee] bg-white px-3 py-1 text-[11px] font-bold text-[#697386]">Peptide</span>
+              <span className="rounded-full border border-[#e1e6ee] bg-white px-3 py-1 text-[11px] font-bold text-[#697386]">
+                {isBacteriostaticWater ? "Research Supply" : "Peptide"}
+              </span>
               <span className="rounded-full border border-[#e1e6ee] bg-white px-3 py-1 text-[11px] font-bold text-[#697386]">{product.dose}</span>
               <span className="rounded-full border border-[#e1e6ee] bg-white px-3 py-1 text-[11px] font-bold text-[#697386]">{product.sku}</span>
             </div>
@@ -134,7 +138,9 @@ export function ProductDetailClient({ product }: { product: CatalogProduct }) {
 
             <div className="mt-7 grid gap-4">
               <div className="grid grid-cols-[72px_1fr_auto] items-center gap-4">
-                <p className="text-[10px] font-extrabold uppercase tracking-[0.28em] text-[#697386]">Mass</p>
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.28em] text-[#697386]">
+                  {isBacteriostaticWater ? "Volume" : "Mass"}
+                </p>
                 <div
                   ref={dosageGroupRef}
                   tabIndex={-1}
@@ -186,17 +192,19 @@ export function ProductDetailClient({ product }: { product: CatalogProduct }) {
               </div>
             </div>
 
-            <div className="mt-5 grid grid-cols-[56px_1fr] gap-3">
-              <Link
-                href="/documentation"
-                className="grid h-11 place-items-center rounded-full border border-[#d8dde6] bg-white text-[12px] font-bold text-[#202329] transition hover:border-[#202329] hover:bg-slate-50"
-              >
-                COA
-              </Link>
+            <div className={`mt-5 ${isBacteriostaticWater ? "" : "grid grid-cols-[56px_1fr] gap-3"}`}>
+              {!isBacteriostaticWater ? (
+                <Link
+                  href="/documentation"
+                  className="grid h-11 place-items-center rounded-full border border-[#d8dde6] bg-white text-[12px] font-bold text-[#202329] transition hover:border-[#202329] hover:bg-slate-50"
+                >
+                  COA
+                </Link>
+              ) : null}
               <button
                 type="button"
                 onClick={handleAddToCart}
-                className="h-11 rounded-full bg-black px-9 text-[13px] font-extrabold text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_8px_18px_rgba(15,23,42,.14)] transition-colors hover:bg-[#202329]"
+                className="h-11 w-full rounded-full bg-black px-9 text-[13px] font-extrabold text-white shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_8px_18px_rgba(15,23,42,.14)] transition-colors hover:bg-[#202329]"
               >
                 Add to cart {formatPrice(product.priceCents * quantity)}
               </button>

@@ -1,10 +1,10 @@
 import cors from "cors";
-import dotenv from "dotenv";
 import express from "express";
+import { loadBackendEnv } from "./lib/env.js";
 import { ordersRouter } from "./routes/orders.js";
 import { productsRouter } from "./routes/products.js";
 
-dotenv.config();
+loadBackendEnv();
 
 const app = express();
 const productionOrigins = (process.env.FRONTEND_ORIGIN ?? "")
