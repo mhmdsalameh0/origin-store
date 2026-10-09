@@ -141,7 +141,7 @@ export const bacteriostaticWaterProduct: CatalogProduct = {
   price: "$12.00",
   priceCents: 1200,
   createdAt: "2026-08-16T00:00:00.000Z",
-  image: "/images/bac-water-10mL-transparent.png",
+  image: "/images/Bacteriostatic Water Research Vial.png",
   accent: "#0877b5",
   imageClassName: "h-[285px]",
   description: "Bacteriostatic water containing 0.9% benzyl alcohol, supplied in a 10 mL vial for laboratory research preparation.",
