@@ -27,7 +27,6 @@ function getShowcaseImage(product: CatalogProduct) {
 function MobileProductCard({ product }: { product: CatalogProduct }) {
   const { addItem, openDrawer } = useCart();
   const usesCompactTitle = product.name === "Retatrutide" || product.slug === "bacteriostatic-water";
-  const usesSquareProductImage = product.slug === "bpc-157" || product.slug === "bacteriostatic-water";
   const imageSrc = getShowcaseImage(product);
 
   const handleAddToCart = () => {
@@ -44,19 +43,20 @@ function MobileProductCard({ product }: { product: CatalogProduct }) {
   };
 
   return (
-    <article className="flex h-full flex-col items-center text-center">
-      <div className="grid h-[245px] w-full place-items-center">
-        <Image
-          src={imageSrc}
-          alt={`${product.name} product vial`}
-          width={260}
-          height={320}
-          sizes="(max-width: 640px) 78vw"
-          className={`h-full max-h-[232px] w-auto object-contain object-center ${usesSquareProductImage ? "scale-[1.35]" : ""}`}
-        />
+    <article className="flex w-full min-w-0 flex-col items-center text-center">
+      <div className="grid h-[clamp(220px,68vw,280px)] w-full place-items-center px-8 pt-2">
+        <div className="relative h-full w-[min(72vw,280px)]">
+          <Image
+            src={imageSrc}
+            alt={`${product.name} product vial`}
+            fill
+            sizes="(max-width: 430px) 72vw, 280px"
+            className="object-contain object-center"
+          />
+        </div>
       </div>
 
-      <div className="flex w-full flex-col items-center px-5 pb-3 pt-4">
+      <div className="flex w-full flex-col items-center px-5 pb-6 pt-4">
         <div className="h-[3px] w-[112px]" style={{ backgroundColor: product.accent }} />
         <h3
           className={`mt-4 flex min-h-0 max-w-full items-start justify-center text-center font-sans font-bold uppercase leading-tight tracking-normal text-[#111111] ${
@@ -283,11 +283,11 @@ export function ProductShowcase() {
         return;
       }
 
-      const slideWidth = viewportWidth * 0.62;
+      const slideWidth = viewportWidth;
 
       setMobileMetrics({
         offset: slideWidth + 16,
-        sidePadding: Math.max(0, viewportWidth - slideWidth * 1.5 - 16),
+        sidePadding: 0,
         slideWidth
       });
     };
@@ -324,7 +324,7 @@ export function ProductShowcase() {
 
         <div className="relative md:hidden" onMouseEnter={() => setIsMobileHovering(true)} onMouseLeave={() => setIsMobileHovering(false)}>
           <button
-            className="absolute left-0 top-[122px] z-10 grid size-[54px] -translate-y-1/2 place-items-center text-[#111722] transition hover:-translate-x-1"
+            className="absolute left-0 top-[clamp(110px,34vw,140px)] z-10 grid size-[54px] -translate-y-1/2 place-items-center text-[#111722] transition hover:-translate-x-1"
             aria-label="Previous products"
             onClick={() => handleMobileArrowClick("previous")}
             type="button"
@@ -336,18 +336,18 @@ export function ProductShowcase() {
               className="flex gap-4"
               onTransitionEnd={handleMobileTransitionEnd}
               style={{
-                paddingInline: mobileMetrics.sidePadding ? `${mobileMetrics.sidePadding}px` : "3%",
+                paddingInline: `${mobileMetrics.sidePadding}px`,
                 transform: mobileMetrics.offset
                   ? `translate3d(-${mobileIndex * mobileMetrics.offset}px, 0, 0)`
-                  : `translate3d(-${mobileIndex * 62}%, 0, 0)`,
+                  : `translate3d(-${mobileIndex * 100}%, 0, 0)`,
                 transition: mobileTransitionEnabled ? "transform 0.68s ease-in-out" : "none"
               }}
             >
               {mobileSlides.map((product, index) => (
                 <div
                   key={`${product.name}-mobile-${index}`}
-                  className="shrink-0"
-                  style={{ flexBasis: mobileMetrics.slideWidth ? `${mobileMetrics.slideWidth}px` : "62%" }}
+                  className="min-w-0 shrink-0"
+                  style={{ flexBasis: mobileMetrics.slideWidth ? `${mobileMetrics.slideWidth}px` : "100%" }}
                 >
                   <MobileProductCard product={product} />
                 </div>
@@ -355,7 +355,7 @@ export function ProductShowcase() {
             </div>
           </div>
           <button
-            className="absolute right-0 top-[122px] z-10 grid size-[54px] -translate-y-1/2 place-items-center text-[#111722] transition hover:translate-x-1"
+            className="absolute right-0 top-[clamp(110px,34vw,140px)] z-10 grid size-[54px] -translate-y-1/2 place-items-center text-[#111722] transition hover:translate-x-1"
             aria-label="Next products"
             onClick={() => handleMobileArrowClick("next")}
             type="button"
