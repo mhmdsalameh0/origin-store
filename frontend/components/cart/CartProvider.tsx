@@ -94,6 +94,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const clearCart = useCallback(() => {
+    setItems([]);
+
+    try {
+      window.localStorage.setItem(storageKey, "[]");
+    } catch {
+      // The in-memory cart is still cleared when browser storage is unavailable.
+    }
+  }, []);
+
   const value = useMemo<CartContextValue>(() => {
     const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -109,9 +119,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       updateQuantity,
       openDrawer: () => setIsDrawerOpen(true),
       closeDrawer: () => setIsDrawerOpen(false),
-      clearCart: () => setItems([])
+      clearCart
     };
-  }, [addItem, hydrated, isDrawerOpen, items, removeItem, updateQuantity]);
+  }, [addItem, clearCart, hydrated, isDrawerOpen, items, removeItem, updateQuantity]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

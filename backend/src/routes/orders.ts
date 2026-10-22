@@ -3,7 +3,24 @@ import { Router } from "express";
 import { prisma } from "../lib/prisma.js";
 
 const pendingPaymentStatus = "Pending Payment";
-const allowedShippingCountries = new Set(["United States", "Canada"]);
+const interacPaymentMethod = "Interac E-Transfer";
+const paymentEmail = "support@originrestored.com";
+const allowedCanadianProvincesAndTerritories = new Set([
+  "Alberta",
+  "British Columbia",
+  "Manitoba",
+  "New Brunswick",
+  "Newfoundland and Labrador",
+  "Northwest Territories",
+  "Nova Scotia",
+  "Nunavut",
+  "Ontario",
+  "Prince Edward Island",
+  "Quebec",
+  "Saskatchewan",
+  "Yukon"
+]);
+const canadianPostalCodePattern = /^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z] ?\d[ABCEGHJ-NPRSTV-Z]\d$/i;
 
 type OrderItemInput = {
   productId?: unknown;
@@ -49,6 +66,11 @@ function isString(value: unknown): value is string {
 
 function cleanString(value: unknown) {
   return isString(value) ? value.trim() : "";
+}
+
+function normalizeCanadianPostalCode(value: string) {
+  const compactPostalCode = value.toUpperCase().replace(/\s/g, "");
+  return compactPostalCode.length === 6 ? `${compactPostalCode.slice(0, 3)} ${compactPostalCode.slice(3)}` : value.toUpperCase();
 }
 
 function formatMoney(cents: number) {
@@ -137,7 +159,8 @@ function validateOrderPayload(body: OrderRequestBody) {
   const apartment = cleanString(delivery.apartment);
   const city = cleanString(delivery.city);
   const district = cleanString(delivery.district);
-  const postalCode = cleanString(delivery.postalCode);
+  const rawPostalCode = cleanString(delivery.postalCode);
+  const postalCode = normalizeCanadianPostalCode(rawPostalCode);
   const notes = cleanString(body.notes);
 
   const errors: Record<string, string> = {};
@@ -148,11 +171,13 @@ function validateOrderPayload(body: OrderRequestBody) {
   if (!lastName) errors.lastName = "Last name is required.";
   if (!phone) errors.phone = "Phone number is required.";
   if (!country) errors.country = "Country/region is required.";
-  else if (!allowedShippingCountries.has(country)) errors.country = "We currently ship to the United States and Canada only.";
+  else if (country !== "Canada") errors.country = "Orders can only be shipped within Canada.";
   if (!address) errors.address = "Address is required.";
   if (!city) errors.city = "City is required.";
-  if (!district) errors.district = "District/state is required.";
-  if (!postalCode) errors.postalCode = "Postal code is required.";
+  if (!district) errors.district = "Province/territory is required.";
+  else if (!allowedCanadianProvincesAndTerritories.has(district)) errors.district = "Select a valid Canadian province or territory.";
+  if (!rawPostalCode) errors.postalCode = "Postal code is required.";
+  else if (!canadianPostalCodePattern.test(rawPostalCode)) errors.postalCode = "Enter a valid Canadian postal code, such as H3Z 2Y7.";
   if (rawItems.length === 0) errors.items = "Your cart is empty. Add a product before checkout.";
 
   const items = rawItems
@@ -229,7 +254,7 @@ function emailShell(title: string, body: string) {
         <div style="padding:28px 16px;">
           <div style="max-width:720px;margin:0 auto;overflow:hidden;border-radius:18px;background:#ffffff;border:1px solid #e5def5;box-shadow:0 18px 48px rgba(38,31,57,.08);">
             <div style="background:linear-gradient(135deg,#191a22,#22202d 55%,#171820);padding:26px 30px;color:#ffffff;">
-              <div style="font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#dbcaff;font-weight:800;">Origin Peptides</div>
+              <div style="font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#dbcaff;font-weight:800;">Origin Restored</div>
               <h1 style="margin:10px 0 0;font-size:28px;line-height:1.15;">${escapeHtml(title)}</h1>
             </div>
             <div style="padding:28px 30px;">
@@ -287,13 +312,16 @@ function ownerEmailHtml(order: SavedOrder) {
 
 function customerEmailHtml(order: SavedOrder) {
   const address = [order.address, order.apartment, order.city, order.district, order.postalCode, order.country].filter(Boolean).join(", ");
+  const createdAt = new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeStyle: "short" }).format(order.createdAt);
 
   return emailShell(
-    `Thank you for your order`,
+    `Order Confirmation – Interac E-Transfer Payment`,
     `
-      <p style="margin:0 0 18px;font-size:16px;line-height:1.6;">Thank you for your order. We received your request and our team will contact you regarding payment and confirmation.</p>
+      <p style="margin:0 0 18px;font-size:16px;line-height:1.6;">Thank you for your order with <strong>Origin Restored</strong>.</p>
       <table style="width:100%;border-collapse:collapse;margin:0 0 22px;font-size:14px;">
         <tr><td style="padding:6px 0;color:#697386;">Order number</td><td style="padding:6px 0;text-align:right;font-weight:800;">${escapeHtml(order.orderNumber)}</td></tr>
+        <tr><td style="padding:6px 0;color:#697386;">Order date</td><td style="padding:6px 0;text-align:right;">${escapeHtml(createdAt)}</td></tr>
+        <tr><td style="padding:6px 0;color:#697386;">Payment method</td><td style="padding:6px 0;text-align:right;font-weight:800;">${interacPaymentMethod}</td></tr>
         <tr><td style="padding:6px 0;color:#697386;">Status</td><td style="padding:6px 0;text-align:right;font-weight:800;color:#7650d8;">${escapeHtml(order.status)}</td></tr>
       </table>
       <h2 style="font-size:18px;margin:0 0 10px;">Order Summary</h2>
@@ -309,9 +337,30 @@ function customerEmailHtml(order: SavedOrder) {
         </thead>
         <tbody>${orderRows(order)}</tbody>
       </table>
-      <p style="margin:18px 0 0;text-align:right;font-size:20px;font-weight:900;">Total: ${formatMoney(order.totalCents)}</p>
-      <h2 style="font-size:18px;margin:22px 0 10px;">Delivery Information</h2>
+      <table style="width:100%;border-collapse:collapse;margin-top:18px;font-size:15px;">
+        <tr><td style="padding:6px 0;color:#697386;">Subtotal</td><td style="padding:6px 0;text-align:right;font-weight:800;">${formatMoney(order.subtotalCents)}</td></tr>
+        <tr><td style="padding:6px 0;color:#697386;">Shipping</td><td style="padding:6px 0;text-align:right;font-weight:800;">${formatMoney(order.totalCents - order.subtotalCents)}</td></tr>
+        <tr><td style="padding:6px 0;color:#202329;font-weight:800;">Total</td><td style="padding:6px 0;text-align:right;font-size:20px;font-weight:900;">${formatMoney(order.totalCents)}</td></tr>
+      </table>
+      <div style="margin:24px 0;padding:22px;border-radius:12px;background:#f7f3ff;border:1px solid #e5def5;">
+        <h2 style="font-size:20px;margin:0 0 14px;">Order Confirmation – Interac E-Transfer Payment</h2>
+        <p style="margin:0 0 14px;line-height:1.7;">To complete your purchase, please send your payment via <strong>Interac E-Transfer</strong> using the details below:</p>
+        <p style="margin:0 0 8px;line-height:1.7;"><strong>Payment Email:</strong> <a href="mailto:${paymentEmail}" style="color:#7650d8;">${paymentEmail}</a></p>
+        <p style="margin:0 0 8px;line-height:1.7;"><strong>Amount:</strong> ${formatMoney(order.totalCents)}</p>
+        <p style="margin:0 0 14px;line-height:1.7;"><strong>Payment Reference:</strong> ${escapeHtml(order.orderNumber)}</p>
+        <p style="margin:0 0 14px;line-height:1.7;"><strong>Important:</strong> Please include your order number in the e-transfer message to help us identify and process your payment.</p>
+        <p style="margin:0 0 14px;line-height:1.7;">Your order will be confirmed to your e-mail, phone number and prepared for shipment once payment has been received.</p>
+        <p style="margin:0;line-height:1.7;">You will receive a notification when your order has been shipped.</p>
+      </div>
+      <h2 style="font-size:18px;margin:22px 0 10px;">Billing Address</h2>
       <p style="margin:0;line-height:1.7;color:#4d5563;">${escapeHtml(order.firstName)} ${escapeHtml(order.lastName)}<br />${escapeHtml(address)}</p>
+      <h2 style="font-size:18px;margin:22px 0 10px;">Shipping Address</h2>
+      <p style="margin:0;line-height:1.7;color:#4d5563;">${escapeHtml(order.firstName)} ${escapeHtml(order.lastName)}<br />${escapeHtml(address)}</p>
+      <h2 style="font-size:18px;margin:22px 0 10px;">Customer Support</h2>
+      <p style="margin:0 0 12px;line-height:1.7;">Have questions about your order, payment, or shipping? Our customer support team is here to help.</p>
+      <p style="margin:0 0 12px;line-height:1.7;"><strong>Email:</strong> <a href="mailto:${paymentEmail}" style="color:#7650d8;">${paymentEmail}</a></p>
+      <p style="margin:0 0 18px;line-height:1.7;">Please include your order number when contacting us so we can assist you efficiently.</p>
+      <p style="margin:0;line-height:1.7;">Thank you for choosing <strong>Origin Restored!</strong><br /><br /><strong>The Origin Restored Team</strong></p>
     `
   );
 }
@@ -363,12 +412,12 @@ async function sendOrderEmails(order: SavedOrder): Promise<OrderEmailStatus> {
   const results = await Promise.allSettled([
     sendResendEmail({
       to: ownerEmail,
-      subject: `New Origin Peptides Order ${order.orderNumber}`,
+      subject: `New Origin Restored Order ${order.orderNumber}`,
       html: ownerEmailHtml(order)
     }),
     sendResendEmail({
       to: order.customerEmail,
-      subject: `Origin Peptides order confirmation ${order.orderNumber}`,
+      subject: `Origin Restored order confirmation ${order.orderNumber}`,
       html: customerEmailHtml(order)
     })
   ]);
@@ -483,5 +532,70 @@ ordersRouter.post("/", async (req, res) => {
         : "Order could not be saved. Please try again.",
       code: databaseUnavailable ? "DATABASE_UNAVAILABLE" : "ORDER_SAVE_FAILED"
     });
+  }
+});
+
+ordersRouter.get("/:orderNumber", async (req, res) => {
+  const orderNumber = cleanString(req.params.orderNumber);
+  const accessKey = cleanString(req.get("x-order-access-key"));
+
+  if (!orderNumber || !accessKey) {
+    res.status(404).json({ error: "Order not found." });
+    return;
+  }
+
+  try {
+    const order = await prisma.order.findFirst({
+      where: { orderNumber, idempotencyKey: accessKey },
+      include: { items: true }
+    });
+
+    if (!order) {
+      res.status(404).json({ error: "Order not found." });
+      return;
+    }
+
+    res.json({
+      orderNumber: order.orderNumber,
+      createdAt: order.createdAt.toISOString(),
+      paymentMethod: interacPaymentMethod,
+      status: order.status,
+      customer: {
+        email: order.customerEmail,
+        firstName: order.firstName,
+        lastName: order.lastName,
+        phone: order.phone
+      },
+      billingAddress: {
+        country: order.country,
+        address: order.address,
+        apartment: order.apartment,
+        city: order.city,
+        district: order.district,
+        postalCode: order.postalCode
+      },
+      shippingAddress: {
+        country: order.country,
+        address: order.address,
+        apartment: order.apartment,
+        city: order.city,
+        district: order.district,
+        postalCode: order.postalCode
+      },
+      items: order.items.map((item) => ({
+        id: item.id,
+        name: item.name,
+        dosage: item.dosage,
+        quantity: item.quantity,
+        unitPriceCents: item.unitPriceCents,
+        lineTotalCents: item.lineTotalCents
+      })),
+      subtotalCents: order.subtotalCents,
+      shippingCents: order.totalCents - order.subtotalCents,
+      totalCents: order.totalCents
+    });
+  } catch (error) {
+    logOrderError("order_confirmation_lookup", error);
+    res.status(500).json({ error: "Order details could not be loaded." });
   }
 });

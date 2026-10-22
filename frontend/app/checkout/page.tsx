@@ -4,13 +4,29 @@ import { useCart } from "@/components/cart/CartProvider";
 import { Footer } from "@/components/home/Footer";
 import { Header } from "@/components/home/Header";
 import { apiUrl } from "@/lib/api";
+import { saveOrderAccessKey } from "@/lib/orderAccess";
 import { formatPrice } from "@/lib/productCatalog";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { FormEvent, useMemo, useState } from "react";
 
 const requiredFields = ["email", "country", "firstName", "lastName", "address", "city", "district", "postalCode", "phone"] as const;
+const canadianProvincesAndTerritories = [
+  "Alberta",
+  "British Columbia",
+  "Manitoba",
+  "New Brunswick",
+  "Newfoundland and Labrador",
+  "Northwest Territories",
+  "Nova Scotia",
+  "Nunavut",
+  "Ontario",
+  "Prince Edward Island",
+  "Quebec",
+  "Saskatchewan",
+  "Yukon"
+] as const;
+const canadianPostalCodePattern = /^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z] ?\d[ABCEGHJ-NPRSTV-Z]\d$/i;
 
 type RequiredField = (typeof requiredFields)[number];
 type CheckoutForm = Record<RequiredField, string> & {
@@ -22,7 +38,7 @@ type CheckoutForm = Record<RequiredField, string> & {
 
 const initialForm: CheckoutForm = {
   email: "",
-  country: "United States",
+  country: "Canada",
   firstName: "",
   lastName: "",
   address: "",
@@ -77,7 +93,6 @@ function Field({
 
 export default function CheckoutPage() {
   const { clearCart, items, subtotal } = useCart();
-  const router = useRouter();
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState<Partial<Record<keyof CheckoutForm, string>>>({});
   const [submitError, setSubmitError] = useState("");
@@ -90,8 +105,7 @@ export default function CheckoutPage() {
   const total = subtotal;
 
   const paymentMessage = useMemo(
-    () =>
-      "Payment is not connected yet. Configure a real order API and payment provider before enabling live order placement.",
+    () => "After placing your order, send the total via Interac E-Transfer. Your order will remain Pending Payment until the transfer is verified.",
     []
   );
 
@@ -114,6 +128,18 @@ export default function CheckoutPage() {
         nextErrors[field] = "This field is required.";
       }
     });
+
+    if (form.country !== "Canada") {
+      nextErrors.country = "Orders can only be shipped within Canada.";
+    }
+
+    if (form.district && !canadianProvincesAndTerritories.includes(form.district as (typeof canadianProvincesAndTerritories)[number])) {
+      nextErrors.district = "Select a valid Canadian province or territory.";
+    }
+
+    if (form.postalCode && !canadianPostalCodePattern.test(form.postalCode.trim())) {
+      nextErrors.postalCode = "Enter a valid Canadian postal code, such as H3Z 2Y7.";
+    }
 
     if (!form.terms) {
       nextErrors.terms = "Please acknowledge the terms and privacy policy.";
@@ -176,9 +202,11 @@ export default function CheckoutPage() {
         throw new Error(safeReason ?? "Unable to place order. Please try again.");
       }
 
+      saveOrderAccessKey(data.orderNumber, idempotencyKey);
       clearCart();
-      setIdempotencyKey(typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`);
-      router.push(`/order-success?order=${encodeURIComponent(data.orderNumber)}`);
+      window.location.assign(
+        `/order-success?order=${encodeURIComponent(data.orderNumber)}#access=${encodeURIComponent(idempotencyKey)}`
+      );
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unable to place order. Please try again.";
       setSubmitError(
@@ -221,9 +249,9 @@ export default function CheckoutPage() {
                         onChange={(event) => updateField("country", event.target.value)}
                         aria-invalid={Boolean(errors.country)}
                         aria-describedby={errors.country ? "checkout-country-error" : undefined}
+                        required
                         className="h-12 rounded-[6px] border border-origin-line bg-white px-4 text-base font-normal outline-none transition focus:border-[#202329]"
                       >
-                        <option value="United States">United States</option>
                         <option value="Canada">Canada</option>
                       </select>
                       {errors.country ? (
@@ -242,7 +270,25 @@ export default function CheckoutPage() {
                     <Field label="Apartment/suite" name="apartment" value={form.apartment} onChange={updateField} />
                   </div>
                   <Field error={errors.city} label="City" name="city" value={form.city} onChange={updateField} />
-                  <Field error={errors.district} label="District/state" name="district" value={form.district} onChange={updateField} />
+                  <label className="grid gap-2 text-sm font-semibold text-[#202329]" htmlFor="checkout-district">
+                    Province/Territory
+                    <select
+                      id="checkout-district"
+                      name="district"
+                      value={form.district}
+                      onChange={(event) => updateField("district", event.target.value)}
+                      aria-invalid={Boolean(errors.district)}
+                      aria-describedby={errors.district ? "checkout-district-error" : undefined}
+                      required
+                      className="h-12 rounded-[6px] border border-origin-line bg-white px-4 text-base font-normal outline-none transition focus:border-[#202329]"
+                    >
+                      <option value="">Select province/territory</option>
+                      {canadianProvincesAndTerritories.map((province) => (
+                        <option key={province} value={province}>{province}</option>
+                      ))}
+                    </select>
+                    {errors.district ? <span id="checkout-district-error" className="text-xs font-semibold text-[#c62828]">{errors.district}</span> : null}
+                  </label>
                   <Field error={errors.postalCode} label="Postal code" name="postalCode" value={form.postalCode} onChange={updateField} />
                   <Field error={errors.phone} label="Phone" name="phone" type="tel" value={form.phone} onChange={updateField} />
                 </div>
@@ -260,6 +306,7 @@ export default function CheckoutPage() {
 
               <div className="rounded-[8px] border border-origin-line bg-[#f8fafc] p-5">
                 <h2 className="text-xl font-bold text-black">Payment options</h2>
+                <p className="mt-3 text-sm font-bold text-[#202329]">Interac E-Transfer</p>
                 <p className="mt-3 text-sm leading-6 text-origin-muted">{paymentMessage}</p>
               </div>
 
