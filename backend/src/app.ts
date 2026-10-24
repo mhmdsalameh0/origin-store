@@ -34,6 +34,10 @@ app.use(
   })
 );
 
+app.get("/", (_req, res) => {
+  res.json({ ok: true, service: "origin-store-backend" });
+});
+
 app.get("/api/health", (_req, res) => {
   res.json({ ok: true });
 });
@@ -41,4 +45,5 @@ app.get("/api/health", (_req, res) => {
 app.use("/api/products", productsRouter);
 app.use("/api/orders", ordersRouter);
 
+export default app;
 export { app };
