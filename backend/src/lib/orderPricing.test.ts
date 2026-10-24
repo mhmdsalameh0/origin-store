@@ -29,21 +29,44 @@ test("rejects client price tampering", () => {
   );
 });
 
+test("accepts the new Retatrutide price and rejects the former price", () => {
+  const updatedItem = priceOrderItem({
+    productId: "fallback-reta",
+    slug: "retatrutide",
+    dosage: "10 MG",
+    quantity: 1,
+    clientPriceCents: 11_999
+  });
+
+  assert.ok(updatedItem);
+  assert.equal(updatedItem.unitPriceCents, 11_999);
+  assert.equal(
+    priceOrderItem({
+      productId: "fallback-reta",
+      slug: "retatrutide",
+      dosage: "10 MG",
+      quantity: 1,
+      clientPriceCents: 11_900
+    }),
+    null
+  );
+});
+
 test("calculates the grand total entirely in integer cents", () => {
   const item = priceOrderItem({
     productId: "fallback-reta",
     slug: "retatrutide",
     dosage: "10 MG",
     quantity: 1,
-    clientPriceCents: 11_900
+    clientPriceCents: 11_999
   });
 
   assert.ok(item);
   assert.deepEqual(calculateOrderTotals([item]), {
-    subtotalCents: 11_900,
-    taxCents: 1_782,
+    subtotalCents: 11_999,
+    taxCents: 1_797,
     shippingCents: SHIPPING_CENTS,
-    totalCents: 14_181
+    totalCents: 14_295
   });
 });
 

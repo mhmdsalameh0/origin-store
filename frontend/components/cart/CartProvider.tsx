@@ -1,5 +1,6 @@
 "use client";
 
+import { getProductBySlug } from "@/lib/productCatalog";
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 export type CartLine = {
@@ -33,6 +34,25 @@ function lineKey(item: Pick<CartLine, "productId" | "dosage">) {
   return `${item.productId}::${item.dosage}`;
 }
 
+function normalizeSavedCartLine(item: CartLine): CartLine | null {
+  const product = getProductBySlug(item.slug);
+  const quantity = Math.max(1, Math.floor(Number(item.quantity) || 1));
+
+  if (!product) {
+    return null;
+  }
+
+  return {
+    productId: product.id,
+    slug: product.slug,
+    name: product.displayName,
+    image: product.image,
+    dosage: product.dosageOptions[0] ?? product.dose,
+    price: product.priceCents,
+    quantity
+  };
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartLine[]>([]);
   const [hydrated, setHydrated] = useState(false);
@@ -45,7 +65,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       if (savedCart) {
         const parsed = JSON.parse(savedCart) as CartLine[];
         if (Array.isArray(parsed)) {
-          setItems(parsed.filter((item) => item.quantity > 0));
+          setItems(parsed.map(normalizeSavedCartLine).filter((item): item is CartLine => item !== null));
         }
       }
     } catch {
@@ -70,7 +90,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
       if (existingIndex >= 0) {
         nextItems[existingIndex] = {
-          ...nextItems[existingIndex],
+          ...item,
           quantity: nextItems[existingIndex].quantity + item.quantity
         };
         return nextItems;

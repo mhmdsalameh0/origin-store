@@ -22,8 +22,8 @@ const benefits = [
   },
   {
     icon: PackageCheck,
-    title: "Safe & Protected Shipping",
-    copy: "Cold-pack shipping keeps peptides stable. Discreet packaging with full tracking on every USA order.",
+    title: "Tracked Canadian Shipping",
+    copy: "A fixed $4.99 CAD shipping fee is added at checkout, with discreet packaging and tracking.",
     accent: "#d8a21c",
     tintA: "#fff2c8",
     tintB: "#fffaf0"

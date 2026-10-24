@@ -73,7 +73,7 @@ export function CartDrawer() {
                 <div className="grid h-full place-items-center text-center">
                   <div>
                     <p className="text-lg font-bold">Your cart is empty.</p>
-                    <p className="mt-2 text-sm text-origin-muted">Select a dosage to add a product.</p>
+                    <p className="mt-2 text-sm text-origin-muted">Add a product to begin your order.</p>
                   </div>
                 </div>
               ) : (

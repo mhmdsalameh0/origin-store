@@ -19,7 +19,7 @@ const orderCatalog: CatalogItem[] = [
   { productId: "fallback-tb", slug: "tb-500", name: "TB-500 5MG", image: "/images/showcase-tb-500-clean.png", dosage: "5 MG", unitPriceCents: 4_999 },
   { productId: "fallback-pre", slug: "ghk-cu", name: "GHK-CU 50MG", image: "/images/showcase-ghk-cu-clean.png", dosage: "50 MG", unitPriceCents: 4_999 },
   { productId: "fallback-protein", slug: "mots-c", name: "MOTS-C 10MG", image: "/images/showcase-mots-c-clean.png", dosage: "10 MG", unitPriceCents: 5_499 },
-  { productId: "fallback-reta", slug: "retatrutide", name: "RETA 10MG", image: "/images/showcase-retatrutide-transparent.png", dosage: "10 MG", unitPriceCents: 11_900 },
+  { productId: "fallback-reta", slug: "retatrutide", name: "RETA 10MG", image: "/images/showcase-retatrutide-transparent.png", dosage: "10 MG", unitPriceCents: 11_999 },
   { productId: "products-page-bpc", slug: "bpc-157", name: "BPC-157 5MG", image: "/images/ChatGPT Image Aug 15, 2026, 12_01_14 PM.png", dosage: "5 MG", unitPriceCents: 4_999 },
   { productId: "products-page-bacteriostatic-water", slug: "bacteriostatic-water", name: "BAC WATER 10ML", image: "/images/Bacteriostatic Water Research Vial.png", dosage: "10 ML", unitPriceCents: 2_000 }
 ];

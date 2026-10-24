@@ -30,7 +30,7 @@ export default function CartPage() {
             <div className="grid min-h-[360px] place-items-center text-center">
               <div>
                 <h2 className="text-2xl font-bold text-black">Your cart is empty.</h2>
-                <p className="mt-3 text-origin-muted">Select a product dosage to begin checkout.</p>
+                <p className="mt-3 text-origin-muted">Add a product to begin checkout.</p>
                 <Link href="/products" className="mt-7 inline-grid h-12 place-items-center rounded-full bg-[#202329] px-8 text-sm font-bold text-white transition hover:bg-[#0f1115]">
                   View products
                 </Link>

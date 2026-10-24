@@ -29,7 +29,7 @@ export const fallbackProducts = [
     name: "RETA 10MG",
     category: "Dermal Research",
     description: "Original placeholder research compound card for the Home product strip.",
-    priceCents: 2066,
+    priceCents: 11999,
     imageTone: "sage",
     accentColor: "#a9b38c",
     badge: "Research",

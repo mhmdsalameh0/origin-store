@@ -2,11 +2,11 @@
 
 import { useCart } from "@/components/cart/CartProvider";
 import { CatalogProduct, formatPrice } from "@/lib/productCatalog";
-import { CheckCircle2, Minus, Plus, RotateCcw, ShieldCheck, Truck, X, Zap } from "lucide-react";
+import { CheckCircle2, Minus, Plus, RotateCcw, ShieldCheck, Truck, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 const tabs = ["Description", "Additional Information", "Reviews"] as const;
 
@@ -20,46 +20,12 @@ const detailImages: Record<string, string> = {
 export function ProductDetailClient({ product }: { product: CatalogProduct }) {
   const { addItem, openDrawer } = useCart();
   const router = useRouter();
-  const dosageGroupRef = useRef<HTMLDivElement>(null);
-  const modalOkRef = useRef<HTMLButtonElement>(null);
-  const [selectedDosage, setSelectedDosage] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>("Description");
-  const [showOptionModal, setShowOptionModal] = useState(false);
   const detailImage = detailImages[product.slug] ?? product.image;
   const isBacteriostaticWater = product.slug === "bacteriostatic-water";
   const usesSquareProductImage = product.slug === "bpc-157" || isBacteriostaticWater;
-
-  useEffect(() => {
-    if (!showOptionModal) {
-      return;
-    }
-
-    modalOkRef.current?.focus();
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        closeOptionModal();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [showOptionModal]);
-
-  const closeOptionModal = () => {
-    setShowOptionModal(false);
-    window.setTimeout(() => dosageGroupRef.current?.focus(), 0);
-  };
-
-  const validateDosage = () => {
-    if (selectedDosage) {
-      return true;
-    }
-
-    setShowOptionModal(true);
-    return false;
-  };
+  const selectedDosage = product.dosageOptions[0] ?? product.dose;
 
   const addCurrentProduct = () => {
     addItem({
@@ -74,28 +40,20 @@ export function ProductDetailClient({ product }: { product: CatalogProduct }) {
   };
 
   const handleAddToCart = () => {
-    if (!validateDosage()) {
-      return;
-    }
-
     addCurrentProduct();
     openDrawer();
   };
 
   const handleCheckout = () => {
-    if (!validateDosage()) {
-      return;
-    }
-
     addCurrentProduct();
     router.push("/checkout");
   };
 
   const fulfillmentRows = [
     { icon: CheckCircle2, title: "Order confirmation", copy: "Our support team reviews each submitted order." },
-    { icon: Truck, title: "Tracked delivery", copy: "Free standard shipping on qualifying orders." },
-    { icon: ShieldCheck, title: "Free shipment protection", copy: "Lost, stolen, or damaged claims are reviewed by support." },
-    { icon: Zap, title: "Overnight and 2-day options", copy: "Pick your speed at checkout when available." }
+    { icon: Truck, title: "Tracked delivery", copy: "A fixed $4.99 CAD shipping fee is added at checkout." },
+    { icon: ShieldCheck, title: "Shipment protection", copy: "Lost, stolen, or damaged claims are reviewed by support." },
+    { icon: Zap, title: "Canada-wide shipping", copy: "Shipping is available to valid Canadian addresses." }
   ];
 
   return (
@@ -141,33 +99,12 @@ export function ProductDetailClient({ product }: { product: CatalogProduct }) {
                 <p className="text-[10px] font-extrabold uppercase tracking-[0.28em] text-[#697386]">
                   {isBacteriostaticWater ? "Volume" : "Mass"}
                 </p>
-                <div
-                  ref={dosageGroupRef}
-                  tabIndex={-1}
-                  className="flex flex-wrap gap-2 outline-none focus-visible:ring-2 focus-visible:ring-[#202329]"
-                  role="radiogroup"
-                  aria-label="Required dosage selection"
-                  aria-required="true"
+                <span
+                  className="inline-flex h-10 w-fit items-center rounded-[8px] border border-[#d8dde6] bg-[#f8fafc] px-5 text-[13px] font-extrabold text-[#202329]"
+                  aria-label={`${isBacteriostaticWater ? "Volume" : "Dosage"}: ${selectedDosage}`}
                 >
-                  {product.dosageOptions.map((option) => {
-                    const selected = selectedDosage === option;
-
-                    return (
-                      <button
-                        key={option}
-                        type="button"
-                        role="radio"
-                        aria-checked={selected}
-                        onClick={() => setSelectedDosage(option)}
-                        className={`h-10 rounded-[8px] border px-5 text-[13px] font-extrabold transition ${
-                          selected ? "border-black bg-black text-white" : "border-[#d8dde6] text-[#202329] hover:border-[#202329]"
-                        }`}
-                      >
-                        {option.replace(/\s+/g, "")}
-                      </button>
-                    );
-                  })}
-                </div>
+                  {selectedDosage.replace(/\s+/g, "")}
+                </span>
                 <p className="text-right text-[24px] font-extrabold leading-none text-[#202329]">{product.price}</p>
               </div>
 
@@ -276,32 +213,6 @@ export function ProductDetailClient({ product }: { product: CatalogProduct }) {
         </section>
       </main>
 
-      {showOptionModal ? (
-        <div className="fixed inset-0 z-[80] grid place-items-center bg-black/35 px-5" role="presentation">
-          <div
-            className="w-full max-w-md rounded-[8px] bg-white p-6 text-center font-sans shadow-[0_24px_80px_rgba(15,23,42,.24)]"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="product-option-modal-title"
-            aria-describedby="product-option-modal-message"
-          >
-            <div className="flex justify-end">
-              <button className="grid size-8 place-items-center rounded-full hover:bg-slate-100" onClick={closeOptionModal} aria-label="Close option warning">
-                <X size={18} />
-              </button>
-            </div>
-            <h2 id="product-option-modal-title" className="sr-only">
-              Product options required
-            </h2>
-            <p id="product-option-modal-message" className="mt-2 text-base font-semibold leading-7 text-[#202329]">
-              Please select some product options before adding this product to your cart.
-            </p>
-            <button ref={modalOkRef} type="button" onClick={closeOptionModal} className="mt-6 h-11 rounded-full bg-[#202329] px-10 text-sm font-bold text-white transition hover:bg-[#0f1115]">
-              OK
-            </button>
-          </div>
-        </div>
-      ) : null}
     </>
   );
 }
