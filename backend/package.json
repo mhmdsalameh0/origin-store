@@ -7,10 +7,12 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
+    "test": "tsx --test src/lib/orderPricing.test.ts",
     "typecheck": "tsc --noEmit",
     "postinstall": "prisma generate",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
+    "prisma:migrate": "node scripts/runPrismaDevelopment.mjs migrate deploy",
+    "prisma:status": "node scripts/runPrismaDevelopment.mjs migrate status",
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {

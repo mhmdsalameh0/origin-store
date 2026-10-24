@@ -33,12 +33,18 @@ type OrderDetails = {
     lineTotalCents: number;
   }>;
   subtotalCents: number;
+  taxCents: number;
   shippingCents: number;
   totalCents: number;
 };
 
 function formatMoney(cents: number) {
-  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(cents / 100);
+  return new Intl.NumberFormat("en-CA", {
+    style: "currency",
+    currency: "CAD",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(cents / 100);
 }
 
 function AddressBlock({ address, name }: { address: Address; name: string }) {
@@ -156,8 +162,9 @@ export function OrderConfirmation({ orderNumber }: { orderNumber: string }) {
             </div>
             <dl className="ml-auto mt-5 grid max-w-sm gap-3 text-sm">
               <div className="flex justify-between"><dt>Subtotal</dt><dd className="font-bold">{formatMoney(order.subtotalCents)}</dd></div>
+              <div className="flex justify-between"><dt>Taxes (14.975%)</dt><dd className="font-bold">{formatMoney(order.taxCents)}</dd></div>
               <div className="flex justify-between"><dt>Shipping</dt><dd className="font-bold">{formatMoney(order.shippingCents)}</dd></div>
-              <div className="flex justify-between border-t border-origin-line pt-3 text-lg"><dt className="font-bold text-black">Total</dt><dd className="font-extrabold text-black">{formatMoney(order.totalCents)}</dd></div>
+              <div className="flex justify-between border-t border-origin-line pt-3 text-lg"><dt className="font-bold text-black">Grand Total</dt><dd className="font-extrabold text-black">{formatMoney(order.totalCents)}</dd></div>
             </dl>
           </div>
 

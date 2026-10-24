@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { Router } from "express";
+import { calculateOrderTotals, priceOrderItem, TAX_RATE_LABEL } from "../lib/orderPricing.js";
 import { prisma } from "../lib/prisma.js";
 
 const pendingPaymentStatus = "Pending Payment";
@@ -74,9 +75,11 @@ function normalizeCanadianPostalCode(value: string) {
 }
 
 function formatMoney(cents: number) {
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("en-CA", {
     style: "currency",
-    currency: "USD"
+    currency: "CAD",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
   }).format(cents / 100);
 }
 
@@ -181,32 +184,26 @@ function validateOrderPayload(body: OrderRequestBody) {
   if (rawItems.length === 0) errors.items = "Your cart is empty. Add a product before checkout.";
 
   const items = rawItems
-    .map((item) => {
-      const unitPriceCents = Number(item.price);
-      const quantity = Math.floor(Number(item.quantity));
-
-      return {
+    .map((item) =>
+      priceOrderItem({
         productId: cleanString(item.productId),
         slug: cleanString(item.slug),
-        name: cleanString(item.name),
-        image: cleanString(item.image) || null,
         dosage: cleanString(item.dosage),
-        quantity,
-        unitPriceCents,
-        lineTotalCents: unitPriceCents * quantity
-      };
-    })
-    .filter((item) => item.productId && item.slug && item.name && item.dosage && item.quantity > 0 && item.unitPriceCents >= 0);
+        quantity: Number(item.quantity),
+        clientPriceCents: Number(item.price)
+      })
+    )
+    .filter((item): item is NonNullable<typeof item> => item !== null);
 
   if (rawItems.length > 0 && items.length !== rawItems.length) {
-    errors.items = "Every cart item must include a product, dosage, quantity, and price.";
+    errors.items = "One or more cart items are invalid or have changed price. Please refresh your cart and try again.";
   }
 
   if (Object.keys(errors).length > 0) {
     return { ok: false as const, errors };
   }
 
-  const subtotalCents = items.reduce((sum, item) => sum + item.lineTotalCents, 0);
+  const totals = calculateOrderTotals(items);
 
   return {
     ok: true as const,
@@ -223,8 +220,7 @@ function validateOrderPayload(body: OrderRequestBody) {
       district,
       postalCode,
       notes: notes || null,
-      subtotalCents,
-      totalCents: subtotalCents,
+      ...totals,
       items
     }
   };
@@ -302,7 +298,9 @@ function ownerEmailHtml(order: SavedOrder) {
       </table>
       <table style="width:100%;border-collapse:collapse;margin-top:18px;font-size:15px;">
         <tr><td style="padding:6px 0;color:#697386;">Subtotal</td><td style="padding:6px 0;text-align:right;font-weight:800;">${formatMoney(order.subtotalCents)}</td></tr>
-        <tr><td style="padding:6px 0;color:#202329;font-weight:800;">Total</td><td style="padding:6px 0;text-align:right;font-size:20px;font-weight:900;">${formatMoney(order.totalCents)}</td></tr>
+        <tr><td style="padding:6px 0;color:#697386;">Taxes (${TAX_RATE_LABEL})</td><td style="padding:6px 0;text-align:right;font-weight:800;">${formatMoney(order.taxCents)}</td></tr>
+        <tr><td style="padding:6px 0;color:#697386;">Shipping</td><td style="padding:6px 0;text-align:right;font-weight:800;">${formatMoney(order.shippingCents)}</td></tr>
+        <tr><td style="padding:6px 0;color:#202329;font-weight:800;">Grand Total</td><td style="padding:6px 0;text-align:right;font-size:20px;font-weight:900;">${formatMoney(order.totalCents)}</td></tr>
       </table>
       <h2 style="font-size:18px;margin:22px 0 10px;">Order Notes</h2>
       <p style="margin:0;line-height:1.7;color:#4d5563;">${escapeHtml(order.notes ?? "No notes provided.")}</p>
@@ -339,8 +337,9 @@ function customerEmailHtml(order: SavedOrder) {
       </table>
       <table style="width:100%;border-collapse:collapse;margin-top:18px;font-size:15px;">
         <tr><td style="padding:6px 0;color:#697386;">Subtotal</td><td style="padding:6px 0;text-align:right;font-weight:800;">${formatMoney(order.subtotalCents)}</td></tr>
-        <tr><td style="padding:6px 0;color:#697386;">Shipping</td><td style="padding:6px 0;text-align:right;font-weight:800;">${formatMoney(order.totalCents - order.subtotalCents)}</td></tr>
-        <tr><td style="padding:6px 0;color:#202329;font-weight:800;">Total</td><td style="padding:6px 0;text-align:right;font-size:20px;font-weight:900;">${formatMoney(order.totalCents)}</td></tr>
+        <tr><td style="padding:6px 0;color:#697386;">Taxes (${TAX_RATE_LABEL})</td><td style="padding:6px 0;text-align:right;font-weight:800;">${formatMoney(order.taxCents)}</td></tr>
+        <tr><td style="padding:6px 0;color:#697386;">Shipping</td><td style="padding:6px 0;text-align:right;font-weight:800;">${formatMoney(order.shippingCents)}</td></tr>
+        <tr><td style="padding:6px 0;color:#202329;font-weight:800;">Grand Total</td><td style="padding:6px 0;text-align:right;font-size:20px;font-weight:900;">${formatMoney(order.totalCents)}</td></tr>
       </table>
       <div style="margin:24px 0;padding:22px;border-radius:12px;background:#f7f3ff;border:1px solid #e5def5;">
         <h2 style="font-size:20px;margin:0 0 14px;">Order Confirmation – Interac E-Transfer Payment</h2>
@@ -490,6 +489,8 @@ ordersRouter.post("/", async (req, res) => {
           postalCode: validation.order.postalCode,
           notes: validation.order.notes,
           subtotalCents: validation.order.subtotalCents,
+          taxCents: validation.order.taxCents,
+          shippingCents: validation.order.shippingCents,
           totalCents: validation.order.totalCents,
           items: {
             create: validation.order.items
@@ -591,7 +592,8 @@ ordersRouter.get("/:orderNumber", async (req, res) => {
         lineTotalCents: item.lineTotalCents
       })),
       subtotalCents: order.subtotalCents,
-      shippingCents: order.totalCents - order.subtotalCents,
+      taxCents: order.taxCents,
+      shippingCents: order.shippingCents,
       totalCents: order.totalCents
     });
   } catch (error) {

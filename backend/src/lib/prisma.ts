@@ -1,4 +1,7 @@
 import { PrismaClient } from "@prisma/client";
+import { loadBackendEnv } from "./env.js";
+
+loadBackendEnv();
 
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 

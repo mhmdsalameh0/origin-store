@@ -57,6 +57,10 @@ export function VerificationGate({ children }: { children: ReactNode }) {
     return null;
   }
 
+  if (verificationState === "required" && pathname === "/disclaimer") {
+    return children;
+  }
+
   if (verificationState === "required") {
     return <ResearcherVerification onVerified={handleVerified} />;
   }

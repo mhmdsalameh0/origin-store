@@ -38,6 +38,8 @@ model Order {
   postalCode          String
   notes               String?
   subtotalCents       Int
+  taxCents            Int         @default(0)
+  shippingCents       Int         @default(0)
   totalCents          Int
   idempotencyKey      String      @unique
   ownerEmailStatus    String      @default("Pending")

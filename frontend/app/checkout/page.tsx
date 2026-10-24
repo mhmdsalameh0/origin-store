@@ -5,6 +5,7 @@ import { Footer } from "@/components/home/Footer";
 import { Header } from "@/components/home/Header";
 import { apiUrl } from "@/lib/api";
 import { saveOrderAccessKey } from "@/lib/orderAccess";
+import { CHECKOUT_SHIPPING_CENTS, CHECKOUT_TAX_RATE_LABEL, checkoutTaxCents, checkoutTotalCents } from "@/lib/orderPricing";
 import { formatPrice } from "@/lib/productCatalog";
 import Image from "next/image";
 import Link from "next/link";
@@ -102,7 +103,8 @@ export default function CheckoutPage() {
   );
 
   const hasItems = items.length > 0;
-  const total = subtotal;
+  const tax = checkoutTaxCents(subtotal);
+  const total = checkoutTotalCents(subtotal);
 
   const paymentMessage = useMemo(
     () => "After placing your order, send the total via Interac E-Transfer. Your order will remain Pending Payment until the transfer is verified.",
@@ -386,8 +388,16 @@ export default function CheckoutPage() {
                 <span>Subtotal</span>
                 <span className="font-bold">{formatPrice(subtotal)}</span>
               </div>
+              <div className="flex justify-between text-sm">
+                <span>Taxes ({CHECKOUT_TAX_RATE_LABEL})</span>
+                <span className="font-bold">{formatPrice(tax)}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span>Shipping</span>
+                <span className="font-bold">{formatPrice(CHECKOUT_SHIPPING_CENTS)}</span>
+              </div>
               <div className="flex justify-between text-lg font-bold text-black">
-                <span>Total</span>
+                <span>Grand Total</span>
                 <span>{formatPrice(total)}</span>
               </div>
             </div>

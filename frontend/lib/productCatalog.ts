@@ -162,8 +162,10 @@ export function getProductBySlug(slug: string) {
 }
 
 export function formatPrice(priceCents: number) {
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("en-CA", {
     style: "currency",
-    currency: "USD"
+    currency: "CAD",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
   }).format(priceCents / 100);
 }

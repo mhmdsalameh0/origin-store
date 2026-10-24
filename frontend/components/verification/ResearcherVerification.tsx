@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { Check } from "lucide-react";
 import { useState } from "react";
 
 export function ResearcherVerification({ onVerified }: { onVerified: () => void }) {
@@ -16,53 +17,59 @@ export function ResearcherVerification({ onVerified }: { onVerified: () => void 
   };
 
   return (
-    <main className="grid min-h-dvh place-items-center bg-[#f2f2f2] px-5 py-8 font-sans text-[#061224]">
-      <section className="w-full max-w-[558px] rounded-[8px] bg-white px-9 py-12 shadow-[0_22px_80px_rgba(0,0,0,.12)] sm:px-9 md:px-9">
-        <div className="mx-auto mb-12 flex justify-center">
-          <span className="relative block h-[86px] w-[230px]">
+    <main className="grid min-h-dvh place-items-center bg-[#f1f1f1] px-3 py-3 font-sans text-[#071325] sm:px-6 sm:py-8">
+      <section className="w-[calc(100vw-24px)] max-w-[558px] rounded-[7px] bg-white px-6 py-10 shadow-[0_18px_70px_rgba(15,23,42,.13)] sm:w-[calc(100vw-48px)] sm:px-12 sm:py-14">
+        <div className="mx-auto mb-12 flex justify-center sm:mb-14">
+          <span className="relative block h-[82px] w-[230px] sm:h-[94px] sm:w-[260px]">
             <Image
               src="/images/ChatGPT-Image-Jul-26-2026-02_19_38-AM-1-768x358.png"
               alt="Origin Peptides"
               fill
               priority
-              sizes="230px"
+              sizes="(max-width: 640px) 230px, 260px"
               className="object-contain"
             />
           </span>
         </div>
 
-        <h1 className="text-[22px] font-extrabold leading-tight tracking-[-.03em] text-[#061224]">Researcher Verification</h1>
-        <p className="mt-2 text-[12px] font-medium leading-[1.65] text-[#061224] sm:text-[12.5px]">
+        <h1 className="text-[27px] font-extrabold leading-tight tracking-[-.035em] text-[#071325] sm:text-[30px]">Researcher Verification</h1>
+        <p className="mt-4 text-[15px] font-medium leading-[1.65] text-[#101827] sm:text-[16px]">
           Origin&apos;s Restored Peptides supplies research peptides exclusively to qualified researchers and laboratories
-          for in vitro and laboratory research. Please confirm before continuing..
+          for in vitro and laboratory research. Please confirm before continuing.
         </p>
 
-        <div className="mt-6 space-y-3.5">
-          <label className="flex min-h-[48px] cursor-pointer items-center gap-3 rounded-[6px] border border-[#d9dee8] px-4 text-[12.5px] font-medium text-[#061224] transition focus-within:border-[#2f66e8]">
+        <div className="mt-8 space-y-4">
+          <label className="flex min-h-[64px] cursor-pointer items-center gap-4 rounded-[7px] border border-[#d9dde5] px-5 text-[15px] font-medium leading-snug text-[#0b1424] transition hover:border-[#aeb7c5] focus-within:border-[#315fca] focus-within:ring-2 focus-within:ring-[#315fca]/15 sm:text-[16px]">
             <input
               checked={isAdult}
-              className="size-4 accent-[#2f66e8]"
+              className="peer sr-only"
               onChange={(event) => setIsAdult(event.target.checked)}
               type="checkbox"
             />
-            <span>I am at least 18 years of age.</span>
+            <span className="grid size-6 shrink-0 place-items-center rounded-[7px] border-2 border-[#9299a3] bg-white text-white transition peer-checked:border-[#315fca] peer-checked:bg-[#315fca]">
+              {isAdult ? <Check aria-hidden="true" size={16} strokeWidth={3} /> : null}
+            </span>
+            <span className="min-w-0">I am at least 18 years of age.</span>
           </label>
 
-          <label className="flex min-h-[48px] cursor-pointer items-center gap-3 rounded-[6px] border border-[#d9dee8] px-4 text-[12.5px] font-medium text-[#061224] transition focus-within:border-[#2f66e8]">
+          <label className="flex min-h-[76px] cursor-pointer items-center gap-4 rounded-[7px] border border-[#d9dde5] px-5 text-[15px] font-medium leading-snug text-[#0b1424] transition hover:border-[#aeb7c5] focus-within:border-[#315fca] focus-within:ring-2 focus-within:ring-[#315fca]/15 sm:text-[16px]">
             <input
               checked={isResearcher}
-              className="size-4 accent-[#2f66e8]"
+              className="peer sr-only"
               onChange={(event) => setIsResearcher(event.target.checked)}
               type="checkbox"
             />
-            <span>I confirm I am a qualified researcher purchasing for laboratory research only.</span>
+            <span className="grid size-6 shrink-0 place-items-center rounded-[7px] border-2 border-[#9299a3] bg-white text-white transition peer-checked:border-[#315fca] peer-checked:bg-[#315fca]">
+              {isResearcher ? <Check aria-hidden="true" size={16} strokeWidth={3} /> : null}
+            </span>
+            <span className="min-w-0">I confirm I am a qualified researcher purchasing for laboratory research only.</span>
           </label>
         </div>
 
         <button
           className={[
-            "mt-5 flex min-h-[50px] w-full items-center justify-center rounded-[7px] text-[13px] font-extrabold text-white transition",
-            canEnter ? "bg-[#101d31] hover:bg-[#172a49] focus:outline-none focus:ring-2 focus:ring-[#2f66e8] active:scale-[.99]" : "cursor-not-allowed bg-[#8fb0f4]"
+            "mt-7 flex min-h-[66px] w-full items-center justify-center rounded-[7px] text-[16px] font-extrabold text-white transition sm:text-[17px]",
+            canEnter ? "bg-[#101d31] hover:bg-[#172a49] focus:outline-none focus:ring-2 focus:ring-[#315fca] focus:ring-offset-2 active:scale-[.99]" : "cursor-not-allowed bg-[#89aceb]"
           ].join(" ")}
           disabled={!canEnter}
           onClick={handleEnterSite}
@@ -71,10 +78,10 @@ export function ResearcherVerification({ onVerified }: { onVerified: () => void 
           Enter Site <span className="ml-1" aria-hidden="true">&rarr;</span>
         </button>
 
-        <p className="mt-5 text-[10px] font-medium leading-[1.65] text-[#526073]">
+        <p className="mt-7 text-[12px] font-medium leading-[1.65] text-[#5a6472] sm:text-[13px]">
           By proceeding you affirm the statements above are true. Products are not for human or veterinary use, not for use
           in diagnostic procedures, and have not been evaluated by the U.S. Food and Drug Administration.{" "}
-          <Link className="text-[#ef4444]" href="#">
+          <Link className="font-semibold text-[#ef4444] hover:underline" href="/disclaimer">
             Full disclaimer
           </Link>
         </p>
